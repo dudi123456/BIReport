@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings>
+    <!--
+         //这是传统的WAF设计的初衷, HTMLAction负责页面部分的处理perform()，然后生成事件(Event)
+         根据事件对应的EJBAction（在mapping.xml中配置）调用EJB层的业务处理逻辑，处理结束后返回responseEvent
+         再在HTMLAction中进行相应的处理，并确定返回页面
+    -->
+    <url-mapping url="FirstOpen.rptdo" useFlowHandler="true">
+        <web-action-class>
+            mvcs.htmlaction.FirstOpenHtmlAction
+        </web-action-class>
+        <flow-handler>
+            <handler-result result="CHECK_DB" screen="VIEW_ALL.screen"/>
+            <!--进行数据库级别的检查 -->
+            <handler-result result="SAVE_DB_OK" screen="VIEW_USER.screen"/>
+            <!-- 进行全部信息的数据库保存 -->
+        </flow-handler>
+    </url-mapping>
+    <event-mapping>
+        <event-class>mvcs.events.request.CustomerEvent</event-class>
+        <ejb-action-class>
+            mvcs.ejbaction.CustomerEJBAction
+        </ejb-action-class>
+    </event-mapping>
+    <!-- 全局跳转页面，它的优先权高于其它的mapping中的跳转 -->
+    <global_handler>
+        <!-- 重新登录SYS DEFINITION -->
+        <handler-result result="GLB_RELOGIN" screen="GLB_RELOGIN.screen"/>
+    </global_handler>
+
+    <!--  **********************START OF MAPPING DEFINITION BY SYSTEM***************** -->
+    <event-mapping>
+        <event-class>waf.event.events.ChangeLocaleEvent</event-class>
+        <ejb-action-class>
+            waf.controller.ejb.action.actions.ChangeLocaleEJBAction
+        </ejb-action-class>
+    </event-mapping>
+    <!--通用的页面异常处理-->
+    <exception-mapping
+            exception-class="waf.controller.web.action.HTMLActionException"
+            screen="htmlError.screen"/>
+    <!--session失效或页面过期处理-->
+    <exception-mapping
+            exception-class="waf.controller.web.action.InvalidSessionException"
+            screen="invalidSession.screen"/>
+    <!--  **********************END OF MAPPING DEFINITION BY SYSTEM ***************** -->
+
+    <!-- 如果一下的模块调用以上的某个相同的部分，必须在该段描述中加上一个说明 -->
+    <!-- 系统登陆开始 -->
+    <url-mapping url="login.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.login.action.LoginHTMLAction</web-action-class>
+    </url-mapping>
+    <!-- 系统登陆结束 -->
+
+	<!-- ********************************************营销部分开始 ********************************************-->
+  <url-mapping url="sellUserAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.SellUserAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="fileReadAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.FileReadAction</web-action-class>
+    </url-mapping>
+   <url-mapping url="activityModeAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.ActivityModeAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="targetAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.TargetAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="tacticAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.TacticAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="projectAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.ProjectAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="fileUploadAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.FileUploadAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="htmlAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.HTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="activityTypeAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.ActivityTypeAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="activityAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.ActivityAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="msgAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.MessageAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="nameListAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.NameListAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="policyAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.PolicyAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="stepAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.StepAction</web-action-class>
+    </url-mapping>
+ <url-mapping url="groupAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.GroupAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="surveyAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.SurveyAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="channelManaTypeAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.ChannleManaTypeAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="channelManaAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.ChannelManaAction</web-action-class>
+    </url-mapping>
+
+    <url-mapping url="questionAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.QuestionAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="passAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.PassAction</web-action-class>
+    </url-mapping>
+
+    <url-mapping url="packageManaAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.marketing.action.PackageManaAction</web-action-class>
+    </url-mapping>
+
+    <!-- **************************************************营销部分结束**********************************************-->
+
+    <!-- 工作平台部分开始 -->
+     <url-mapping url="transAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.workplatform.action.TransAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="userAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.workplatform.action.UserAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="workPlatFormAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.workplatform.action.WorkFormAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="orderInfoAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.workplatform.action.OrderInfoAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="contactAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.workplatform.action.ContactAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="adjustAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.workplatform.action.AdjustAction</web-action-class>
+    </url-mapping>
+    <!-- 工作平台部分结束 -->
+
+    <!-- 公共部分开始 -->
+    <url-mapping url="mainPage.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.mainpage.action.MainPageHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="mainPageDef.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.mainpage.action.UserDefHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="editor.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.mainpage.action.EditorHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="newsView.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.mainpage.action.NewsViewHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="sendSms.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.mainpage.action.SendSmsHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createFavorTreeXML.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.system.xml.CreateFavorTreeXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createFavoriteTreeXML.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.system.action.CreateFavoriteTreeHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="favorite.rptdo" doTrans="true" desc="添加到收藏夹">
+        <web-action-class>com.ailk.bi.system.action.FavoriteHTMLAction</web-action-class>
+    </url-mapping>
+    <!-- 公共部分结束 -->
+
+    <!-- 领导首页开始 -->
+    <url-mapping url="leaderViewAction.rptdo" doTrans="true" desc="领导看板">
+        <web-action-class>com.ailk.bi.leader.action.LeaderKpiHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="leaderMapAction.rptdo" doTrans="true" desc="领导看板">
+        <web-action-class>com.ailk.bi.leader.action.LeaderMapHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="getxml.rptdo" doTrans="true" desc="领导看板1">
+        <web-action-class>com.ailk.bi.map.selvelt.GetXml</web-action-class>
+    </url-mapping>
+    <url-mapping url="getmap.rptdo" doTrans="true" desc="领导看板2">
+        <web-action-class>com.ailk.bi.map.selvelt.GetMap</web-action-class>
+    </url-mapping>
+    <!-- 领导首页结束 -->
+
+    <!-- 分析型报表开始 -->
+    <url-mapping url="loadOlapTable.rptdo"  doTrans="true">
+        <web-action-class>com.ailk.bi.olap.action.ReportOlapTableHTMLAction</web-action-class>
+    </url-mapping>
+		<url-mapping url="loadOlapUserTable.rptdo"  doTrans="true">
+        <web-action-class>com.ailk.bi.olap.action.ReportOlapUserTableHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="digTableOlap.rptdo"  doTrans="true">
+        <web-action-class>com.ailk.bi.olap.action.ReportOlapTableDigHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="clearOlapCache.rptdo"  doTrans="true">
+        <web-action-class>com.ailk.bi.olap.action.ReportOlapCacheHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="loadOlapChart.rptdo"  doTrans="true">
+        <web-action-class>com.ailk.bi.olap.action.ReportOlapChartHTMLAction</web-action-class>
+    </url-mapping>
+ 	<url-mapping url="digOlapChart.rptdo"  doTrans="true">
+        <web-action-class>com.ailk.bi.olap.action.ReportOlapChartDigHTMLAction</web-action-class>
+    </url-mapping>
+ 	<url-mapping url="loadOlapChartDim.rptdo"  doTrans="true">
+        <web-action-class>com.ailk.bi.olap.action.ReportOlapChartDimHTMLAction</web-action-class>
+    </url-mapping>
+    <!-- 分析型报表结束 -->
+
+    <!-- 报表中心开始 -->
+    <url-mapping url="ReportView.rptdo" doTrans="true" desc="报表查看">
+        <web-action-class>com.ailk.bi.report.action.ReportViewHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="ReportListView.rptdo" doTrans="true" desc="报表列单查看">
+        <web-action-class>com.ailk.bi.report.action.ReportListHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="rptProcess.rptdo" doTrans="true" desc="报表审核操作">
+        <web-action-class>com.ailk.bi.report.action.ReportProcessHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="rptPrint.rptdo" doTrans="true" desc="报表打印操作">
+        <web-action-class>com.ailk.bi.report.action.ReportPrintHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="rptBatchLoad.rptdo" doTrans="true" desc="批量报表导入">
+        <web-action-class>com.ailk.bi.report.action.ReportBatchLoadHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="editLocalReport.rptdo" doTrans="true" desc="本地化报表配置">
+        <web-action-class>com.ailk.bi.report.action.ReportEditHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="loadReportHead.rptdo" doTrans="true" desc="载入报表表头配置">
+        <web-action-class>com.ailk.bi.report.action.ReportHeadLoadHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="editReportHead.rptdo" doTrans="true" desc="保存报表表头配置">
+        <web-action-class>com.ailk.bi.report.action.ReportHeaderEditHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="loadCustomMsu.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.report.action.ReportCustomMsuLoadHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="saveCustomMsu.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.report.action.ReportCustomMsuSaveHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="modifyCustomMsu.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.report.action.ReportCustomMsuModifyHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="deleteCustomMsu.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.report.action.ReportCustomMsuDeleteHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="sigmaReportShow.rptdo" doTrans="true" desc="简单超大记录报表">
+		<web-action-class>com.ailk.bi.sigma.action.SigmaReportHTMLAction</web-action-class>
+	</url-mapping>
+    <url-mapping url="sigmaRptBuild.rptdo" doTrans="true" desc="简单超大记录报表">
+		<web-action-class>com.ailk.bi.sigma.action.SigmaRptBuildHTMLAction</web-action-class>
+	</url-mapping>
+    <!-- 报表中心结束 -->
+
+    <!-- 总部报表开始 -->
+    <url-mapping url="UploadMonitor.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.system.action.HandUploadHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="UploadMonitorNew.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.system.action.HandUploadNewHTMLAction</web-action-class>
+    </url-mapping>
+    <!-- 总部报表结束 -->
+
+    <!-- 即席查询开始 -->
+    <url-mapping url="AdhocFetchParam.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocParamFetcherHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AdhocFav.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocFavoriteHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AdhocCleaner.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocSessionCleanerHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AdhocMultiSelect.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocMultiSelectHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AdhocView.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocQueryHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AdhocSelfDim.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocSelfDimHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AdhocSelfAjax.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocSelfDimAjaxHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AdhocUserList.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocUserListHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AdhocInfoExport.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocUserListExportHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AdhocInitialAction.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocInitialHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AdhocMultiCheckSelect.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocMultiCheckSelectHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AdhocDataFilter.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocDataFilterHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AdhocCustGroupAdmin.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocCustGroupHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AdhocUserUpLoadCon.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocUserUpLoadConHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="adhocMetaExplain.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocMetaExplainHTMLAction</web-action-class>
+    </url-mapping>
+	<url-mapping url="adhocDownLoadFile.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocDownLoadFileHTMLAction</web-action-class>
+    </url-mapping>
+	<url-mapping url="adhocSearchInfo.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.adhoc.action.AdhocSearchConfigHTMLAction</web-action-class>
+    </url-mapping>
+    <!-- 即席查询结束 -->
+
+    <!-- 专题通用开始(各个专题的配置请勿放在这里) -->
+      <url-mapping url="SubjectAnalysis.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.subject.action.AnalysisSubjectHtmlAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="SubjectCommon.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.subject.action.SubjectHtmlAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="SubjectCommonPageOrder.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.subject.action.SubjectCommontablePageOrderAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="SubjectCommTable.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.subject.action.SubjectCommonTableHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="SubjectCommTablePaging.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.subject.action.SubjectCommonTablePagingHTMLAction</web-action-class>
+    </url-mapping>    
+    <url-mapping url="SubjectCommTableExport.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.subject.action.SubjectTableContentExportHTMLAction</web-action-class>
+    </url-mapping>    
+    <!-- 默认排序展示 -->
+    <url-mapping url="SubjectCommTableDefaultOrder.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.subject.action.SubjectCommonTableDefaultOrderHTMLAction</web-action-class>
+    </url-mapping>
+
+    <url-mapping url="ChartList.rptdo" doTrans="true" desc="图形配置">
+        <web-action-class>com.ailk.bi.subject.action.ChartEditHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="SubjectProductCommon.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.subject.product.action.SubjectProductHTMLAction</web-action-class>
+    </url-mapping>
+	<url-mapping url="SubjectCommonTblDef.rptdo" doTrans="true" desc="分析型报表配置">
+        <web-action-class>com.ailk.bi.subject.admin.action.SubjectTableDefHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="SubjectCommChartConfig.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.subject.admin.action.SubjectCommChartCfgHTMLAction</web-action-class>
+    </url-mapping>
+	<url-mapping url="addSubjectExp.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.subject.action.AddSubjectUserDetail</web-action-class>
+    </url-mapping>
+    <!-- 专题通用结束(各个专题的配置请勿放在这里) -->
+
+    <!--系统管理开始-->
+    <url-mapping url="createDeptUserXML.rptdo" doTrans="true" desc="权限管理开始--用户管理--菜单树">
+        <web-action-class>com.ailk.bi.system.xml.CreateDeptUserXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createDprgTreeXML.rptdo" doTrans="true" desc="用户管理--用户组树">
+        <web-action-class>com.ailk.bi.system.xml.CreateDprgTreeXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createDpGroupTreeXML.rptdo" doTrans="true" desc="用户管理--用户组视窗">
+        <web-action-class>com.ailk.bi.system.xml.CreateDpGroupTreeXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createDpregionTreeXML.rptdo" doTrans="true" desc="用户管理--区域视窗">
+        <web-action-class>com.ailk.bi.system.xml.CreateDpregionTreeXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="userview.rptdo" doTrans="true" desc="用户管理--用户角色">
+        <web-action-class>com.ailk.bi.system.action.UserViewHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createRolesXML.rptdo" doTrans="true" desc="角色管理--菜单树">
+        <web-action-class>com.ailk.bi.system.xml.CreateRolesXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="adhocRole.rptdo" doTrans="true" desc="角色管理--即席查询权限">
+        <web-action-class>com.ailk.bi.system.action.AdhocRoleHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="roleview.rptdo" doTrans="true" desc="角色管理--对应用户组">
+        <web-action-class>com.ailk.bi.system.action.RoleViewHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createLNewRoleUserXML.rptdo" doTrans="true" desc="角色管理--授权操作员树型结构">
+        <web-action-class>com.ailk.bi.system.xml.CreateLNewRoleUserXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createUserGroupXML.rptdo" doTrans="true" desc="用户组管理--菜单树">
+        <web-action-class>com.ailk.bi.system.xml.CreateUserGroupXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="userGroupView.rptdo" doTrans="true" desc="用户组管理--相关角色">
+        <web-action-class>com.ailk.bi.system.action.UserGroupViewHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="CreateMenuXML.rptdo" doTrans="true" desc="菜单管理--菜单树">
+        <web-action-class>com.ailk.bi.system.xml.CreateMenuXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="menuview.rptdo" doTrans="true" desc="菜单管理--菜单信息">
+        <web-action-class>com.ailk.bi.system.action.MenuViewHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="CreateMenuTreeXML.rptdo" doTrans="true" desc="菜单管理--上级菜单视窗">
+        <web-action-class>com.ailk.bi.system.xml.CreateMenuTreeXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="CreateMenuRoleXML.rptdo" doTrans="true" desc="资源赋权--菜单树">
+        <web-action-class>com.ailk.bi.system.xml.CreateMenuRoleXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="resRole.rptdo" doTrans="true" desc="资源赋权--菜单赋权">
+        <web-action-class>com.ailk.bi.system.action.ResRoleHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="CreateRegionRoleXML.rptdo" doTrans="true" desc="资源赋权--区域树">
+        <web-action-class>com.ailk.bi.system.xml.CreateRegionRoleXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createSysDeptTreeXML.rptdo" doTrans="true" desc="部门维护--菜单树">
+        <web-action-class>com.ailk.bi.system.xml.CreateDeptTreeXmlHTMLAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="createSysDeptTreeXML2.rptdo" doTrans="true" desc="部门维护--菜单树">
+        <web-action-class>com.ailk.bi.system.xml.CreateDeptTreeXmlHTMLAction2</web-action-class>
+    </url-mapping>
+    <url-mapping url="deptview.rptdo" doTrans="true" desc="部门维护--部门信息">
+        <web-action-class>com.ailk.bi.system.action.DeptViewHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createDpTreeXML.rptdo" doTrans="true" desc="部门维护--部门树">
+        <web-action-class>com.ailk.bi.system.xml.CreateDpTreeXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createAreaTreeXML.rptdo" doTrans="true" desc="部门维护--区域树">
+        <web-action-class>com.ailk.bi.system.xml.CreateAreaTreeXMLHtmlAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createRegionTreeXML.rptdo" doTrans="true" desc="区域维护--菜单树">
+        <web-action-class>com.ailk.bi.system.xml.CreateRegionTreeXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="regionview.rptdo" doTrans="true" desc="区域维护--区域信息">
+        <web-action-class>com.ailk.bi.system.action.RegionViewHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createSystemTreeXML.rptdo" doTrans="true" desc="子系统管理--菜单树">
+        <web-action-class>com.ailk.bi.system.xml.CreateSystemXmlAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="system.rptdo" doTrans="true" desc="子系统管理--权限管理结束">
+        <web-action-class>com.ailk.bi.system.action.SystemHTMLAction</web-action-class>
+    </url-mapping>
+
+    <url-mapping url="userLogStat.rptdo" doTrans="true" desc="日志监控开始--登陆日志">
+        <web-action-class>com.ailk.bi.userlog.action.UserLogStatHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="leaderVwSubject.rptdo" doTrans="true" desc="报表访问量排名，用户访问量排名--日志监控结束">
+        <web-action-class>com.ailk.bi.subject.action.LeaderViewHTMLAction</web-action-class>
+    </url-mapping>
+
+    <url-mapping url="bulletinAdmin.rptdo" doTrans="true" desc="公告管理">
+        <web-action-class>com.ailk.bi.bulletin.action.BulletinBoardHTMLAction</web-action-class>
+    </url-mapping>
+
+    <url-mapping url="CreateParamTree.rptdo" doTrans="true" desc="参数配置开始--参数列表树">
+        <web-action-class>com.ailk.bi.syspar.action.CreateParamTreeHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="ParamQuery.rptdo" doTrans="true" desc="参数维护">
+        <web-action-class>com.ailk.bi.syspar.action.ParamQueryHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="ParamView.rptdo" doTrans="true" desc="参数维护操作">
+        <web-action-class>com.ailk.bi.syspar.action.ParamViewHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="ParamRadio.rptdo" doTrans="true" desc="参数配置结束">
+        <web-action-class>com.ailk.bi.syspar.action.ParamRadioHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="codeListAdmin.rptdo" doTrans="true" desc="内存参数管理--参数配置结束">
+        <web-action-class>com.ailk.bi.system.action.UICodeListHTMLAction</web-action-class>
+    </url-mapping>
+
+	<url-mapping url="CreateFileDirXML.rptdo" doTrans="true" desc="文件视窗 开始">
+        <web-action-class>com.ailk.bi.system.xml.CreateFileDirXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="filemgrupload.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.filemgr.action.FileManagerUploadHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="filemgrdownload.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.filemgr.action.FileManagerDownloadHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="filemgrlist.rptdo" doTrans="true" desc="文件视窗 结束">
+        <web-action-class>com.ailk.bi.filemgr.action.FileManagerListFileHTMLAction</web-action-class>
+    </url-mapping>
+
+    <url-mapping url="menuNavInfo.rptdo" doTrans="true" desc="系统管理未确定">
+        <web-action-class>com.ailk.bi.system.action.MenuNavHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createDpFavorTreeXML.rptdo" doTrans="true" desc="下拉收藏夹树">
+        <web-action-class>com.ailk.bi.system.xml.CreateDpFavorTreeXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createFavorTreeAddXML.rptdo" doTrans="true" desc="添加收藏夹树">
+        <web-action-class>com.ailk.bi.system.xml.CreateFavorTreeAddXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="createDpGroupParentTreeXML.rptdo" doTrans="true" desc="区域管理构建区域树">
+        <web-action-class>com.ailk.bi.system.xml.CreateDpGroupParentTreeXmlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="ParamMonitor.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.system.action.ParamMonitorHTMLAction</web-action-class>
+    </url-mapping>
+    <!--系统管理结束-->
+
+    <!--元数据管理开始-->
+    <url-mapping url="tableDef.rptdo" doTrans="true" desc="元数据管理">
+		<web-action-class>com.ailk.bi.metamanage.action.TableDefHTMLAction</web-action-class>
+	</url-mapping>
+    <url-mapping url="tableField.rptdo" doTrans="true" desc="元数据管理">
+		<web-action-class>com.ailk.bi.metamanage.action.TableFieldHTMLAction</web-action-class>
+	</url-mapping>
+    <url-mapping url="createTableTreeXML.rptdo" doTrans="true" desc="元数据管理">
+		<web-action-class>com.ailk.bi.metamanage.action.CreateTableTreeXmlAction</web-action-class>
+	</url-mapping>
+    <url-mapping url="etlJob.rptdo" doTrans="true" desc="元数据管理">
+		<web-action-class>com.ailk.bi.metamanage.action.EtlJobHTMLAction</web-action-class>
+	</url-mapping>
+    <url-mapping url="createJobTreeXML.rptdo" doTrans="true" desc="元数据管理">
+		<web-action-class>com.ailk.bi.metamanage.action.CreateJobTreeXmlAction</web-action-class>
+	</url-mapping>
+    <url-mapping url="dimDef.rptdo" doTrans="true" desc="元数据管理">
+		<web-action-class>com.ailk.bi.metamanage.action.DimDefHTMLAction</web-action-class>
+	</url-mapping>
+    <url-mapping url="createDimTreeXML.rptdo" doTrans="true" desc="元数据管理">
+		<web-action-class>com.ailk.bi.metamanage.action.CreateDimTreeXmlAction</web-action-class>
+	</url-mapping>
+    <url-mapping url="msuDef.rptdo" doTrans="true" desc="元数据管理">
+		<web-action-class>com.ailk.bi.metamanage.action.MsuDefHTMLAction</web-action-class>
+	</url-mapping>
+    <url-mapping url="createMsuTreeXML.rptdo" doTrans="true" desc="元数据管理">
+		<web-action-class>com.ailk.bi.metamanage.action.CreateMsuTreeXmlAction</web-action-class>
+	</url-mapping>
+    <url-mapping url="msuDet.rptdo" doTrans="true" desc="元数据管理">
+		<web-action-class>com.ailk.bi.metamanage.action.MsuDetHTMLAction</web-action-class>
+	</url-mapping>
+    <url-mapping url="createMsuDetTreeXML.rptdo" doTrans="true" desc="元数据管理">
+		<web-action-class>com.ailk.bi.metamanage.action.CreateMsuDetTreeXmlAction</web-action-class>
+	</url-mapping>
+    <!--元数据管理结束-->
+
+    <!-- 即时搜索开始 -->
+    <url-mapping url="searchlist.rptdo" doTrans="true">
+        <web-action-class>com.ailk.bi.search.action.SearchHTMLAction</web-action-class>
+    </url-mapping>
+    <!-- 即时搜索结束 -->
+
+    <!-- **************************** 以上内容经过整理(零时和专题配置放在下面) **************************** -->
+
+  <!-- 专题配置开始（各地配置） -->
+    <!-- 竞争对手专题开始(北京电信) -->
+    <url-mapping url="OppSubject.rptdo" doTrans="true" desc="竞争对手，增值聚焦，客户流失专题通用处理">
+        <web-action-class>com.ailk.bi.subject.action.OppSubjectHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="OppSubejctParamAjax.rptdo" doTrans="true" desc="竞争对手专题  参数评估处理">
+        <web-action-class>com.ailk.bi.subject.action.OppSubjectParamAjaxHTMLAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="OppSubjectParamLvl.rptdo" doTrans="true" desc="竞争对手专题  参数评估处理">
+        <web-action-class>com.ailk.bi.subject.action.OppSubjectParamLvlHTMLAction</web-action-class>
+    </url-mapping>
+     <url-mapping url="OppSubejctParamLvlAjax.rptdo" doTrans="true" desc="竞争对手专题  参数评估处理">
+        <web-action-class>com.ailk.bi.subject.action.OppSubjectParamLvlAjaxHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="SubejctAjax.rptdo" doTrans="true" desc="竞争对手专题  参数评估处理">
+        <web-action-class>com.ailk.bi.subject.action.SubjectAjaxHTMLAction</web-action-class>
+    </url-mapping>
+    <!-- 竞争对手专题结束(北京电信) -->
+
+    <!-- 增值业务专题开始(北京电信) -->
+     <url-mapping url="AddSubject.rptdo" doTrans="true" desc="饱和度分析">
+        <web-action-class>com.ailk.bi.subject.action.AddSubjectHtmlAction</web-action-class>
+    </url-mapping>
+	<url-mapping url="addSubjectParam.rptdo" doTrans="true" desc="参数配置">
+        <web-action-class>com.ailk.bi.subject.action.AddSubjectParamHTMLAction</web-action-class>
+    </url-mapping>
+    <!-- 增值业务专题结束(北京电信) -->
+
+    <!-- 客户流失专题开始(北京电信) -->
+	<url-mapping url="loseSubjectParam.rptdo" doTrans="true" desc="客户流失--参数配置">
+        <web-action-class>com.ailk.bi.subject.action.LoseSubjectParamHTMLAction</web-action-class>
+    </url-mapping>
+    <!-- 客户流失专题结束(北京电信) -->
+  <!-- 专题配置结束（各地配置） -->
+      <url-mapping url="CommView.rptdo" doTrans="true" desc="统一视图">
+     <web-action-class>com.ailk.bi.subject.action.CommViewHTMLAction</web-action-class>
+    </url-mapping>
+  <!--新增自由渠道评估-->
+    <url-mapping url="SelfChnlEvl.rptdo" doTrans="true" desc="!效能评估-自有渠道--渠道评价">
+     <web-action-class>com.ailk.bi.subject.action.SelfChnlHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="QryTools.rptdo" doTrans="true" desc="!效能评估-自有渠道--渠道评级">
+     <web-action-class>com.ailk.bi.subject.action.SelfChnlQryTools</web-action-class>
+    </url-mapping> 
+    <url-mapping url="ExportTools.rptdo" doTrans="true" desc="!明细导出工具">
+     <web-action-class>com.ailk.bi.subject.action.ExportTools</web-action-class>
+    </url-mapping> 
+    
+<!--新增自由渠道评估-->
+	<!--新增区域评价-->
+    <url-mapping url="Regional.rptdo" doTrans="true" desc="!效能评估-区域评价--省分评价--地市评价">
+     <web-action-class>com.ailk.bi.subject.action.RegionalHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="RegionalMsuExport.rptdo" doTrans="true" desc="!效能评估-区域评价--省分评价--地市评价">
+     <web-action-class>com.ailk.bi.subject.action.ChevRegionMsuExport</web-action-class>
+    </url-mapping>    
+	<!--新增区域评价-->
+	
+	<!--新增社会渠道评估-->
+	<url-mapping url="SocietyChnlEvl.rptdo" doTrans="true" desc="!效能评估-社会渠道--渠道门店评价">
+     <web-action-class>com.ailk.bi.subject.action.SocietyChnlHTMLAction</web-action-class>
+    </url-mapping>
+	<!--新增社会渠道评价-->
+    <url-mapping url="SocChannlPD.rptdo" doTrans="true" desc="!效能评估-社会渠道评价--门店汇总--门店明细">
+     <web-action-class>com.ailk.bi.subject.action.SocChannlPDHTMLAction</web-action-class>
+    </url-mapping>
+       <url-mapping url="AjaxAutoComplete.rptdo" doTrans="true" desc="!自动输入完成">
+     <web-action-class>com.ailk.bi.base.action.AjaxAutoCompleteCommonHTMLAction</web-action-class>
+    </url-mapping> 
+	<!--新增社会渠道评价-->
+	<!--社会渠道战略评价-->
+    <url-mapping url="SocChnl.rptdo" doTrans="true" desc="社会渠道战略评价">
+     <web-action-class>com.ailk.bi.subject.action.SocChnlHTMLAction</web-action-class>
+    </url-mapping>
+	<!--社会渠道战略评价-->
+	<!--社会渠道战略评价-->
+    <url-mapping url="Weight.rptdo" doTrans="true" desc="评分指标及权重查询">
+     <web-action-class>com.ailk.bi.subject.action.WeightAction</web-action-class>
+    </url-mapping>
+	<!--社会渠道战略评价-->
+	
+	<!-- 佣金预演结果展示 -->
+	<url-mapping url="AiModResult.rptdo" doTrans="true" desc="佣金预演结果展示">
+     <web-action-class>com.ailk.bi.subject.action.AiModResultHTMLAction</web-action-class>
+    </url-mapping>
+    <url-mapping url="AiModResultDetail.rptdo" doTrans="true" desc="佣金预演结果展示">
+     <web-action-class>com.ailk.bi.subject.action.AIModResultDetailHTMLAction</web-action-class>
+    </url-mapping>
+    <!-- 佣金预演结果展示 -->
+    
+    <!--新增社会渠道评级-->
+    <url-mapping url="SocChannlGra.rptdo" doTrans="true" desc="!效能评估-社会渠道评价--社会渠道评级">
+     <web-action-class>com.ailk.bi.subject.action.SocChannlGraHTMLAction</web-action-class>
+    </url-mapping>
+	<!--新增社会渠道评级-->
+</mappings>

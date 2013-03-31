@@ -1,0 +1,10 @@
+body,p,a,table,div,span,td,th,input,select {
+	Color:#000000;
+	FONT: 14px "Verdana","Tahoma","宋体";
+	padding: 2px;
+}
+body {
+	padding: 5px;
+	border-top: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+}

@@ -1,0 +1,51 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>jQuery EasyUI</title>
+	<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../themes/icon.css">
+	<script type="text/javascript" src="../jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="../jquery.easyui.min.js"></script>
+	<script>
+		function loadData(){
+			$('#cc').combobox({
+				url:'combobox_data.json',
+				valueField:'id',
+				textField:'text'
+			});
+		}
+		function setValue(){
+			$('#cc').combobox('setValue','bitem2');
+		}
+		function getValue(){
+			var val = $('#cc').combobox('getValue');
+			alert(val);
+		}
+		function disable(){
+			$('#cc').combobox('disable');
+		}
+		function enable(){
+			$('#cc').combobox('enable');
+		}
+	</script>
+</head>
+<body>
+	<h1>ComboBox</h1>
+	<div style="margin-bottom:10px;">
+		<a href="#" onclick="loadData()">loadData</a>
+		<a href="#" onclick="setValue()">setValue</a>
+		<a href="#" onclick="getValue()">getValue</a>
+		<a href="#" onclick="disable()">disable</a>
+		<a href="#" onclick="enable()">enable</a>
+	</div>
+	
+	<span>Options: </span>
+	<select id="cc" class="easyui-combobox" name="dept" style="width:200px;" required="true">
+		<option value="aa">aitem1</option>
+		<option>bitem2</option>
+		<option>bitem3</option>
+		<option>ditem4</option>
+		<option>eitem5</option>
+	</select>
+</body>
+</html>

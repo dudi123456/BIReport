@@ -1,0 +1,90 @@
+<!--
+//author:louiszheng
+//function:定义一些常用的输入判断
+//desc:PINT:正整数,PINT2:空或者正整数,适合小数位数的情况,INT:整数,DEC2:两位小数,EMAIL:电子邮件地址
+//MP:手机
+//date:2004-04-06
+-->
+
+<public:component tagname="coolText">
+<public:property name="texttype" />
+<public:attach event="onfocus" onevent="f_Onfocus()" />
+<public:attach event="onblur" onevent="f_Onblur()" />
+
+<script language="javascript">
+function f_Onfocus(){
+	if(element.runtimeStyle.color != element.style.color){
+		element.value = '';
+		element.runtimeStyle.color = element.style.color
+	
+	}
+}
+function f_Onblur(){
+	 var re;
+	 element.value = trim(element.value);
+	 switch(texttype.toUpperCase()){
+	 	
+	 	case "PINT":
+	 		re = /^(0{1})$|^[^0\D]+(\d)*$/;
+	 		if(!re.test(element.value)){
+	 			element.runtimeStyle.color = "red";
+	 			element.value = "请输入正整数";
+	 		
+	 		}
+			break;
+		case "PINT2":
+	 		re = /^(0{1})$|^[^0\D]+(\d)*$/;
+	 		if(element.value.length>0){
+	 		if(!re.test(element.value)){
+	 			element.runtimeStyle.color = "red";
+	 			element.value = "请输入正整数或者为空";
+	 		}
+			}
+			break;
+		case "INT":
+	 		re = /^(0{1})$|^-?[^0\D]+(\d)*$/;
+	 		if(!re.test(element.value)){
+	 			element.runtimeStyle.color = "red";
+	 			element.value = "请输入整数";
+	 		}
+			break;
+		case "DEC2":
+			re = /^(0{1})$|^-?[1-9]+\d*(\.\d{1,2})?$|^0{1}(\.\d{1,2})?$|^-?[0]{1}(\.\d{1,2})?$/;
+			if(!re.test(element.value)){
+	 			element.runtimeStyle.color = "red";
+	 			element.value = "请输入两位小数";
+	 		}
+			break;
+		case "EMAIL":
+		    re = /^[_a-zA-Z][_a-zA-Z0-9]*@[_a-z0-9]+\.[a-zA-Z]{2,5}(\.[a-zA-Z]{2,3})?$/;
+		    if(!re.test(element.value)){
+	 			element.runtimeStyle.color = "red";
+	 			element.value = "请输入正确的EMAIL地址";
+	 		}
+			break;
+		case "MP":
+		    re =/^13\d{9}$/;
+		    if(!re.test(element.value)){
+	 			element.runtimeStyle.color = "red";
+	 			element.value = "请输入正确手机号码";
+	 		}
+			break;
+		default:
+			if(element.value.length == 0){
+	 			element.runtimeStyle.color = "red";
+	 			element.value = "不能为空";
+	 		break;
+			}
+	}
+}
+
+function trim(str)
+{
+	for(var i = 0 ; i<str.length && str.charAt(i)==" " ; i++ ) ;
+	for(var j =str.length; j>0 && str.charAt(j-1)==" " ; j--) ;
+	if(i>j) return ""; 
+	return str.substring(i,j); 
+}
+
+</script>
+</public:component>

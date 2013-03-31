@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="GB2312" ?>
+
+<!DOCTYPE project>
+
+<project name="CHPEV" default="package" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+
+      <property name="base-path" value="."/>
+      <property name="project-name" value="qdxn"/>
+
+      
+      <property name="project-path" value="${base-path}"/>
+
+      <property name="build" value="${project-path}/build"/>
+      <property name="lib" value="${project-path}/src/main/webapp/WEB-INF/lib"/>
+      <property name="src" value="${project-path}/src/main/java"/>
+      <property name="build.classes"   value="${build}/WEB-INF/classes" />
+ 
+
+      <property name="war.dir"     value="${project-path}/dist"/>
+      <property name="war-file-name"      value="${project-name}" />
+
+      <path id="Third-Part Lib">
+            <fileset dir="${build}/WEB-INF/lib">
+                  <include name="**/*.jar" />
+            </fileset>
+      </path>
+ 
+      <target name="usage" description="Build file usage info (default task)">
+            <echo message=" " />
+            <echo message="${project-name} " />
+            <echo message="-------------------------------------------------------" />
+            <echo message="Available Targets:" />
+            <echo message=" ***" />
+            <echo message=" Compiling:" />
+            <echo message="  compile  - Compiles the source code" />
+            <echo message=" ***" />
+            <echo message=" Cleaning up:" />
+            <echo message="  clean - Delete class files" />
+            <echo message=" ***" />
+            <echo message=" package:" />
+            <echo message="  package  - Generate an .jar for source code" />
+            <echo message=" ***" />
+            <echo message="-------------------------------------------------------" />
+      </target>
+
+      <target name="prepare" >
+            <mkdir dir="${build.classes}" />
+            <mkdir dir="${war.dir}" />             
+      </target>
+
+      <target name="clean" >
+            <delete dir="${build}" />
+            <delete dir="${war.dir}" />
+      </target>
+ 
+       <target name="copy-webapp" depends="clean,prepare">
+      	<echo message="copy web app files!"/>
+      	<copy todir="${build}">
+      		<fileset dir="${project-path}/src/main/webapp"/>
+      	</copy>    	
+      </target>
+ 
+   
+        
+      <target name="compile" depends="copy-webapp">
+      <echo message="Compiling the source code!"/>
+            <javac
+                  srcdir="${src}"
+                  destdir="${build.classes}"
+                  deprecation="true"
+                  failonerror="true" debug="true"
+                  target="1.5" encoding="utf-8" includeAntRuntime="false">
+                  <classpath>
+                   	<path refid="Third-Part Lib"/>                      	        
+                  </classpath> 	
+            </javac>
+            <copy  todir="${build.classes}">
+      		<fileset dir="${project-path}/src/main/resources" excludes="**/*.java"/>
+    	    </copy>
+               
+      </target>
+
+      
+    
+      <target name="package" depends="compile">
+            <jar destfile="${war.dir}/${war-file-name}.war" basedir="${build}">
+            </jar>
+      </target>
+</project>
+

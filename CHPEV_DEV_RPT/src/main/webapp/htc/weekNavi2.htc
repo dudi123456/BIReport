@@ -1,0 +1,205 @@
+<public:component tagName="MonthNavi">
+<public:attach event="onmouseover" onevent="f_OnMouseover()" />
+<public:attach event="onmouseout" onevent="f_OnMouseout()" />
+<public:attach event="onmousedown" onevent="f_OnMousedown()" />
+<public:attach event="onmouseup" onevent="f_OnMouseup()" />
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="init()" />
+<SCRIPT language="JavaScript">
+var oConfig = null;
+var CY,CM,CD,startDay;
+var dayofweek= new Array();
+
+function CConfig(){
+	this._year 	= element.DefaultYear;
+	this._month 	= element.DefaultMonth;
+	this._day	= element.DefaultDay;
+	this._strDay = element.DefaultStrDay;
+	this._click	= element.DayClick;
+	this._dayChange	= element.DayChange;
+}
+
+function init(){
+	oConfig = new CConfig();
+	CY = oConfig._year/1;
+	CM = oConfig._month/1;
+	CD = oConfig._day/1;
+	startDay = oConfig._strDay;
+	mygetday(CY,CM,startDay);
+	draw(CY,CM,CD);
+}
+
+//前翻导航按钮修改年份
+function fnNavi_Prev(){
+
+	CY = CY-1;
+	draw(CY,CM,CD);
+}
+
+//后翻导航按钮修改年份
+function fnNavi_Next(){
+
+	CY = CY + 1;
+	draw(CY,CM,CD);
+}
+
+function IsPinYear(year)            
+{
+	if (0 == year % 4 && ((year % 100 != 0) || (year % 400 == 0))) 
+		return true;
+	else 
+		return false;
+}
+
+
+function GetMonthCount(year, month)  
+{
+
+var MonHead = new Array(12);    		   
+    MonHead[0] = 31; MonHead[1] = 28; MonHead[2] = 31; MonHead[3] = 30; MonHead[4]  = 31; MonHead[5]  = 30;
+    MonHead[6] = 31; MonHead[7] = 31; MonHead[8] = 30; MonHead[9] = 31; MonHead[10] = 30; MonHead[11] = 31;
+
+	var c = MonHead[month-1];
+	
+	if((month == 2) && IsPinYear(year)) 
+		c++;
+	
+	return c;
+}
+
+function GetDOW(day, month, year)    
+{
+	var dt = new Date(year, month - 1, day).getDay(); 
+		return dt;
+}
+
+function mygetday(year, month, turnDay){
+		var temp;
+		var tempMonth;
+			 		if (month<10){
+							tempMonth='0'+month;			 		
+			 		}else{
+			 			tempMonth=month;
+			 		}
+
+		for (var i=1;i<=GetMonthCount(year, month);i++){
+			 if (GetDOW(i,month,year)==turnDay){
+			    if (i<10){
+			    		temp='0'+i;
+			    }else{
+			    		temp=i;
+			    }
+			 		dayofweek[dayofweek.length]=''+year+''+tempMonth+''+temp;
+			 }
+		}
+
+}
+
+function getWeeks(){
+	var temps="";
+  switch (startDay/1){
+   case 1:
+   			temps="星期一";
+        break;
+   case 2:
+   			temps="星期二";
+        break;
+
+   case 3:
+   			temps="星期三";
+        break;
+
+   case 4:
+   			temps="星期四";
+        break;
+
+   case 5:
+   			temps="星期五";
+        break;
+
+   case 6:
+   			temps="星期六";
+        break;
+
+   case 7:
+   			temps="星期日";
+        break;
+  
+  }
+  return temps;
+}
+
+//显示导航条
+function draw(CY,CM,CD){
+	var s = '';
+	s += '<STYLE> .Navi{font-family:Webdings;cursor:hand}</STYLE>';
+	s += '<TABLE><TR><TD id="NaviPrevContainer"></TD><TD>'+CY+'年</TD>';
+	s += '<TD id = "NaviNextContainer"></TD><TD>';
+	var start = 1;
+	var monthStr = '<TABLE cellspacing="0" cellpadding="0" ><TR>';
+	for(var i=0;i<12;i++){
+		mValue = start/1+i;
+		var paraValue = '';
+		paraValue += new String(CY);
+		if(mValue<10)
+			paraValue +='0';
+		paraValue = paraValue + new String(mValue);
+		monthStr += '<TD style="padding-left:2;padding-right:2">';
+		if(mValue/1==oConfig._month/1)
+			monthStr += '<DIV id="usediv" style="border-left:1px solid buttonshadow;border-top:1px solid buttonshadow;border-right:1px solid buttonhighlight;border-bottom:1px solid buttonshadow;">';
+		else
+		{
+			monthStr += '<DIV id="usediv" style="cursor:hand" onclick="'+oConfig._click+'('+paraValue+''+oConfig._day+')">';
+		}
+		monthStr += (mValue)+"月</DIV></TD>";
+	}
+	monthStr += '</TR></TABLE></TD>';
+	s += monthStr;
+	start = 1;
+	
+	var dayStr = '<TD><TABLE cellspacing="0" cellpadding="0" ><TR>';
+	
+	dayStr += '<TD style="padding-left:2;padding-right:2"><SELECT id="day" onchange="'+oConfig._dayChange+'(this)">'
+		dayStr +='<OPTION VALUE="00">请选择日期</OPTION>';
+		for (var j=0;j<dayofweek.length;j++){
+	
+			dayStr += '<OPTION VALUE="'+dayofweek[j]+'"';
+		if(dayofweek[j].substr(6,2)/1!=oConfig._day/1)
+		 	dayStr += '>'+dayofweek[j]+'</OPTION>';
+		else
+		 	dayStr += 'SELECTED="true">'+dayofweek[j]+'</OPTION>';
+	}
+	dayStr += '</SELECT>'+getWeeks()+'</TD></TR></TABLE>';
+	s += dayStr;
+
+	
+	s += '</TD></TR></TABLE>';
+	element.innerHTML = "";
+	element.insertAdjacentHTML("beforeEnd",s);
+	
+	//插入前导航
+	var ele = document.createElement("DIV");
+	ele.style.fontFamily = "Webdings";
+	ele.style.cursor = "hand";
+	ele.innerHTML = "3";
+	ele.onclick = fnNavi_Prev;
+	NaviPrevContainer.appendChild(ele);
+	
+	////插入后导航
+	var ele = document.createElement("DIV");
+	ele.style.fontFamily = "Webdings";
+	ele.style.cursor = "hand";
+	ele.innerHTML = "4";
+	ele.onclick = fnNavi_Next;
+	NaviNextContainer.appendChild(ele);
+}
+
+function f_OnMouseover(){
+}
+function f_OnMouseout(){
+}
+function f_OnMousedown(){
+}
+function f_OnMouseup(){
+}
+</SCRIPT>
+</PUBLIC:COMPONENT>

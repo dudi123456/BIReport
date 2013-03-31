@@ -1,0 +1,4 @@
+<resource-ref>
+  <res-ref-name>java:/DataSource</res-ref-name>
+  <jndi-name>java:/DataSource</jndi-name>
+</resource-ref>

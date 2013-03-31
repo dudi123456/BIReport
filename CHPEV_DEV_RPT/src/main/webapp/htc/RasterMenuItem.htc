@@ -1,0 +1,51 @@
+<PUBLIC:COMPONENT tagName="RasterMenuItem">
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="init()" />
+<SCRIPT language="JavaScript">
+<!--
+function fnOnClick(){
+	var idstr = new String(this.id);
+	var arr = idstr.split("_");
+	id1 = arr[1];
+	var container = eval(this.ContainerID)
+	if(id1/1==container.ActiveItemID/1)
+		return;
+	if(container.ActiveItemID/1>0){
+		eval("RMI_"+container.ActiveItemID).style.backgroundColor = 'transparent';
+	}
+	container.ActiveItemID = id1;
+	this.style.backgroundColor = "#cccccc";
+	
+	eval(this.ItemClickFunc+"("+id1+")");
+}
+
+function fnOnMouseOver(){
+	if(this.style.backgroundColor!="#cccccc")
+        	this.style.backgroundColor="#eeeeee";
+}
+function fnOnMouseOut(){
+	if(this.style.backgroundColor!="#cccccc")
+		this.style.backgroundColor="transparent";
+}
+
+
+function init(){
+	var idstr = new String(element.id);
+	var arr = idstr.split("_");
+	id1 = arr[1];
+	if(id1/1==eval(element.ContainerID).ActiveItemID/1)
+		element.style.backgroundColor = "#cccccc";
+	element.style.borderBottom = "1px solid #666666";
+	element.style.cursor = "hand";
+	element.style.padding = "3";
+	element.tabIndex = 0;
+	element.onclick = fnOnClick;
+	element.onmouseover = fnOnMouseOver;
+	element.onmouseout = fnOnMouseOut;
+	element.onkeydown = fnOnClick;
+}
+
+
+
+-->
+</SCRIPT>
+</PUBLIC:COMPONENT>

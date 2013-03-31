@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<log-configuration>
+  
+  <!-- ================================================== -->
+  <!-- Definitions of all loggers                         -->
+  <!-- ================================================== -->
+  
+  <!-- define the loggers starting with the name "com.mvnforum" -->
+  <logger name="com.mvnforum">
+    <level>ALL</level>
+    <generator>LogFile</generator>
+    <generator>LogConsole</generator>
+  </logger>
+  <!-- define the loggers starting with the name "net.myvietnam" -->
+  <logger name="net.myvietnam">
+    <level>ALL</level>
+    <generator>LogFile</generator>
+    <generator>LogConsole</generator>
+    <filter>ExceptionFilter</filter>
+  </logger>        
+  <!-- For Tomcat5.5
+      Because there are a lot of DEBUG message in Tomcat5.5 taglib,
+      I used a generator at level ERROR to remove(filter) them from the file as well as the console
+      (I think it is a problem before)
+  -->
+  <logger name="org.apache">
+    <level>ERROR</level>
+    <generator>LogFile</generator>
+    <generator>LogConsole</generator>
+    <filter>ExceptionFilter</filter>
+  </logger>
+  <!-- ================================================== -->
+  <!-- Definitions of all channels                        -->
+  <!-- ================================================== -->
+  <channel name="DEBUG">
+    <mode>on</mode>
+    <generator>TestGenerator</generator>
+  </channel>
+  <!-- ================================================== -->
+  <!-- Definitions of all filters                         -->
+  <!-- ================================================== -->
+  <filter name="ExceptionFilter">
+    <class>TextFilter</class>
+    <parameter name="expression" value="Exception" />
+    <parameter name="case_sensitiv" value="false" />
+  </filter>
+  <!-- ================================================== -->
+  <!-- Definitions of all generators                      -->
+  <!-- ================================================== -->
+  <generator name="LogFile">
+    <formatter>DefaultFormatter</formatter>
+    <handler>FileHandler</handler>
+    <parameter name="file" value="C:/Software/tomcat/webapps/mvnforum/WEB-INF/mvnForumHome/log/mvnforum.log" />
+  </generator>      
+  <generator name="LogConsole">
+    <formatter>DefaultFormatter</formatter>
+    <handler>ConsoleHandler</handler>    
+  </generator>      
+</log-configuration>

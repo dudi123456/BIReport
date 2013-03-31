@@ -1,0 +1,58 @@
+<PUBLIC:COMPONENT tagName="TransEdit">
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="init()" />
+<SCRIPT language="JavaScript">
+//datatype|| 0:text;1:numeric;
+
+var oConfig = null;
+function CConfig(){
+	this._datatype = 0;
+	if(element.DataType)
+		this._datatype = element.DataType;
+}
+
+function fnOnFocus(){
+	this.style.backgroundColor = "#ffffff";
+	this.style.border = "1px solid #999999"
+	this.style.width = "100%";
+}
+
+function fnOnBlur(){
+	element.style.backgroundColor = "transparent";
+	element.style.border = "0px "
+	element.style.width = "100%";
+}
+
+function fnOnKeyDown(){
+	if(event.keyCode==32 || event.keyCode==192 )
+		event.returnValue=false;
+
+	var ret = String.fromCharCode(event.keyCode);
+		
+	var re = /\w/i
+	if(!re.test(ret))
+		return;
+
+	var re1 =/\D/i	
+	if(re1.test(ret))
+		event.returnValue=false;
+	else if(event.shiftKey)
+		event.returnValue=false;
+		
+}
+
+function init(){
+	oConfig = new CConfig();
+	
+	element.style.backgroundColor = "transparent";
+	element.style.border = "0px "
+	element.style.width = "100%";
+	if(oConfig._datatype/1==1){
+		element.style.textAlign="right";
+		element.onkeydown = fnOnKeyDown;
+	}
+	
+	element.onfocus = fnOnFocus;
+	element.onblur = fnOnBlur;
+}
+</SCRIPT>
+</PUBLIC:COMPONENT>

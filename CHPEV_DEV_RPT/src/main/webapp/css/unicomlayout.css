@@ -1,0 +1,80 @@
+﻿
+.icon{background:url("../images/unicom/icon_1.gif") no-repeat scroll 0 0 transparent;}
+.btn{background:url("../images/unicom/btn_1.gif") no-repeat scroll 0 0 transparent;width:81px;height:39px;line-height:39px;border:0 none;font-weight:bold;}
+.btn_hover{background:url("../images/unicom/btn_6.gif") no-repeat scroll 0 0 transparent;width:81px;height:39px;line-height:39px;border:0 none;font-weight:bold;color:White}
+/*提醒样式*/
+.errortip{background-position:0 -22px;color:#999;display:block;font-size:12px;font-weight:normal;padding:0 22px;height:20px;line-height:20px;margin-left: 5px;}
+.righttip{background-position:0 3px;color:#999;display:block;font-size:12px;font-weight:normal;padding:0 22px;height:20px;line-height:20px;margin-left: 5px;}
+
+
+/*login*/
+#login_box{width:100%;height:100%;background:#e5e5e5 url("../images/unicom/bg_1.png") repeat-x fixed 0 -1px;}
+#login_box .login_wrap{background:transparent url(../images/unicom/bg_2.png) no-repeat scroll 0 -1px;width:929px;height:615px;margin:0 auto;position:relative;left: 150px;}
+#login_box .login_tb{width:600px;margin:0 auto;position:relative;top:270px;left:145px}
+#login_box .login_tb td{height:46px;line-height:46px;font-size:14px;font-weight:bold;position:relative}
+#login_box .login_tb td input{height:32px;line-height:32px;padding:0 0 0 5px;margin-left:8px;width:170px;}
+#login_box .login_tb td input.round{width:90px}
+#login_box .login_tb td .yzm{width:70px;height:34px;background-color:#f1f1f1;line-height: 34px;text-align: center;display:inline-block;position:relative;*top:-8px}
+#login_box .login_tb td .btn{width:81px;height:39px;line-height:39px;border:0 none;font}
+#login_box .login_tb td a.forgetpw{color:#999;font-weight:normal;margin-left:5px}
+#login_box .login_tb td a.autcode{position:relative;top:-2px;*top:-8px;}
+#forgetPw td{height:46px;line-height:46px;font-size:14px;font-weight:bold;position:relative}
+#forgetPw td input{height:32px;line-height:32px;padding:0 0 0 5px;margin-left:8px;width:170px;}
+#forgetPw td input.round{width:90px}
+#forgetPw td .yzm{width:70px;height:34px;background-color:#f1f1f1;line-height: 34px;text-align: center;display:inline-block;position:relative;*top:-8px}
+#forgetPw td .btn{width:81px;height:39px;line-height:39px;border:0 none;font}
+#forgetPw td a.forgetpw{color:#999;font-weight:normal;margin-left:5px}
+#forgetPw td a.autcode{position:relative;top:-2px;*top:-8px;}
+/*head*/
+#head{background:url("../images/unicom/bg_3.png") repeat-x scroll 0 0;width:100%;position:relative; z-index:99;}
+#head .head_box{background:url("../images/unicom/bg_5.png") no-repeat scroll 0 0;height:70px}
+#head .mt_logo{width:290px;margin:3px 0 0;position:relative;left:20px;}
+#head .mt_info{width:513px;position:relative;height: 70px; position:absolute; top:0; right:20px;}
+#head .mt_info .mywork{width:100%;height:30px;position:relative;text-align:right}
+#head .mt_info .mywork span{position: relative;display:inline-block;line-height:30px;margin-left:30px;padding-left:20px}
+#head .mt_info .mywork .w1{background-position:0 -92px;}
+#head .mt_info .mywork .w2{background-position:0 -128px;}
+#head .mt_info .mywork .w3{background-position:0 -202px;}
+#head .mt_info .mywork .w4{background-position:0 -166px;}
+#head .mt_info .myinfo{margin:8px 0 0 50px;text-align:right}
+.head_tag{background:url("../images/unicom/bg_3.png") repeat-x scroll 0 -70px;padding:0 20px;height:37px;position:relative;}
+.head_tag .goup{position:absolute;right:20px;top: 5px;*top:7px;}
+.head_tag ul{ height:30px; min-width:1024px;}
+.head_tag ul li{display:block; float:left; height:30px;line-height:30px;width:95px;text-align:center; background:url("../images/unicom/bg_6.png") no-repeat right 0px;}
+.head_tag ul li a{color:white;text-decoration:none;}
+.head_tag ul li.active{background:url("../images/unicom/bg_7.png") no-repeat 0 0px;position: relative;top: 1px;}
+.head_tag ul li.active a{color:#ea0018;font-weight:bold}
+.head_tag ul li.hover{background:url("../images/unicom/bg_24.png") no-repeat 0 0px;}
+.head_tag ul li.hover a{text-decoration:none;color:White}
+/*content*/
+#content{width:100%;background:#f1f1f1;}
+#content iframe{width:100%;height:100%; border:none;}
+
+
+/*foot*/
+#foot{height:24px;background:url("../images/unicom/bg_4.png") repeat-x scroll 0 -3px;padding-top:3px}
+#foot .foot_bg{background:url("../images/unicom/bg_8.png") no-repeat scroll right 0;padding:5px 20px 0 20px;position:relative}
+#foot .foot_bg .nowcount{position:absolute;right:20px;}
+
+
+/*dialog*/
+.flowbox1{background:url("../images/unicom/bg_26.png") no-repeat scroll 0 0;_background:url("../images/unicom/bg_26.gif") no-repeat scroll 0 0;width:707px;height:257px;_width:699px;_height:249px;position:relative}
+.flowbox1 .img_box{float:left;left: 50px;position: relative;top: 80px;}
+.flowbox1 .dialog1 .img_box{left: 40px;position: relative;top: 80px;}
+.flowbox1 .co_box{float:left;left: 265px;position: absolute;width: 430px;}
+.flowbox1 .co_box .close{position: absolute;right: 0;top: 10px;}
+.flowbox1 .co_box ul{position:relative;top:50px;margin-right:50px}
+.flowbox1 .co_box li{height:26px;line-height:26px;border-bottom:1px dotted #ddd}
+
+.flowbox2{background:url("../images/unicom/bg_27.png") no-repeat scroll 0 0;_background:url("../images/unicom/bg_27.gif") no-repeat scroll 0 0;width:450px;height:303px;_width:442px;_height:295px;position:relative}
+.flowbox2 .co_box{  left: 190px;position: absolute; width: 250px;}
+.flowbox2 .co_box table{position:relative;top:70px;margin-right:50px}
+.flowbox2 .co_box td{height:32px;line-height:32px;}
+.flowbox2 .co_box td input{width:120px}
+.flowbox2 .co_box .jindu{width:120px;height:8px;background-color:#999;font-size:0}
+.flowbox2 .co_box .jindu div{width:60px;height:8px;background-color:#e30000;font-size:0}
+.flowbox2 .co_btn{ bottom: 30px;position: absolute; text-align:center;width:100%}
+
+#dialogBox{background:url("../images/unicom/bg_28.png") no-repeat scroll 0 0;width:259px;height:126px;position: absolute;right: 0;bottom:0;}
+#dialogBox a{position:absolute;right:5px;top:5px;}
+#dialogBox p{width:200px;margin: 60px 30px 0;}

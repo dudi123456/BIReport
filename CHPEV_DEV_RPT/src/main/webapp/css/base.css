@@ -1,0 +1,144 @@
+﻿@charset "UTF-8";
+*{margin:0;padding:0;zoom:1;outline:none}
+*html{filter:expression(document.execCommand("BackgroundImageCache", false, true))}
+html,img,iframe,frameset,fieldset{margin:0;padding:0;border:0 none}
+html{overflow:hidden;background:#fff url(about:blank) fixed}
+body {font-size:12px;line-height:1.5;color:#000;font-family: "宋体",sans-serif;height:100%;width:100%;}
+html,body{background-color:#fff;}
+img,input[type=image]
+{
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-interpolation-mode:bicubic;
+	image-rendering:optimizeQuality;
+	-moz-force-broken-image-icon:1
+}
+img{vertical-align:middle}
+button,input[type=button],input[type=submit],input[type=reset],input[type=image],label{cursor:pointer;}
+/*
+table{border-collapse:collapse;border-spacing:0}
+
+.iTable{border-collapse:collapse;border-spacing:0}
+*/
+
+.th{border-collapse:collapse;border-spacing:0}
+ul,ol,li{list-style:none}
+textarea{resize:none;overflow:auto}
+i,em{font-style:normal;}
+p,div,td,li,dd,textarea,pre{word-wrap:break-word}
+
+h1 {font-size:14px;}
+h2 {font-size:16px;}
+h3 {font-size:18px;}
+h4 {font-size:12px;}
+
+select {border:1px solid #999;height:21px;line-height:20px;color:#000;padding:0px;background-color:#fff}
+
+a {color:#000;outline:0;text-decoration:none;}
+a:hover {color:red;text-decoration:underline;}
+
+
+/*常用颜色*/
+.red {color:#d80016;}
+.green {color:#007f00;}
+.gray {color:#999;}
+.dimGray {color:#777;}
+.nblack {color:#333;}
+.orange{color:#FF6600;}
+.blue{color:blue}
+
+/*常用背景色*/
+.bg_gray{ background:#f5f5f5;}
+
+/*浮动*/
+.f_l{float:left}
+.f_r{float:right}
+.float-l{float:left;overflow:hidden;}
+.float-r{float:right;overflow:hidden;}
+
+/*清除浮动*/
+.clear{clear:both;font-size:0px}
+
+
+/*ajax loading*/
+.alert_box_bg, .alert_box_container{width:100%;position:fixed;_position:absolute;}
+.alert_box_bg{background:#000;z-index:999;top:0;height:100%;opacity:0.5;filter:alpha(opacity=50);_dd:expression(this.style.height = Math.max(document.documentElement.clientHeight, document.body.offsetHeight) + "px" );}
+.alert_box_bg iframe{width:100%;height:100%;border:0;background:transparent;filter:alpha(opacity=0);}
+.alert_box_container{z-index:1000;top:0;_dd:expression((!window.XMLHttpRequest)?(this.style.top = ((document.documentElement.scrollTop || document.body.scrollTop) + 150) + "px"):"");}
+.alert_box{margin:0 auto;}
+/*图表背景*/
+.chart_bg{
+	background:#ff0000;
+	/*background:url("../images/unicom/chartbg.gif") top repeat-x scroll 0 0;*/
+}
+.searchnobg{
+	background-color:rgb(243, 246, 251);
+}
+.searchno{
+	color:#ff0000;
+	height:100%;
+	line-height:200px;
+	background:url("../images/unicom/page_bg.gif") bottom repeat-x scroll 0 0;
+}
+.searchno_2{
+	color:#ff0000;
+	height:212px;
+	line-height:200px;
+}
+/*分页*/
+.page_bg{
+background:url("../images/unicom/page_bg.gif") top repeat-x scroll 0 0;height:32px;line-height:27px;border:0 none;color:#7f7e7e;font-size:12px;
+padding-bottom:5px;
+text-align:right;
+	}
+.goinput{height:17px;width:20px;}	
+.page_bg td{color:#7f7e7e;font-size:12px;}	
+.pagination_bar{margin-top:10px;}
+.pagination_bar .float-l{height:34px;}
+.pagination_bar .float-l a,.page_bar .float-l span{padding:0 4px;}
+.pagination_bar .pages {height:30px;line-height:30px;float:right}
+.pagination_bar .pages b,.pagination_bar .pages a{font-style:normal;border:1px solid #ccc;float:left;height:24px;line-height:24px;margin-left:3px;overflow:hidden;padding:0 10px;color:blue;}
+.pagination_bar .pages b {border:1px solid #ff5e01;background-color:#feeee3;color:#fe7b1e;font-weight:700;}
+.pagination_bar .pages .pages-text{background-position:-220px -69px;padding:0 15px 0 10px;}
+.pagination_bar .pages em{color:Gray;margin:0 8px;position:relative;*top:-6px}
+.pagination_bar .pages input{width:30px;border:1px solid #ccc;height:20px}
+.pagination_bar .pages button{background:url("../images/btn-bg1.png") no-repeat scroll 0 0 transparent;width:62px;border:0 none;height:30px;position:relative;top:-2px}
+
+
+/*input*/
+.txtinput{background:#FFFFFF url(../images/text_bg.gif) repeat-x scroll 0 0;padding:0px;border:1px solid #999;}
+
+.td-bg{text-align:right;word-break: keep-all;}
+
+/*scrollBar*/
+/*
+html{
+scrollbar-arrow-color:white; 
+scrollbar-face-color:#ddd;
+scrollbar-3dlight-color:#bbb; 
+scrollbar-highlight-color:#d2d2d2;
+scrollbar-shadow-color:#d2d2d2; 
+scrollbar-darkshadow-color: #bbb;
+scrollbar-track-color:#f9f9f9; 
+scrollbar-base-color:#eee; 
+}
+
+
+::-webkit-scrollbar {width: 17px;}
+::-webkit-scrollbar-track {background:white;-webkit-box-shadow:inset 1px 1px 6px rgba(0,0,0,0.2);}
+::-webkit-scrollbar-thumb {-webkit-border-radius: 10px;border-radius: 10px;background: rgba(255,255,255,0.8); -webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.3); }
+::-webkit-scrollbar-thumb:window-inactive {background: rgba(255,0,0,0.4); }
+::-webkit-scrollbar-button{width:17px; height:17px;-webkit-border-radius:2px;}
+::-webkit-scrollbar-button:vertical:decrement{background:url(../images/scroll_up.png);}
+::-webkit-scrollbar-button:vertical:increment{background:url(../images/scroll_down.png);}
+
+
+;}
+
+::-webkit-scrollbar-button:vertical:increment{background:url(../images/scroll_down.png);}
+
+
+*/
+
+
+

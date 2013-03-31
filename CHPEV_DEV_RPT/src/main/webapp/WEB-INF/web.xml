@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+	<context-param>
+		<param-name>log4j</param-name>
+		<param-value>/WEB-INF/classes/log4j.properties</param-value>
+	</context-param>
+	<context-param>
+		<param-name>tagselect_mappings</param-name>
+		<param-value>/WEB-INF/config/taglibmappings.xml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>weblogic.httpd.inputCharset./*</param-name>
+		<param-value>UTF-8</param-value>
+	</context-param>
+	<context-param>
+		<param-name>zip.param</param-name>
+		<param-value>/WEB-INF/configs/zip.properties</param-value>
+	</context-param>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/applicationContext.xml</param-value>
+	</context-param>
+
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<!-- exactMatchExcludedURLs,approximateMatchExcludedURLs例外，不需要走单点登录的请求地址、资源 -->
+	<!-- 接入集中渠道的filter -->
+	 <filter>
+		<filter-name>userloginFilter</filter-name>
+		<filter-class>
+			com.ailk.bi.base.listener.UserLoginFilter
+		</filter-class> 
+		 <init-param>
+	        <param-name>exactMatchExcludedURLs</param-name>
+	        <param-value>/,/index.jsp,/login/login.jsp,/login/login.rptdo</param-value>
+        </init-param>
+        <init-param>
+	        <param-name>approximateMatchExcludedURLs</param-name>
+	        <param-value>/js,/css,/images,/img,/grid/skin,/inc,/figure,/config.js,/fckconfig.js,/fckeditor.js,/dtree.css,/dtree.js,/dtreeDir.js</param-value>
+        </init-param>
+        <init-param>
+	        <param-name>exactLoginUrl</param-name>
+	        <param-value>/subject/AiModResult.rptdo,/subject/AiModResultDetail.rptdo</param-value>
+        </init-param>
+	</filter> 
+  
+    <!-- 接入经分的filter 
+    <filter>
+		<filter-name>userLoginJingFilter</filter-name>
+		<filter-class>
+			com.ailk.bi.base.listener.UserLoginJingFilter
+		</filter-class> 
+		 <init-param>
+	        <param-name>exactMatchExcludedURLs</param-name>
+	        <param-value>/,/index.jsp,/login/login.jsp,/login/login.rptdo</param-value>
+        </init-param>
+        <init-param>
+	        <param-name>approximateMatchExcludedURLs</param-name>
+	        <param-value>/js,/css,/images,/img,/grid/skin,/inc,/figure,/config.js,/fckconfig.js,/fckeditor.js,/dtree.css,/dtree.js,/dtreeDir.js</param-value>
+        </init-param>
+        <init-param>
+	        <param-name>exactLoginUrl</param-name>
+	        <param-value>/subject/AiModResult.rptdo,/subject/AiModResultDetail.rptdo</param-value>
+        </init-param>
+	</filter>
+	-->
+	
+	<filter>
+		<filter-name>logFilter</filter-name>
+		<filter-class>com.ailk.bi.base.listener.UserLogFilter</filter-class>
+	</filter>
+	<!-- Open Session In View Filter -->
+	<filter>
+		<filter-name>OpenSessionInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+		<init-param>
+			<param-name>singleSession</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<!-- Struts2 Filter -->
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>struts-default.xml,struts-plugin.xml,struts.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>actionPackages</param-name>
+			<param-value>com.ailk.bi</param-value>
+		</init-param>
+	</filter>
+	<!-- 延长action中属性的生命周期， -->
+	<filter>
+		<filter-name>struts-cleanup</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ActionContextCleanUp</filter-class>
+	</filter>
+    
+	<!--接入集中渠道-->
+	<filter-mapping>
+		<filter-name>userloginFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 接入经分的filter
+	<filter-mapping>
+		<filter-name>userLoginJingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+     -->
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>*.rptdo</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>*.screen</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+
+	
+	<filter-mapping>
+		<filter-name>logFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>OpenSessionInViewFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>struts-cleanup</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	
+	
+	<!-- Spring Listener -->
+	<!-- log4j Listener -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.ailk.bi.common.sysconfig.SysConfigListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.ailk.bi.common.taglib.TaglibHelper</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.ailk.bi.jlog.utils.Log4JInitServlet</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.ailk.bi.base.listener.ConstConfigListenser</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.ailk.bi.base.listener.CodeListEngineListenser</listener-class>
+	</listener>
+
+	
+	<servlet>
+		<servlet-name>DisplayChart</servlet-name>
+		<servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ImgUpload</servlet-name>
+		<servlet-class>com.ailk.bi.system.action.ImgUpload</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>TreeServlet</servlet-name>
+		<servlet-class>com.ailk.bi.common.tree.TreeServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ExportData</servlet-name>
+		<servlet-class>com.ailk.bi.report.action.ExportData</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>TemplateServlet</servlet-name>
+		<display-name>TemplateServlet</display-name>
+		<servlet-class>waf.view.template.TemplateServlet</servlet-class>
+		<init-param>
+			<param-name>cache_previous_screen_attributes</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>default_locale</param-name>
+			<param-value>en_US</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cache_previous_screen_parameters</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>locales</param-name>
+			<param-value>zh_CN</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>webTierEntryPoint</servlet-name>
+		<display-name>
+			HTML Client Front Controller Servlet
+		</display-name>
+		<description>no description</description>
+		<servlet-class>waf.controller.web.MainServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>image</servlet-name>
+		<servlet-class>com.ailk.bi.common.image.ImageServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>pwdImage</servlet-name>
+		<servlet-class>com.ailk.bi.common.image.UserForgotPwdImg</servlet-class>
+	</servlet>
+
+
+	<servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>uk.ltd.getahead.dwr.DWRServlet</servlet-class>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>classes</param-name>
+			<param-value>java.lang.Object</param-value>
+		</init-param>
+		<load-on-startup>10</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>UploadFile</servlet-name>
+		<servlet-class>com.ailk.bi.base.servlet.UploadFileServlet</servlet-class>
+		<init-param>
+			<param-name>filepath</param-name>
+			<param-value>D:\\workspace\\BI1.0\\BIWeb\\uploadfold\\</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<servlet-name>DownloadFile</servlet-name>
+		<servlet-class>com.ailk.bi.base.servlet.DownloadFileServlet</servlet-class>
+		<init-param>
+			<param-name>filepath</param-name>
+			<param-value>D:\\workspace\\BI1.0\\BIWeb\\uploadfold\\</param-value>
+		</init-param>
+	</servlet>
+
+	
+
+	
+	<servlet-mapping>
+		<servlet-name>UploadFile</servlet-name>
+		<url-pattern>/UploadServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>TreeServlet</servlet-name>
+		<url-pattern>/treeServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DownloadFile</servlet-name>
+		<url-pattern>/DownloadServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>image</servlet-name>
+		<url-pattern>/images</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>pwdImage</servlet-name>
+		<url-pattern>/pwdImages</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>webTierEntryPoint</servlet-name>
+		<url-pattern>*.rptdo</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ImgUpload</servlet-name>
+		<url-pattern>/servlet/ImgUpload</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ExportData</servlet-name>
+		<url-pattern>/servlet/ExportData</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>TemplateServlet</servlet-name>
+		<url-pattern>*.screen</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DisplayChart</servlet-name>
+		<url-pattern>/servlet/DisplayChart</url-pattern>
+	</servlet-mapping>
+
+
+
+	<mime-mapping>
+		<extension>051</extension>
+		<mime-type>application/vnd.ms-notepad</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>txt</extension>
+		<mime-type>application/vnd.ms-notepad</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>xls</extension>
+		<mime-type>application/vnd.ms-excel</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>doc</extension>
+		<mime-type>application/msword</mime-type>
+	</mime-mapping>
+
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<taglib>
+		<taglib-uri>http://jsptags.com/tags/navigation/pager</taglib-uri>
+		<taglib-location>/WEB-INF/tld/pager-taglib.tld</taglib-location>
+	</taglib>
+	<taglib>
+		<taglib-uri>mvntaglib</taglib-uri>
+		<taglib-location>/WEB-INF/tld/mvntaglib.tld</taglib-location>
+	</taglib>
+
+	<taglib>
+		<taglib-uri>/WEB-INF/jchart_xj.tld</taglib-uri>
+		<taglib-location>/WEB-INF/tld/jchart_xj.tld</taglib-location>
+	</taglib>
+	<taglib>
+		<taglib-uri>/WEB-INF/crm-dict.tld</taglib-uri>
+		<taglib-location>/WEB-INF/tld/crm-dict.tld</taglib-location>
+	</taglib>
+	<taglib>
+		<taglib-uri>/WEB-INF/cwbms_html.tld</taglib-uri>
+		<taglib-location>/WEB-INF/tld/cwbms_html.tld</taglib-location>
+	</taglib>
+	<taglib>
+		<taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+		<taglib-location>/WEB-INF/tld/c.tld</taglib-location>
+	</taglib>
+	<resource-ref>
+		<description>Oracle Datasource example</description>
+		<res-ref-name>jdbc/DataSource</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
+	<resource-ref>
+		<description>Oracle Datasource example2</description>
+		<res-ref-name>sysFrameDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
+	<env-entry>
+		<description>Define the implementation class of the Web Crontroller</description>
+		<env-entry-name>param/WebController</env-entry-name>
+		<env-entry-value>waf.controller.web.DefaultWebController</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>
+</web-app>

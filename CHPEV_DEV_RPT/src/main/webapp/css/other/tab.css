@@ -1,0 +1,91 @@
+.dynamic-tab-pane-control.tab-pane {
+	position:	relative;
+	width:		100%;	/* width needed weird IE bug */
+}
+
+.dynamic-tab-pane-control .tab-row .tab {
+
+	width:			80px;
+	height:			23px;
+	background-image:	url( "../../images/common/tab/tab-button4.gif" );
+	padding-top: 5px;
+
+	position:		relative;
+	top:			0;
+	display:		inline;
+	float:			left;
+	overflow:		hidden;
+
+	cursor:			Hand;
+	border:			0;
+	font:			12px Tahoma;
+	white-space:		nowrap;
+	text-align:		center;
+}
+
+.dynamic-tab-pane-control .tab-row .tab.selected {
+	width:			80px !important;
+	height:			23px !important;
+	background-image:	url( "../../images/common/tab/tab-button3.gif" ) !important;
+	padding-top: 5px;
+	background-repaet:	no-repeat;
+	font:			12px Tahoma;
+}
+
+.dynamic-tab-pane-control .tab-row .tab a {
+	font:			12px Tahoma;
+	color:			Black;
+	text-decoration:	none;
+	cursor:			Hand;
+}
+
+.dynamic-tab-pane-control .tab-row .tab.hover {
+	font:			12px Tahoma;
+	width:			80px;
+	height:			23px;
+	background-image:	url( "../../images/common/tab/tab-button4.gif" );
+	padding-top: 5px;
+	background-repaet:	no-repeat;
+}
+
+
+.dynamic-tab-pane-control .tab-page {
+	clear:			both;
+	border:			0px solid rgb( 145, 155, 156 );
+	background:		rgb( 252, 252, 254 );
+	position:		relative;
+
+	font:			12px Tahoma;
+	color:			Black;
+
+	filter:			progid:DXImageTransform.Microsoft.Gradient(StartColorStr=#fffcfcfe, EndColorStr=#fff4f3ee, GradientType=0)
+					progid:DXImageTransform.Microsoft.Shadow(Color=#ff919899, Strength=2, Direction=135);
+
+	/*244, 243, 238*/
+	/* 145, 155, 156*/
+}
+
+.dynamic-tab-pane-control .tab-row {
+	white-space:	nowrap;
+}
+
+.font-nav {
+	COLOR: #DF5913; FONT-SIZE: 12px; TEXT-DECORATION: none; 
+}
+/*收藏夹*/
+.favorites-bg {
+  filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0, startcolorstr=#D9E2FF, endcolorstr=#ffffff);
+}
+
+.tableSty{
+	width:100%;
+	font-size:12px;
+	color: #555555;
+	border-collapse:collapse;
+    }
+.tableSty  td {
+
+	padding-right: 8px;
+	padding-left: 8px;
+
+	}

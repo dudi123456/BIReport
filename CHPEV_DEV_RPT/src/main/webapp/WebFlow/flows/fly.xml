@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="GBK"?>
+<WebFlow>
+	<FlowConfig>
+		<BaseProperties flowId="fly" flowText="网上机票预定流程" />
+		<VMLProperties stepTextColor="red" stepStrokeColor="red"
+			stepShadowColor="#b3b3b3" stepFocusedStrokeColor="yellow"
+			isStepShadow="T" actionStrokeColor="green" actionTextColor=""
+			actionFocusedStrokeColor="yellow" sStepTextColor="green"
+			sStepStrokeColor="red" stepColor1="black" stepColor2="white"
+			isStep3D="true" step3DDepth="20" />
+		<FlowProperties flowMode="" startTime="" endTime=""
+			ifMonitor="" runMode="" noteMode="" activeForm="" autoExe="" />
+	</FlowConfig>
+	<Steps>
+		<Step>
+			<BaseProperties id="check" text="会员身份确认" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="1112" y="412" stepColor1="#FF0000" stepColor2="#FF0000"
+				textWeight="" strokeWeight="" isFocused="" zIndex="" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="sendinfo" text="送票情况确认" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="1105" y="785" stepColor1="#D64646" stepColor2="#D64646"
+				textWeight="" strokeWeight="" isFocused="" zIndex="" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="post" text="确认并提交预定单" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="1099" y="1159" stepColor1="blue" stepColor2="white"
+				textWeight="" strokeWeight="" isFocused="" zIndex="" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="login" text="登录ctrip.com"
+				stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="10px" y="10px"
+				textWeight="" strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="order" text="填写预定单" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="274px" y="220px"
+				textWeight="" strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="query" text="查询航班信息" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="584px" y="854px"
+				textWeight="" strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="message" text="发短信或电话确认" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="1102" y="1515"
+				textWeight="" strokeWeight="" isFocused="" zIndex="" />
+			<FlowProperties />
+		</Step>
+	</Steps>
+	<Actions>
+		<Action>
+			<BaseProperties id="action99" text="开始到登录" actionType="PolyLine"
+				from="begin" to="login" />
+			<VMLProperties startArrow="" endArrow="classic"
+				strokeWeight="" isFocused="" zIndex="39" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action1" text="登录到查询" actionType="PolyLine"
+				from="login" to="query" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action2" text="查询到填单" actionType="PolyLine"
+				from="login" to="order" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action3" text="填单到会员" actionType="PolyLine"
+				from="order" to="check" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="39" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action4" text="会员到送票确认"
+				actionType="PolyLine" from="check" to="sendinfo" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="39" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action5" text="送票确认到提交"
+				actionType="PolyLine" from="sendinfo" to="post" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="39" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action6" text="提交到短信确认"
+				actionType="PolyLine" from="post" to="message" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="39" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action7" text="短信确认到结束"
+				actionType="PolyLine" from="message" to="end" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="39" />
+			<FlowProperties />
+		</Action>
+	</Actions>
+</WebFlow>

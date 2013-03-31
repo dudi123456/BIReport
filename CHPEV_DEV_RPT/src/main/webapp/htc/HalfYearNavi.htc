@@ -1,0 +1,90 @@
+<PUBLIC:COMPONENT tagName="HalfYearNavi">
+<public:attach event="onmouseover" onevent="f_OnMouseover()" />
+<public:attach event="onmouseout" onevent="f_OnMouseout()" />
+<public:attach event="onmousedown" onevent="f_OnMousedown()" />
+<public:attach event="onmouseup" onevent="f_OnMouseup()" />
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="init()" />
+<SCRIPT language="JavaScript">
+var oConfig = null;
+var CY,CM;
+
+function CConfig(){
+	this._year 	= element.DefaultYear;
+	this._half 	= element.DefaultHalf;
+	this._click	= element.HalfClick;
+}
+
+
+function init(){
+	oConfig = new CConfig();
+	CY = oConfig._year/1;
+	CM = oConfig._half/1;
+	draw(CY);
+}
+
+function fnNavi_Prev(){
+	draw(CY-1);
+}
+
+function fnNavi_Next(){
+	draw(CY+1);
+}
+
+
+function draw(CY){
+	var s = '';
+	s += '<STYLE> .Navi{font-family:Webdings;cursor:hand}</STYLE>';
+	s += '<TABLE><TR><TD>'+CY+'年</TD><TD id="NaviPrevContainer">';
+	s += '</TD><TD>';
+	
+	var monthStr = '<TABLE><TR>';
+	var lbl = "上半年"
+	for(var i=1;i<3;i++){
+		var paraValue = '';
+		paraValue += new String(CY);
+		paraValue = paraValue + new String(i);
+		if(i==2)
+			lbl = "下半年"
+		//monthStr += '<TD NOWRAP="true" style="cursor:hand" onclick="'+oConfig._click+'('+paraValue+')">'+lbl+"</TD>";
+		monthStr += '<TD style="padding-left:2;padding-right:2">';
+		if(i==oConfig._half/1)
+			monthStr += '<DIV style="border-left:1px solid buttonshadow;border-top:1px solid buttonshadow;border-right:1px solid buttonhighlight;border-bottom:1px solid buttonshadow;">';
+		else
+			monthStr += '<DIV style="cursor:hand" onclick="'+oConfig._click+'('+paraValue+')">'
+		monthStr += lbl+'</DIV></TD>';
+
+	}
+	monthStr += '</TR></TABLE>';
+	s += monthStr;
+	s += '</TD><TD id="NaviNextContainer">';
+	s += '</TD></TR></TABLE>';
+	element.innerHTML = "";
+	element.insertAdjacentHTML("beforeEnd",s);
+	
+	//插入前导航
+	var ele = document.createElement("DIV");
+	ele.style.fontFamily = "Webdings";
+	ele.style.cursor = "hand";
+	ele.innerHTML = "3";
+	ele.onclick = fnNavi_Prev;
+	NaviPrevContainer.appendChild(ele);
+	
+	////插入后导航
+	var ele = document.createElement("DIV");
+	ele.style.fontFamily = "Webdings";
+	ele.style.cursor = "hand";
+	ele.innerHTML = "4";
+	ele.onclick = fnNavi_Next;
+	NaviNextContainer.appendChild(ele);
+}
+
+function f_OnMouseover(){
+}
+function f_OnMouseout(){
+}
+function f_OnMousedown(){
+}
+function f_OnMouseup(){
+}
+</SCRIPT>
+</PUBLIC:COMPONENT>

@@ -1,0 +1,1044 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen-definitions>
+    <!--  ********************** START   OF MAPPING DEFINITION BY SYSTEM ******************* -->
+    <default-template>/waf/template/template.jsp</default-template>
+    <!--系统错误的显示模板-->
+    <template name="msgTemplate">
+        <url>/waf/template/msgTemplate.jsp</url>
+    </template>
+    <template name="tmpSystemMonitor">
+        <url>/waf/template/tmpSystemMonitor.jsp</url>
+    </template>
+    <template name="tmpCustView">
+        <url>/waf/template/tmpCustView.jsp</url>
+    </template>
+    <template name="tmpQryList">
+        <url>/waf/template/tmpQryList.jsp</url>
+    </template>
+    <template name="tmpSubjectList">
+        <url>/waf/template/tmpSubjectList.jsp</url>
+    </template>
+    <template name="tmpSubjectQryList">
+        <url>/waf/template/tmpSubjectQryList.jsp</url>
+    </template>
+    <template name="tmpToExcel">
+        <url>/waf/template/tmpToExcel.jsp</url>
+    </template>
+    <template name="tmpMonitorList">
+        <url>/waf/template/tmpMonitorList.jsp</url>
+    </template>
+    <template name="tmpQryListProduct">
+        <url>/waf/template/tmpQryListProduct.jsp</url>
+    </template>
+    <template name="tmpQryListPicMore">
+        <url>/waf/template/tmpQryListPicMore.jsp</url>
+    </template>
+    <screen name="htmlError">
+        <parameter key="body" value="/waf/common/msgPage.jsp"/>
+    </screen>
+    <screen name="INVALID_LOGIN">
+        <parameter key="body" value="/waf/common/msgRelogin.jsp"/>
+    </screen>
+    <screen name="invalidSession">
+        <parameter key="body" value="/waf/common/msgRelogin.jsp"/>
+    </screen>
+    <!-- 如果一下的模块调用以上的某个相同的部分，必须在该段描述中加上一个说明 -->
+
+    <!-- 系统登陆开始 -->
+    <screen name="LoginIn">
+        <parameter key="body" value="/login/login.jsp"/>
+    </screen>
+    <screen name="LoginInOK">
+        <parameter key="body" value="/login/redirectLogin.jsp"/>
+    </screen>
+    <screen name="loginindex">
+        <parameter key="body" value="/mainwindow/main.jsp"/>
+    </screen>
+	<screen name="ChgPwd">
+		<parameter key="body" value="/system/changepwd.jsp" />
+	</screen>
+    <screen name="forgetpwd">
+        <parameter key="body" value="/system/forgetpwd.jsp"/>
+    </screen>
+    <screen name="getorginpwd">
+        <parameter key="body" value="/system/getorginpwd.jsp"/>
+    </screen>
+    <screen name="unvalidVerifyCode">
+        <parameter key="body" value="/system/forgetpwd.jsp"/>
+    </screen>
+    <screen name="unvalidCheckPwd">
+        <parameter key="body" value="/login/login.jsp"/>
+    </screen>
+    <screen name="sysAdminCtrlDealOk" desc="">
+        <parameter key="body" value="/system/dealOk.jsp"/>
+    </screen>
+    <!-- 系统登陆结束 -->
+
+    <!-- 公共部分开始 -->
+    <screen name="MainPage">
+        <parameter key="body" value="/main/main_body.jsp"/>
+    </screen>
+    <screen name="MainPageDef">
+        <parameter key="body" value="/main/userdef.jsp"/>
+    </screen>
+    <screen name="EditorView">
+        <parameter key="body" value="/public/editor.jsp"/>
+    </screen>
+    <screen name="FavView">
+        <parameter key="body" value="/public/favorite_manage.jsp"/>
+    </screen>
+    <screen name="NewsInfo">
+        <parameter key="body" value="/main/newsview.jsp"/>
+    </screen>
+    <screen name="NewsList">
+        <parameter key="body" value="/main/newslist.jsp"/>
+    </screen>
+    <screen name="SendSms">
+        <parameter key="body" value="/main/sms.jsp"/>
+    </screen>
+    <screen name="NaviIframe">
+        <parameter key="body" value="/base/navi.jsp"/>
+    </screen>
+    <!-- 公共部分结束 -->
+
+    <!-- 领导看板开始-->
+    <screen name="LeaderKpiView" desc="领导看板首页">
+        <parameter key="body" value="/leader/leader.jsp"/>
+    </screen>
+    <screen name="LeaderKpiViewMap" desc="领导看板首页">
+        <parameter key="body" value="/leader/leaderview.jsp"/>
+    </screen>
+    <!-- 领导看板结束-->
+
+    <!-- 分析型报表开始 -->
+	<screen name="wait">
+		<parameter key="body" value="/olap/wait.jsp" />
+	</screen>
+	<screen name="rptOlapTable">
+		<parameter key="body" value="/olap/olap_table.jsp" />
+	</screen>
+	<screen name="rptOlapUserTable">
+		<parameter key="body" value="/olap/user_olap_table.jsp" />
+	</screen>
+	<screen name="rptOlapChart">
+		<parameter key="body" value="/olap/olap_chart.jsp" />
+	</screen>
+	<screen name="rptOlapWebChart">
+		<parameter key="body" value="/olap/web_chart.jsp" />
+	</screen>
+	<screen name="rptOlapChartDim">
+		<parameter key="body" value="/olap/olap_chart_dim.jsp" />
+	</screen>
+	<!-- 分析型报表结束 -->
+
+    <!-- 报表管理开始 -->
+    <screen name="addLocalRpt" desc="添加新报表">
+        <parameter key="body" value="/report/localrptedit/localrpt_add.jsp"/>
+    </screen>
+    <screen name="batchAddLocalRpt" desc="批量添加新报表">
+        <parameter key="body" value="/report/localrptedit/localrpt_batchadd.jsp"/>
+    </screen>
+    <screen name="batchAddLocalRptResult" desc="批量添加新报表">
+        <parameter key="body" value="/report/localrptedit/localrpt_batchadd_result.jsp"/>
+    </screen>
+    <screen name="listAttstationRpt" desc="查看待认证的定制报表列表">
+        <parameter key="body" value="/report/manage/rptattstation_list.jsp"/>
+    </screen>
+    <screen name="listLocalRpt" desc="查看基本报表列表">
+        <parameter key="body" value="/report/localrptedit/localrpt_list.jsp"/>
+    </screen>
+    <screen name="listSelfRpt" desc="查看私有报表列表">
+        <parameter key="body" value="/report/localrptedit/selfrpt_list.jsp"/>
+    </screen>
+    <screen name="localRptTabBridge" desc="基本报表维护桥页">
+        <parameter key="body" value="/report/localrptedit/localrpt_tab_bridge.jsp"/>
+    </screen>
+    <screen name="localRptTab" desc="基本报表维护TAB页">
+        <parameter key="body" value="/report/localrptedit/localrpt_tab.jsp"/>
+    </screen>
+    <screen name="localRptStep1" desc="基本报表维护步骤1">
+        <parameter key="body" value="/report/localrptedit/localrpt_step1.jsp"/>
+    </screen>
+    <screen name="localRptStep2" desc="基本报表维护步骤2">
+        <parameter key="body" value="/report/localrptedit/localrpt_step2.jsp"/>
+    </screen>
+    <screen name="customRptChooseMeasure" desc="基本报表维护步骤指标选择">
+        <parameter key="body" value="/report/localrptedit/localrpt_step_measure.jsp"/>
+    </screen>
+    <screen name="customRptChooseDim" desc="基本报表维护步骤纬度选择">
+        <parameter key="body" value="/report/localrptedit/localrpt_step_dim.jsp"/>
+    </screen>
+    <screen name="localRptStep3" desc="基本报表维护步骤3">
+        <parameter key="body" value="/report/localrptedit/localrpt_step3.jsp"/>
+    </screen>
+    <screen name="localRptStep4" desc="基本报表维护步骤4">
+        <parameter key="body" value="/report/localrptedit/localrpt_step4.jsp"/>
+    </screen>
+    <screen name="localRptStep5" desc="基本报表维护步骤5">
+        <parameter key="body" value="/report/localrptedit/localrpt_step5.jsp"/>
+    </screen>
+    <screen name="rptHeadEditor" desc="报表表头维护">
+        <parameter key="body" value="/report/rpthead/rptHeadEditor.jsp"/>
+    </screen>
+    <screen name="listRptProcess" desc="查看流程定义列表">
+        <parameter key="body" value="/report/manage/rptprocess_list.jsp"/>
+    </screen>
+    <screen name="rptProcessTabBridge" desc="流程定义维护桥页">
+        <parameter key="body" value="/report/manage/rptprocess_tab_bridge.jsp"/>
+    </screen>
+    <screen name="rptProcessTab" desc="流程定义维护TAB页">
+        <parameter key="body" value="/report/manage/rptprocess_tab.jsp"/>
+    </screen>
+    <screen name="rptProcessStep1" desc="流程定义维护步骤1">
+        <parameter key="body" value="/report/manage/rptprocess_step1.jsp"/>
+    </screen>
+    <screen name="rptProcessStep2" desc="流程定义维护步骤2">
+        <parameter key="body" value="/report/manage/rptprocess_step2.jsp"/>
+    </screen>
+    <screen name="rptProcessDispense" desc="报表审核流程发布">
+        <parameter key="body" value="/report/manage/rptprocess_dispense_frameset.jsp"/>
+    </screen>
+    <screen name="rptProcessDispenseTree" desc="可用审核流程列表树">
+        <parameter key="body" value="/report/manage/rptprocess_dispense_tree.jsp"/>
+    </screen>
+    <screen name="listRptProcessDispense" desc="审核流程对应的报表列表">
+        <parameter key="body" value="/report/manage/rptprocess_dispense_list.jsp"/>
+    </screen>
+    <screen name="customRptDispense" desc="私有报表分发">
+        <parameter key="body" value="/report/manage/privaterpt_dispense_frameset.jsp"/>
+    </screen>
+    <screen name="customRptRoleTree" desc="私有报表分发时对应的角色树">
+        <parameter key="body" value="/report/manage/privaterpt_dispense_roletree.jsp"/>
+    </screen>
+    <screen name="listPrivateRpt" desc="私有报表分发时角色对应的报表列表">
+        <parameter key="body" value="/report/manage/privaterpt_dispense_list.jsp"/>
+    </screen>
+    <screen name="rptCustomMsuAdd" desc="添加用户自定义指标">
+        <parameter key="body" value="/report/custommsu/customMsuAdd.jsp"/>
+    </screen>
+    <screen name="rptCustomMsuAddSuccess" desc="用户自定义指标维护提示信息">
+        <parameter key="body" value="/report/custommsu/customMsuAddSuccess.jsp"/>
+    </screen>
+    <screen name="rptCustomMsuMaintainFrame" desc="用户自定义指标维护">
+        <parameter key="body" value="/report/custommsu/customMsuFrame.jsp"/>
+    </screen>
+    <screen name="rptCustomMsuMaintain">
+        <parameter key="body" value="/report/custommsu/customMsu.jsp"/>
+    </screen>
+    <screen name="ReportPrintView" desc="查看报表打印历史信息">
+        <parameter key="body" value="/report/manage/rptprint_info.jsp"/>
+    </screen>
+    <screen name="rptCustomWelCome" desc="报表维护中的过渡欢迎页面">
+        <parameter key="body" value="/report/welcome.jsp"/>
+    </screen>
+    <!-- 报表管理结束 -->
+
+    <!--sigma grid show-->
+    <screen name="SigmaReportShow" desc="sigma报表">
+        <parameter key="body" value="/gridReport/reportShow.jsp" />
+    </screen>
+    <screen name="SigmaReportBuildShow" desc="sigma报表">
+        <parameter key="body" value="/gridReport/userExportGuideNext.jsp" />
+    </screen>
+    <screen name="SigmaReportBuildStatus" desc="sigma报表">
+        <parameter key="body" value="/gridReport/sigma_task_run_status.jsp" />
+    </screen>
+
+    <screen name="SigmaReportRedirectShow" desc="sigma报表">
+        <parameter key="body" value="/gridReport/SigmaReportRedirectShow.jsp" />
+    </screen>
+
+    <!-- 报表中心浏览开始 -->
+    <screen name="rptFirstView" desc="查看指标类报表">
+        <parameter key="body" value="/report/reportviewfirst.jsp"/>
+    </screen>
+    <screen name="rptLocalView" desc="查看固定报表">
+        <parameter key="body" value="/report/reportviewlocal.jsp"/>
+    </screen>
+    <screen name="rptSelfTask" desc="查看自己待审核任务">
+        <parameter key="body" value="/report/self_task_rpt.jsp"/>
+    </screen>
+    <!-- 报表中心浏览结束 -->
+
+    <!-- 内容浏览开始 -->
+    <screen name="contentView" desc="查看自己待审核任务">
+        <parameter key="body" value="/subject/common/content_view.jsp"/>
+    </screen>
+    <!-- 内容浏览结束 -->
+
+    <!-- 总部上传监控开始 -->
+    <screen name="UploadMonitorTab">
+        <parameter key="body" value="/system/uploadMonitor/uploadMonitorTab.jsp"/>
+    </screen>
+    <screen name="UploadMonitorViewLog">
+        <parameter key="body" value="/system/uploadMonitor/uploadMonitorViewLog.jsp"/>
+    </screen>
+    <screen name="UploadMonitorUpDay">
+        <parameter key="body" value="/system/uploadMonitor/uploadMonitorUpDay.jsp"/>
+    </screen>
+    <screen name="UploadMonitorUpWeek">
+        <parameter key="body" value="/system/uploadMonitor/uploadMonitorUpWeek.jsp"/>
+    </screen>
+    <screen name="UploadMonitorUpMonth">
+        <parameter key="body" value="/system/uploadMonitor/uploadMonitorUpMonth.jsp"/>
+    </screen>
+    <screen name="UploadMonitorSelectRpt">
+        <parameter key="body" value="/system/uploadMonitor/uploadMonitorSelectRpt.jsp"/>
+    </screen>
+    <!-- 总部上传监控结束 -->
+
+    <!-- 即席查询开始 -->
+    <screen name="AdhocParam">
+        <parameter key="body" value="/adhoc/adhoc_qry.jsp"/>
+    </screen>
+    <screen name="AdhocView">
+        <parameter key="body" value="/adhoc/adhoc_view.jsp"/>
+    </screen>
+    <screen name="AdhocMain">
+        <parameter key="body" value="/adhoc/adhoc_main.jsp"/>
+    </screen>
+    <screen name="AdhocMultiSelect">
+        <parameter key="body" value="/adhoc/adhoc_multi_select.jsp"/>
+    </screen>
+    <screen name="AdhocSelfDim">
+        <parameter key="body" value="/adhoc/adhoc_self_dim.jsp"/>
+    </screen>
+    <screen name="AdhocList">
+        <parameter key="body" value="/adhoc/adhoc_list.jsp"/>
+    </screen>
+    <screen name="AdhocListToExcel" template="tmpToExcel">
+        <parameter key="body" value="/adhoc/adhoc_list_toexcel.jsp"/>
+    </screen>
+    <screen name="AdhocReportToExcel" template="tmpToExcel">
+        <parameter key="body" value="/adhoc/adhoc_report_toexcel.jsp"/>
+    </screen>
+    <screen name="AdhocUserListSelect">
+        <parameter key="body" value="/adhoc/adhoc_user_list_select.jsp"/>
+    </screen>
+    <screen name="AdhocUserExportCVS">
+        <parameter key="body" value="/adhoc/adhoc_user_exportcsv.jsp"/>
+    </screen>
+    <screen name="AdhocUserExportGuide">
+        <parameter key="body" value="/adhoc/adhoc_user_exportguide.jsp"/>
+    </screen>
+    <screen name="AdhocUserExportGuideNext">
+        <parameter key="body" value="/adhoc/adhocUserExportGuideNext.jsp"/>
+    </screen>
+    <screen name="AdhocUserXlsTaskStatus">
+        <parameter key="body" value="/adhoc/adhoc_task_run_status.jsp"/>
+    </screen>
+  	<screen name="SubjectUserXlsTaskStatus">
+        <parameter key="body" value="/adhoc/exp_subject_task_run_status.jsp"/>
+    </screen>
+    <screen name="SubjectUserNumDtl">
+        <parameter key="body" value="/adhoc/subject_user_phonenum.jsp"/>
+    </screen>
+    <screen name="AdhocUserList">
+        <parameter key="body" value="/adhoc/adhoc_user_list.jsp"/>
+    </screen>
+    <screen name="AdhocUserListToExcel" template="tmpToExcel">
+        <parameter key="body" value="/adhoc/adhoc_user_list_toexcel.jsp"/>
+    </screen>
+    <screen name="AdhocMultiCheckQuery">
+        <parameter key="body" value="/adhoc/checklist/condition_15_qry.jsp"/>
+    </screen>
+    <screen name="AdhocMultiCheckDisp">
+        <parameter key="body" value="/adhoc/checklist/condition_15_list.jsp"/>
+    </screen>
+    <screen name="AdhocMultiCheckProc">
+        <parameter key="body" value="/adhoc/checklist/condition_15_proc.jsp"/>
+    </screen>
+    <screen name="AdhocDealOk">
+        <parameter key="body" value="/adhoc/dealOk.jsp"/>
+    </screen>
+    <screen name="AdhocUserUpConInfo">
+        <parameter key="body" value="/adhoc/adhoc_user_upcondition_info.jsp"/>
+    </screen>
+    <screen name="AdhocUserViewUpData">
+        <parameter key="body" value="/adhoc/adhoc_user_view_updata.jsp"/>
+    </screen>
+    <screen name="AdhocSearchOpen">
+        <parameter key="body" value="/adhoc/adhoc_search_info.jsp"/>
+    </screen>
+    <screen name="AdhocSearchOpenUserList">
+        <parameter key="body" value="/adhoc/adhoc_search_info_userList.jsp"/>
+    </screen>
+    <screen name="AdhocJobQueueStatus">
+        <parameter key="body" value="/adhoc/adhoc_jobQueue_info.jsp"/>
+    </screen>
+    <screen name="qryMetaExplain" desc="">
+        <parameter key="body" value="/adhoc/adhoc_meta_explain.jsp"/>
+    </screen>
+    <screen name="adhocFav" desc="收藏夹">
+        <parameter key="body" value="/adhoc/adhoc_fav.jsp"/>
+    </screen>
+    <!-- 即席查询结束 -->
+
+    <!-- 专题通用开始 -->
+    <screen name="SubjectCommTable">
+        <parameter key="body" value="/subject/common/subject_table.jsp"/>
+    </screen>
+    <screen name="SubjectCommChart">
+        <parameter key="body" value="/subject/common/subject_chart.jsp"/>
+    </screen>
+    <screen name="SubjectCommChartList">
+        <parameter key="body" value="/subject/common/chart_list.jsp"/>
+    </screen>
+    <screen name="SubjectCommChartEdit">
+        <parameter key="body" value="/subject/common/chart_edit.jsp"/>
+    </screen>
+    <screen name="SubjectTableContentExport" template="tmpToExcel">
+        <parameter key="body" value="/subject/common/subject_export.jsp"/>
+    </screen>
+    <screen name="AreaSegmentReflectExport" template="tmpToExcel">
+        <parameter key="body" value="/subject/common/segment_export.jsp"/>
+    </screen>
+    <!-- 专题通用结束 -->
+
+    <!-- 专题通用报表配置管理开始 -->
+    <screen name="listSubjectCommonTblDef">
+        <parameter key="body" value="/subject/admin/list_common_table_def.jsp" />
+    </screen>
+    <screen name="SubjectCommonHeadEditor" desc="报表表头维护">
+        <parameter key="body" value="/subject/admin/rpthead/rptHeadEditor.jsp" />
+    </screen>
+    <screen name="SubjectCommonTblDefAdd" desc="新增主表">
+        <parameter key="body" value="/subject/admin/common_table_def_add.jsp" />
+    </screen>
+    <screen name="SubjectCommonTblDefEdt" desc="编辑主表">
+        <parameter key="body" value="/subject/admin/common_table_def_edt.jsp" />
+    </screen>
+    <screen name="listSubjectCommonTblDefDrill">
+        <parameter key="body" value="/subject/admin/list_common_table_def_drill.jsp" />
+    </screen>
+    <screen name="SubjectCommonTblDefDrillEdt">
+        <parameter key="body" value="/subject/admin/common_table_def_drill_edt.jsp" />
+    </screen>
+    <screen name="SubjectCommonTblDefDrillAdd" desc="新增">
+        <parameter key="body" value="/subject/admin/common_table_def_drill_add.jsp" />
+    </screen>
+    <screen name="listSubjectCommonTblColDefInfo" desc="">
+        <parameter key="body" value="/subject/admin/list_common_table_col_def.jsp" />
+    </screen>
+    <screen name="SubjectCommonTblColDefAdd" desc="">
+        <parameter key="body" value="/subject/admin/common_table_col_def_add.jsp" />
+    </screen>
+    <screen name="SubjectCommonTblColDefEdt" desc="">
+        <parameter key="body" value="/subject/admin/common_table_col_def_edt.jsp" />
+    </screen>
+    <screen name="listCommonTblCondition" desc="UI_PUB_INFO_CONDITION">
+        <parameter key="body" value="/subject/admin/list_common_table_condition.jsp" />
+    </screen>
+    <screen name="SubjectCommonTblConditionAdd" desc="">
+        <parameter key="body" value="/subject/admin/common_table_condition_add.jsp" />
+    </screen>
+    <screen name="SubjectCommonTblConditionEdt" desc="">
+        <parameter key="body" value="/subject/admin/common_table_condition_edt.jsp" />
+    </screen>
+    <screen name="listSubjectCommonChartInfo" desc="">
+        <parameter key="body" value="/subject/admin/list_common_table_chart_info.jsp" />
+    </screen>
+    <screen name="listSubjectCtrlDealOk" desc="">
+        <parameter key="body" value="/subject/admin/dealOk.jsp" />
+    </screen>
+    <!-- 专题通用报表配置管理结束 -->
+
+    <!--系统管理开始-->
+    <!--区域管理视图 -->
+    <screen name="RegionView" desc="区域管理">
+        <parameter key="body" value="/system/regionview.jsp"/>
+    </screen>
+    <screen name="DeptView" desc="部门管理">
+        <parameter key="body" value="/system/deptview.jsp"/>
+    </screen>
+    <screen name="UserView" desc="用户管理">
+        <parameter key="body" value="/system/userview.jsp"/>
+    </screen>
+    <screen name="MenuView" desc="菜单管理">
+        <parameter key="body" value="/system/menuview.jsp"/>
+    </screen>
+    <screen name="RoleView" desc="角色管理">
+        <parameter key="body" value="/system/roleview.jsp"/>
+    </screen>
+    <screen name="UserGroupView" desc="用户组管理">
+        <parameter key="body" value="/system/userGroupView.jsp"/>
+    </screen>
+    <screen name="GroupRole" desc="用户组管理">
+        <parameter key="body" value="/system/groupRole.jsp"/>
+    </screen>
+    <screen name="GroupUser" desc="用户组管理">
+        <parameter key="body" value="/system/groupUser.jsp"/>
+    </screen>
+    <screen name="userRole" desc="用户管理">
+        <parameter key="body" value="/system/userRole.jsp"/>
+    </screen>
+    <screen name="resRole" desc="资源赋权">
+        <parameter key="body" value="/system/resRoleList.jsp"/>
+    </screen>
+    <screen name="bulletinBoardMain" desc="公告管理">
+        <parameter key="body" value="/system/bulletinAdmin/bulletinMain.jsp"/>
+    </screen>
+    <screen name="bulletinBoardAdd" desc="公告管理">
+        <parameter key="body" value="/system/bulletinAdmin/bulletinAdd.jsp"/>
+    </screen>
+    <screen name="bulletinList" desc="公告管理">
+        <parameter key="body" value="/system/bulletinAdmin/bulletinList.jsp"/>
+    </screen>
+    <screen name="bulletinListShow" desc="公告管理">
+        <parameter key="body" value="/system/bulletinAdmin/bulletinValidList.jsp"/>
+    </screen>
+    <screen name="bulletinInvalidList" desc="公告管理">
+        <parameter key="body" value="/system/bulletinAdmin/bulletinInvalidList.jsp"/>
+    </screen>
+    <screen name="openbulletinShow" desc="公告管理">
+        <parameter key="body" value="/system/bulletinAdmin/openBulletin.jsp"/>
+    </screen>
+    <screen name="loginstatic" desc="">
+        <parameter key="body" value="/system/userLog/userLoginList.jsp"/>
+    </screen>
+    <screen name="logindetail" desc="">
+        <parameter key="body" value="/system/userLog/userLoginDetail.jsp"/>
+    </screen>
+    <screen name="adhocexp_dtl" desc="">
+        <parameter key="body" value="/system/userLog/userAdhocExpDetail.jsp"/>
+    </screen>
+    <screen name="ftpdownload_dtl" desc="">
+        <parameter key="body" value="/system/userLog/ftpDownLoadList.jsp"/>
+    </screen>
+    <screen name="browserdetail" desc="">
+        <parameter key="body" value="/system/userLog/userBrowserDetail.jsp"/>
+    </screen>
+    <screen name="rptclickstatic" desc="">
+        <parameter key="body" value="/system/userLog/rptClickStatic.jsp"/>
+    </screen>
+    <screen name="rptclickdetail" desc="">
+        <parameter key="body" value="/system/userLog/rptClickDetail.jsp"/>
+    </screen>
+    <screen name="visitsortstatic" desc="">
+        <parameter key="body" value="/system/userLog/visitsortstatic.jsp"/>
+    </screen>
+    <screen name="resvisitdtl" desc="">
+        <parameter key="body" value="/system/userLog/resClickVisitList.jsp"/>
+    </screen>
+    <screen name="systemList" desc="子系统管理">
+        <parameter key="body" value="/system/subSysList.jsp"/>
+    </screen>
+    <screen name="rpt_rank" desc="报表访问量排名">
+        <parameter key="body" value="/system/userLog/rpt_rank.jsp" />
+    </screen>
+    <screen name="login_rank" desc="用户访问量排名">
+        <parameter key="body" value="/system/userLog/login_rank.jsp" />
+    </screen>
+    <screen name="roleGroup" desc="角色用户组">
+        <parameter key="body" value="/system/roleGroup.jsp" />
+    </screen>
+    <screen name="filemgrUpload" desc="文件视窗">
+        <parameter key="body" value="/filemgr/upload.jsp"/>
+    </screen>
+	<screen name="ViewUploadFileInfo" desc="文件视窗">
+        <parameter key="body" value="/filemgr/listUploadFile.jsp"/>
+    </screen>
+    <screen name="ParamQuery" desc="参数配置">
+        <parameter key="body" value="/sysparam/param_view.jsp"/>
+    </screen>
+    <screen name="radioCheckProc" desc="单选">
+        <parameter key="body" value="/sysparam/param_radio_item_main.jsp"/>
+    </screen>
+    <screen name="radioCheckQuery" desc="单选">
+        <parameter key="body" value="/sysparam/param_radio_item_qry.jsp"/>
+    </screen>
+    <screen name="radioCheckDisp" desc="单选">
+        <parameter key="body" value="/sysparam/param_radio_item.jsp"/>
+    </screen>
+    <screen name="ParamMemo" desc="参数监控">
+        <parameter key="body" value="/system/param/param_memo.jsp"/>
+    </screen>
+    <screen name="ParamMemoViewData" desc="查看值">
+        <parameter key="body" value="/system/param/param_value_show.jsp"/>
+    </screen>
+    <screen name="adhocRole" desc="即席查询权限">
+        <parameter key="body" value="/system/ruleAdhoc_main.jsp"/>
+    </screen>
+    <!--系统管理结束-->
+
+    <!-- 元数据管理开始-->
+    <screen name="MetaManager">
+        <parameter key="body" value="/system/meta/meta_frameset.jsp"/>
+    </screen>
+    <screen name="MetaLeft">
+        <parameter key="body" value="/system/meta/meta_left.jsp"/>
+    </screen>
+    <screen name="MetaTree">
+        <parameter key="body" value="/system/meta/meta_left_tree.jsp"/>
+    </screen>
+    <screen name="tableList" desc="元数据平台">
+        <parameter key="body" value="/metamanage/tableList.jsp" />
+    </screen>
+    <screen name="tableFieldList" desc="元数据平台">
+        <parameter key="body" value="/metamanage/tableFieldList.jsp" />
+    </screen>
+    <screen name="jobList" desc="元数据平台">
+        <parameter key="body" value="/metamanage/jobList.jsp" />
+    </screen>
+    <screen name="dimList" desc="元数据平台">
+        <parameter key="body" value="/metamanage/dimList.jsp" />
+    </screen>
+    <screen name="msuList" desc="元数据平台">
+        <parameter key="body" value="/metamanage/msuList.jsp" />
+    </screen>
+    <screen name="msuDetList" desc="元数据平台">
+        <parameter key="body" value="/metamanage/msu/msuDetList.jsp" />
+    </screen>
+    <!-- 元数据管理结束-->
+
+    <screen name="searchIndex" desc="及时搜索">
+        <parameter key="body" value="/search/index.jsp"/>
+    </screen>
+
+    <!-- 收藏夹开始 -->
+    <screen name="favoriteView" desc="收藏夹管理">
+        <parameter key="body" value="/system/favoriteView.jsp"/>
+    </screen>
+	<screen name="dirView" desc="目录管理">
+        <parameter key="body" value="/system/dirView.jsp"/>
+    </screen>
+    <screen name="favoriteList" desc="收藏夹">
+        <parameter key="body" value="/system/favoriteList.jsp"/>
+    </screen>
+    <screen name="favoriteAdd" desc="收藏夹">
+        <parameter key="body" value="/system/favoriteAdd.jsp"/>
+    </screen>
+    <!-- 收藏夹结束 -->
+
+    <!--********************** 营销系统 **********************-->
+    <screen name="tacticPass">
+        <parameter key="body" value="/marketing/tacticPass.jsp"/>
+    </screen>
+    <screen name="tacticPassList">
+        <parameter key="body" value="/marketing/tacticPassList.jsp"/>
+    </screen>
+    <screen name="fileRead">
+        <parameter key="body" value="/marketing/fileRead.jsp"/>
+    </screen>
+    <screen name="sellUserInfo">
+        <parameter key="body" value="/marketing/sellUserInfo.jsp"/>
+    </screen>
+    <screen name="groupList">
+        <parameter key="body" value="/marketing/groupList.jsp"/>
+    </screen>
+    <screen name="targetList">
+        <parameter key="body" value="/marketing/targetList.jsp"/>
+    </screen>
+    <screen name="targetAdd">
+        <parameter key="body" value="/marketing/targetAdd.jsp"/>
+    </screen>
+    <screen name="tacticList">
+        <parameter key="body" value="/marketing/tacticList.jsp"/>
+    </screen>
+    <screen name="tacticAddStep1">
+        <parameter key="body" value="/marketing/tacticAddStep1.jsp"/>
+    </screen>
+    <screen name="tacticAddStep2">
+        <parameter key="body" value="/marketing/tacticAddStep2.jsp"/>
+    </screen>
+    <screen name="tacticAddStep3">
+        <parameter key="body" value="/marketing/tacticAddStep3.jsp"/>
+    </screen>
+    <screen name="searchGroupListdialog">
+        <parameter key="body" value="/marketing/searchGroupListdialog.jsp"/>
+    </screen>
+    <screen name="groupListForActivity">
+        <parameter key="body" value="/marketing/groupListForActivity.jsp"/>
+    </screen>
+    <screen name="activityPass">
+        <parameter key="body" value="/marketing/activityPass.jsp"/>
+    </screen>
+    <screen name="activityPassList">
+        <parameter key="body" value="/marketing/activityPassList.jsp"/>
+    </screen>
+    <screen name="projectList">
+        <parameter key="body" value="/marketing/projectList.jsp"/>
+    </screen>
+    <screen name="projectAdd">
+        <parameter key="body" value="/marketing/projectAdd.jsp"/>
+    </screen>
+    <screen name="projectPass">
+        <parameter key="body" value="/marketing/projectPass.jsp"/>
+    </screen>
+    <screen name="projectPassList">
+        <parameter key="body" value="/marketing/projectPassList.jsp"/>
+    </screen>
+    <screen name="fileUpload">
+        <parameter key="body" value="/marketing/fileUpload.jsp"/>
+    </screen>
+    <screen name="modeFileUpload">
+        <parameter key="body" value="/marketing/modeFileUpload.jsp"/>
+    </screen>
+    <screen name="searchTacticdialog">
+        <parameter key="body" value="/marketing/searchTacticdialog.jsp"/>
+    </screen>
+    <screen name="activityList">
+        <parameter key="body" value="/marketing/activityList.jsp"/>
+    </screen>
+    <screen name="activityAdd">
+        <parameter key="body" value="/marketing/activityAdd.jsp"/>
+    </screen>
+    <screen name="activityTyleList">
+        <parameter key="body" value="/marketing/activityTypeList.jsp"/>
+    </screen>
+    <screen name="activityTypeAdd">
+        <parameter key="body" value="/marketing/activityTypeAdd.jsp"/>
+    </screen>
+    <screen name="msgList">
+        <parameter key="body" value="/marketing/messageList.jsp"/>
+   	</screen>
+   	<screen name="msgAdd">
+        <parameter key="body" value="/marketing/messageAdd.jsp"/>
+   	</screen>
+   	<screen name="searchTargetStep2-1dialog">
+        <parameter key="body" value="/marketing/searchTargetStep2-1dialog.jsp"/>
+    </screen>
+    <screen name="searchContactStep3-1dialog">
+        <parameter key="body" value="/marketing/searchContactStep3-1dialog.jsp"/>
+    </screen>
+    <screen name="searchContactStep3-2dialog">
+        <parameter key="body" value="/marketing/searchContactStep3-2dialog.jsp"/>
+    </screen>
+    <screen name="questionList">
+        <parameter key="body" value="/marketing/questionList.jsp"/>
+    </screen>
+    <screen name="questionAdd">
+        <parameter key="body" value="/marketing/questionAdd.jsp"/>
+    </screen>
+    <screen name="policyList">
+        <parameter key="body" value="/marketing/policyList.jsp"/>
+   	</screen>
+   	<screen name="policyAdd">
+        <parameter key="body" value="/marketing/policyAdd.jsp"/>
+   	</screen>
+   	<screen name="surveyList">
+        <parameter key="body" value="/marketing/surveyList.jsp"/>
+   	</screen>
+	<screen name="surveyAddFrist">
+        <parameter key="body" value="/marketing/surveyAddFrist.jsp"/>
+   	</screen>
+   	<screen name="surveyAddSecond">
+        <parameter key="body" value="/marketing/surveyAddSecond.jsp"/>
+   	</screen>
+   	<screen name="surveyAddThird">
+        <parameter key="body" value="/marketing/surveyAddThird.jsp"/>
+   	</screen>
+   	<screen name="step1">
+        <parameter key="body" value="/marketing/step1.jsp"/>
+   	</screen>
+    <screen name="step2">
+        <parameter key="body" value="/marketing/step2.jsp"/>
+   	</screen>
+    <screen name="searchNameListdialog">
+        <parameter key="body" value="/marketing/searchNameListdialog.jsp"/>
+    </screen>
+    <screen name="searchProjectdialog">
+        <parameter key="body" value="/marketing/searchProjectdialog.jsp"/>
+    </screen>
+    <screen name="channleList">
+        <parameter key="body" value="/marketing/channelList.jsp"/>
+    </screen>
+    <screen name="channleAdd">
+        <parameter key="body" value="/marketing/channelAdd.jsp"/>
+    </screen>
+    <screen name="channleTypeList">
+        <parameter key="body" value="/marketing/channelTypeList.jsp"/>
+    </screen>
+    <screen name="channleTypeAdd">
+        <parameter key="body" value="/marketing/channelTypeAdd.jsp"/>
+    </screen>
+    <screen name="packageList">
+        <parameter key="body" value="/marketing/packageList.jsp"/>
+    </screen>
+    <screen name="packageAdd">
+        <parameter key="body" value="/marketing/packageAdd.jsp"/>
+    </screen>
+    <screen name="searchPackagedialog">
+        <parameter key="body" value="/marketing/searchParentPackageDialog.jsp"/>
+    </screen>
+    <screen name="workPlatForm" desc="工作平台首页">
+        <parameter key="body" value="/workplatform/platformindex.jsp"/>
+    </screen>
+    <screen name="transAdd">
+        <parameter key="body" value="/workplatform/transAdd.jsp"/>
+    </screen>
+    <screen name="transList">
+        <parameter key="body" value="/workplatform/transList.jsp"/>
+    </screen>
+    <screen name="adjustList">
+        <parameter key="body" value="/workplatform/adjustList.jsp"/>
+    </screen>
+    <screen name="orderList">
+        <parameter key="body" value="/workplatform/orderList.jsp"/>
+    </screen>
+    <screen name="orderList2">
+        <parameter key="body" value="/workplatform/orderList2.jsp"/>
+    </screen>
+    <screen name="searchActivitydialog">
+        <parameter key="body" value="/workplatform/searchActivitydialog.jsp"/>
+    </screen>
+ 	<screen name="contactList">
+        <parameter key="body" value="/workplatform/contactList.jsp"/>
+    </screen>
+    <screen name="orderInfo">
+        <parameter key="body" value="/workplatform/orderInfo.jsp"/>
+    </screen>
+     <screen name="contactAdd">
+        <parameter key="body" value="/workplatform/contactAdd.jsp"/>
+    </screen>
+    <screen name="deptview2">
+        <parameter key="body" value="/system/deptview2.jsp"/>
+    </screen>
+    <!-- **********************营销系统结束 **********************-->
+
+    <!-- **************************** 以上内容经过整理(零时和专题配置放在下面) **************************** -->
+
+  <!-- 专题配置开始（各地配置） -->
+    <!-- 竞争对手专题开始(北京电信) -->
+    <screen name="oppdemo" desc="表格示例">
+        <parameter key="body" value="/subject/opp/opp_demo.jsp"/>
+    </screen>
+    <screen name="oppparam" desc="竞争对手权重评估参数维护">
+        <parameter key="body" value="/subject/opp/opp_param.jsp"/>
+    </screen>
+    <screen name="OppSubjectParamLvl" desc="竞争对手权重评估参数维护">
+        <parameter key="body" value="/subject/opp/opp_param_lvl.jsp"/>
+    </screen>
+    <screen name="OppStable" desc="竞争对手稳定性评估">
+        <parameter key="body" value="/subject/opp/sphere/sphere_stable.jsp"/>
+    </screen>
+    <screen name="OppStableToExcel"  template="tmpToExcel" desc="竞争对手稳定性评估">
+        <parameter key="body" value="/subject/opp/sphere/sphere_stable_toexcel.jsp"/>
+    </screen>
+    <screen name="OppValue" desc="竞争对手稳定性评估">
+        <parameter key="body" value="/subject/opp/sphere/sphere_value.jsp"/>
+    </screen>
+    <screen name="OppValueToExcel"  template="tmpToExcel" desc="竞争对手稳定性评估">
+        <parameter key="body" value="/subject/opp/sphere/sphere_value_toexcel.jsp"/>
+    </screen>
+    <screen name="opcust_fcf" desc="竞争对手稳定性评估">
+        <parameter key="body" value="/subject/opp/opcust/opcust_fcf.jsp"/>
+    </screen>
+    <screen name="OpCustFcfToExcel"  template="tmpToExcel" desc="竞争对手稳定性评估">
+        <parameter key="body" value="/subject/opp/opcust/opcust_fcf_toexcel.jsp"/>
+    </screen>
+    <screen name="opcust_cf" desc="竞争对手策反评估">
+        <parameter key="body" value="/subject/opp/opcust/opcust_cf.jsp"/>
+    </screen>
+    <screen name="OpCustCfToExcel"  template="tmpToExcel" desc="竞争对手稳定性评估">
+        <parameter key="body" value="/subject/opp/opcust/opcust_cf_toexcel.jsp"/>
+    </screen>
+    <screen name="opp_warn_busi" desc="表格示例">
+        <parameter key="body" value="/subject/opp/alarm/opp_warn_busi.jsp"/>
+    </screen>
+    <screen name="opp_warn_cust_server" desc="表格示例">
+        <parameter key="body" value="/subject/opp/alarm/opp_warn_cust_server.jsp"/>
+    </screen>
+    <screen name="opp_voice_analyse" desc="表格示例">
+        <parameter key="body" value="/subject/opp/general/opp_voice_analyse.jsp"/>
+    </screen>
+    <screen name="opp_cust_analyse" desc="表格示例">
+        <parameter key="body" value="/subject/opp/general/opp_cust_analyse.jsp"/>
+    </screen>
+    <screen name="opp_develop_analyse" desc="表格示例">
+        <parameter key="body" value="/subject/opp/general/opp_develop_analyse.jsp"/>
+    </screen>
+    <screen name="commission_view" desc="统一视图">
+   	  	<parameter key="body" value="/subject/unitview/commission_view.jsp"/>
+   	 </screen>
+ <!-- 自有渠道效能评估,开始 -->   
+    <screen name="self_chnl_eval" desc="渠道评价;标签页">
+        <parameter key="body" value="/subject/selfchannel/self_chnl_eval.jsp"/>
+    </screen>
+    <screen name="eval_by_area" desc="渠道评价;地域总览">
+        <parameter key="body" value="/subject/selfchannel/self_chnl_evalByArea.jsp"/>
+    </screen>
+    <screen name="eval_by_level" desc="渠道评价;级别总览">
+        <parameter key="body" value="/subject/selfchannel/self_chnl_evalBylvl.jsp"/>
+    </screen>
+    <screen name="city_detail" desc="渠道评价;地市明细">
+        <parameter key="body" value="/subject/selfchannel/self_chnl_city.jsp"/>
+    </screen>
+    <screen name="chnl_detail" desc="渠道评价;渠道明细">
+        <parameter key="body" value="/subject/selfchannel/self_chnl_detail.jsp"/>
+    </screen>
+    
+    
+    <screen name="self_chnl_levl" desc="渠道评级">
+        <parameter key="body" value="/subject/selfchannel/self_chnl_levl.jsp"/>
+    </screen>
+<!-- 自有渠道效能评估,结束-->
+
+<!-- 区域评价 开始 -->
+    <screen name="prov_appraisal" desc="表格示例">
+        <parameter key="body" value="/subject/regional/prov_appraisal.jsp"/>
+    </screen>
+    <screen name="city_appraisal" desc="表格示例">
+        <parameter key="body" value="/subject/regional/city_appraisal.jsp"/>
+    </screen>
+    <screen name="prov_his_appraisal" desc="表格示例">
+        <parameter key="body" value="/subject/regional/prov_his_appraisal.jsp"/>
+    </screen>
+    <screen name="city_his_appraisal" desc="表格示例">
+        <parameter key="body" value="/subject/regional/city_his_appraisal.jsp"/>
+    </screen>
+    <screen name="mark_right_appraisal" desc="表格示例">
+        <parameter key="body" value="/subject/regional/mark_right_appraisal.jsp"/>
+    </screen>
+<!-- 区域评价 结束-->
+
+<!-- 社会渠道评价 开始 -->
+    <screen name="soc_channl_general_pool" desc="表格示例">
+        <parameter key="body" value="/subject/socchannelPD/soc_channl_general_pool.jsp"/>
+    </screen>
+    <screen name="soc_channl_prov_pool" desc="表格示例">
+        <parameter key="body" value="/subject/socchannelPD/soc_channl_prov_pool.jsp"/>
+    </screen>
+    <screen name="soc_channl_city_pool" desc="表格示例">
+        <parameter key="body" value="/subject/socchannelPD/soc_channl_city_pool.jsp"/>
+    </screen>
+    <screen name="soc_channl_general_detail" desc="表格示例">
+        <parameter key="body" value="/subject/socchannelPD/soc_channl_general_detail.jsp"/>
+    </screen>
+<!-- 社会渠道评价 结束-->
+<!-- 社会渠道评级 开始 -->
+    <screen name="soc_channl_general_grade" desc="表格示例">
+        <parameter key="body" value="/subject/socchannelPD/soc_channl_general_grade.jsp"/>
+    </screen>
+<!-- 社会渠道评级 结束-->
+
+    <!-- 竞争对手专题结束(北京电信) -->
+
+    <!-- 增值业务专题开始 (北京电信) -->
+    <screen name="add_userdev_analyse" desc="增值业务用户月分析">
+        <parameter key="body" value="/subject/add/add_userdev_analyse.jsp"/>
+    </screen>
+    <screen name="add_userbuy_analyse" desc="增值内容订购">
+        <parameter key="body" value="/subject/add/add_userbuy_analyse.jsp"/>
+    </screen>
+    <screen name="add_shortmsg_analyse" desc="短信套餐">
+        <parameter key="body" value="/subject/add/add_shortmsg_analyse.jsp"/>
+    </screen>
+    <screen name="add_shortmsgflow_analyse" desc="短信套餐">
+        <parameter key="body" value="/subject/add/add_shortmsgflow_analyse.jsp"/>
+    </screen>
+    <screen name="adv_param_config" desc="增值d_adv_param_config表维护">
+        <parameter key="body" value="/subject/add/add_d_adv_param_config.jsp"/>
+    </screen>
+    <screen name="d_adv_param_lvl" desc="增值d_adv_param_lvl表维护">
+        <parameter key="body" value="/subject/add/add_d_adv_param_lvl.jsp"/>
+    </screen>
+    <screen name="feeCommendShortMsg" desc="短信套餐推荐">
+        <parameter key="body" value="/subject/add/add_comm_shtmsg_analyse.jsp"/>
+    </screen>
+    <screen name="feeCommendFlow" desc="流量套餐推荐">
+        <parameter key="body" value="/subject/add/add_comm_flow_analyse.jsp"/>
+    </screen>
+    <screen name="Show_ShortMsgComm" desc="短信套餐推荐展现页面">
+        <parameter key="body" value="/subject/add/add_comm_shtmsg_show.jsp"/>
+    </screen>
+    <screen name="opp_user_detail_show" desc="竞争对手用户明细">
+        <parameter key="body" value="/subject/opp/general/opp_user_detail_show.jsp"/>
+    </screen>
+    <screen name="Show_AddFlowComm" desc="流量套餐推荐展现页面">
+        <parameter key="body" value="/subject/add/add_comm_flow_show.jsp"/>
+    </screen>
+    <screen name="contentComm" desc="内容订购推荐">
+        <parameter key="body" value="/subject/add/add_comm_content_analyse.jsp"/>
+    </screen>
+    <screen name="Show_AddContentComm" desc="内容订购推荐展现页面">
+        <parameter key="body" value="/subject/add/add_comm_content_show.jsp"/>
+    </screen>
+    <screen name="bhdfx" desc="饱和度分析">
+        <parameter key="body" value="/subject/add/bhd/bhdfx.jsp"/>
+    </screen>
+    <!-- 增值业务专题结束(北京电信) -->
+
+    <!-- 客户流失专题开始(北京电信) -->
+    <screen name="lose_cust" desc="已流失客户分析">
+        <parameter key="body" value="/subject/lose/lose_cust.jsp" />
+    </screen>
+    <screen name="lose_off_fc" desc="离网预测分析">
+        <parameter key="body" value="/subject/lose/lose_off_fc.jsp" />
+    </screen>
+    <screen name="Show_comm_off_fc" desc="离网清单提取">
+        <parameter key="body" value="/subject/lose/lose_comm_off_fc.jsp" />
+    </screen>
+    <screen name="lose_call_desc" desc="连续三月话务下降分析">
+        <parameter key="body" value="/subject/lose/lose_call_desc.jsp" />
+    </screen>
+    <screen name="Show_comm_call_desc" desc="连续三月话务下降清单提取">
+        <parameter key="body" value="/subject/lose/lose_comm_call_desc.jsp" />
+    </screen>
+    <screen name="lose_cf" desc="连续7天呼转预警">
+        <parameter key="body" value="/subject/lose/lose_cf.jsp" />
+    </screen>
+    <screen name="lose_call_zero" desc="连续3月零次通话预警">
+        <parameter key="body" value="/subject/lose/lose_call_zero.jsp" />
+    </screen>
+    <screen name="lose_pp_expire" desc="租机协议到期预警">
+        <parameter key="body" value="/subject/lose/lose_pp_expire.jsp" />
+    </screen>
+    <screen name="lose_wb_expire" desc="无线宽带到期预警">
+        <parameter key="body" value="/subject/lose/lose_wb_expire.jsp" />
+    </screen>
+    <screen name="Show_comm_expire" desc="协议到期预警清单提取">
+        <parameter key="body" value="/subject/lose/lose_comm_expire.jsp" />
+    </screen>
+    <screen name="cch_param_config" desc="流失d_cch_param_config表维护">
+        <parameter key="body" value="/subject/lose/lose_cch_param_config.jsp"/>
+    </screen>
+    <screen name="cch_param_lvl" desc="流失d_cch_param_lvl表维护">
+        <parameter key="body" value="/subject/lose/lose_cch_param_lvl.jsp"/>
+    </screen>
+    <screen name="lose_off_ppc" desc="预付费用户离网预测日分析">
+        <parameter key="body" value="/subject/lose/lose_off_ppc.jsp" />
+    </screen>
+    <screen name="Show_comm_off_ppc" desc="预付费用户离网预测清单提取">
+        <parameter key="body" value="/subject/lose/lose_comm_off_ppc.jsp" />
+    </screen>
+    <!-- 客户流失专题结束(北京电信) -->
+    
+    <!-- 社会渠道门店评价,开始 -->   
+    <screen name="sct_eval_by_area" desc="社会渠道门店评价;地域总览">
+        <parameter key="body" value="/subject/societychannel/society_chnl_eval.jsp"/>
+    </screen>
+    <screen name="sct_eval_by_level" desc="社会渠道门店评价;级别总览">
+        <parameter key="body" value="/subject/societychannel/society_chnl_evalBylvl.jsp"/>
+    </screen>
+    <screen name="sct_chnl_detail" desc="社会渠道门店评价;渠道明细">
+        <parameter key="body" value="/subject/societychannel/society_chnl_detail.jsp"/>
+    </screen>
+    <screen name="sct_chnl_store_lvl" desc="社会渠道门店评价;门店评级">
+        <parameter key="body" value="/subject/societychannel/society_chnl_store.jsp"/>
+    </screen>
+    <!-- 社会渠道门店评价,结束 -->
+    <screen name="county_soc_apprial" desc="排名波动分析">
+        <parameter key="body" value="/subject/socchannel/county_soc_apprial.jsp" />
+    </screen>
+    <screen name="county_soc_detail" desc="评价指标分析">
+        <parameter key="body" value="/subject/socchannel/county_soc_detail.jsp" />
+    </screen>
+    <screen name="soc_right" desc="评价指标及权重">
+        <parameter key="body" value="/subject/socchannel/soc_right.jsp" />
+    </screen>
+    <screen name="weight" desc="评分指标及权重-通用">
+        <parameter key="body" value="/subject/common/weight.jsp" />
+    </screen>
+  <!-- 专题配置开始（各地配置） -->
+  <!-- 佣金预演结果展示 -->
+  <screen name="AiModResultNoImpot" desc="表格示例">
+     <parameter key="body" value="/subject/AiModResult/AiModResultNoImpot.jsp"/>
+  </screen>
+  <screen name="AiModResultImpot" desc="表格示例">
+     <parameter key="body" value="/subject/AiModResult/AIModResultImpot.jsp"/>
+  </screen>
+  <screen name="AiModResultDetail" desc="表格示例">
+     <parameter key="body" value="/subject/AiModResult/AIModResultDetail.jsp"/>
+  </screen>
+</screen-definitions>

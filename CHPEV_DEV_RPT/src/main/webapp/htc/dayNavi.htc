@@ -1,0 +1,127 @@
+<PUBLIC:COMPONENT tagName="MonthNavi">
+<public:attach event="onmouseover" onevent="f_OnMouseover()" />
+<public:attach event="onmouseout" onevent="f_OnMouseout()" />
+<public:attach event="onmousedown" onevent="f_OnMousedown()" />
+<public:attach event="onmouseup" onevent="f_OnMouseup()" />
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="init()" />
+<SCRIPT language="JavaScript">
+var oConfig = null;
+var CY,CM,CD;
+
+function CConfig(){
+	this._year 	= element.DefaultYear;
+	this._month 	= element.DefaultMonth;
+	this._day	= element.DefaultDay;
+	this._click	= element.DayClick;
+	this._dayChange	= element.DayChange;
+}
+
+function init(){
+	oConfig = new CConfig();
+	CY = oConfig._year/1;
+	CM = oConfig._month/1;
+	CD = oConfig._day/1;
+	
+	draw(CY,CM,CD);
+}
+
+//前翻导航按钮修改年份
+function fnNavi_Prev(){
+
+	CY = CY-1;
+	draw(CY,CM,CD);
+}
+
+//后翻导航按钮修改年份
+function fnNavi_Next(){
+
+	CY = CY + 1;
+	draw(CY,CM,CD);
+}
+//显示导航条
+function draw(CY,CM,CD){
+	var s = '';
+	s += '<STYLE> .Navi{font-family:Webdings;cursor:hand}</STYLE>';
+	s += '<TABLE border="0" cellspacing="0" cellpadding="0"><TR><TD style="background-color: #FFFFC6; BORDER-BOTTOM: 1px solid #6B694A; BORDER-RIGHT: 1px solid #9C9E7B; white-space: nowrap; FONT-SIZE: 12px;" id="NaviPrevContainer"></TD><TD style="background-color: #FFFFC6; BORDER-BOTTOM: 1px solid #6B694A; BORDER-RIGHT: 1px solid #9C9E7B; padding-top: 3px; padding-left: 5px; padding-right: 5px; white-space: nowrap; FONT-SIZE: 12px;">'+CY+'年</TD>';
+	s += '<TD style="background-color: #FFFFC6; BORDER-BOTTOM: 1px solid #6B694A; BORDER-RIGHT: 1px solid #9C9E7B; white-space: nowrap; FONT-SIZE: 12px;" id = "NaviNextContainer"></TD><TD>';
+	var start = 1;
+	
+	var monthStr = '<TABLE border="0" cellspacing="0" cellpadding="0" ><TR>';
+	for(var i=0;i<12;i++){
+		mValue = start/1+i;
+		var paraValue = '';
+		paraValue += new String(CY);
+		if(mValue<10)
+			paraValue +='0';
+		paraValue = paraValue + new String(mValue);
+		monthStr += '<TD style="padding-left:1;padding-right:1">';
+		if(mValue/1==oConfig._month/1)
+			monthStr += '<DIV style="background-color: #FFFF63; COLOR: #FF0000; BORDER-top: 1px solid #9C9A63; BORDER-left: 1px solid #9C9A63; padding: 5px 5px 3px 5px; white-space: nowrap; FONT-SIZE: 12px;">';
+		else
+			monthStr += '<DIV style="background-color: #FFFFC6; BORDER-BOTTOM: 1px solid #6B694A; BORDER-RIGHT: 1px solid #9C9E7B; padding: 5px 5px 3px 5px; white-space: nowrap; FONT-SIZE: 12px; cursor:hand" onclick="'+oConfig._click+'('+paraValue+''+oConfig._day+')">';
+		monthStr += (mValue)+"月</DIV></TD>";
+	}
+	monthStr += '</TR></TABLE></TD>';
+	s += monthStr;
+	start = 1;
+	
+	var dayStr = '<TD><TABLE cellspacing="0" cellpadding="0" ><TR>';
+	var iMday = Date_getDay(CY,CM);
+
+	dayStr += '<TD style="padding-left:2;padding-right:2"><SELECT id="day" onchange="'+oConfig._dayChange+'(this)">'
+	for(var i=0;i<iMday;i++){
+		pValue = start/1+i;
+		var paraValue = '';
+		var paraDesc = '';
+		
+		paraDesc += new String(pValue);
+		
+		if(pValue < 10)
+			paraValue = '0' + paraDesc;
+		else
+			paraValue = paraDesc;
+		dayStr += '<OPTION VALUE="'+paraValue+'"';
+		if(pValue/1!=oConfig._day/1)
+		 	dayStr += '>'+paraDesc+'</OPTION>';
+		else
+		 	dayStr += 'SELECTED="true">'+paraDesc+'</OPTION>';
+	}
+	dayStr += '</SELECT>日</TD></TR></TABLE>';
+	s += dayStr;
+
+	
+	s += '</TD></TR></TABLE>';
+	element.innerHTML = "";
+	element.insertAdjacentHTML("beforeEnd",s);
+	
+	//插入前导航
+	var ele = document.createElement("DIV");
+	ele.style.fontFamily = "Webdings";
+	ele.style.cursor = "hand";
+	ele.innerHTML = "3";
+	ele.onclick = fnNavi_Prev;
+	NaviPrevContainer.appendChild(ele);
+	
+	////插入后导航
+	var ele = document.createElement("DIV");
+	ele.style.fontFamily = "Webdings";
+	ele.style.cursor = "hand";
+	ele.innerHTML = "4";
+	ele.onclick = fnNavi_Next;
+	NaviNextContainer.appendChild(ele);
+}
+function Date_getDay(aiYear,aiMonth){
+ var loDay = [0,31,28,31,30,31,30,31,31,30,31,30,31];
+ if (aiYear%4==0) loDay[2] = 29;
+ return loDay[aiMonth];
+}
+function f_OnMouseover(){
+}
+function f_OnMouseout(){
+}
+function f_OnMousedown(){
+}
+function f_OnMouseup(){
+}
+</SCRIPT>
+</PUBLIC:COMPONENT>

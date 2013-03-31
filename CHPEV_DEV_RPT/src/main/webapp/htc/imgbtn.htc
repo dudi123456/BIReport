@@ -1,0 +1,37 @@
+<!--
+//author:louiszheng
+//function:图片按钮
+//desc:
+//date:2004-05-14
+-->
+
+<public:component tagname="imgbtn">
+<public:attach event="onmouseover" onevent="f_OnMouseover()" />
+<public:attach event="onmouseout" onevent="f_OnMouseout()" />
+<public:attach event="onmousedown" onevent="f_OnMousedown()" />
+<public:attach event="onmouseup" onevent="f_OnMouseup()" />
+<script language="javascript">
+function f_OnMouseover(){
+	element.runtimeStyle.borderStyle="outset outset outset outset";
+	element.runtimeStyle.borderColor="buttonhighlight buttonshadow buttonshadow buttonhighlight";
+	element.runtimeStyle.borderWidth="2px 2px 2px 2px";
+}
+function f_OnMouseout(){
+	
+	element.runtimeStyle.borderStyle=element.style.borderStyle;
+	element.runtimeStyle.borderColor=element.style.borderColor;
+	element.runtimeStyle.borderWidth=element.style.borderWidth;
+	}
+function f_OnMousedown(){
+	element.runtimeStyle.borderStyle="solid solid solid solid";
+	element.runtimeStyle.borderColor="buttonshadow buttonhighlight buttonhighlight buttonshadow";
+	element.runtimeStyle.borderWidth="2px 2px 2px 2px";
+}
+function f_OnMouseup(){
+	element.runtimeStyle.borderStyle=element.style.borderStyle;
+	element.runtimeStyle.borderColor=element.style.borderColor;
+	element.runtimeStyle.borderWidth=element.style.borderWidth;
+	}
+
+</script>
+</public:component>

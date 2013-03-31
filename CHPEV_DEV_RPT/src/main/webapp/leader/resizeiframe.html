@@ -1,0 +1,33 @@
+
+<html>
+<meta http-equiv="Content-Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../css/newmain.css">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+</head>
+
+<base target="main">
+<table style="width:5px;height:100%">
+	<tr>
+		<td class="resizeline">
+		<input title="点击显示/隐藏菜单" type="image" id="rbutton" onclick="resizebutton()" src="../biimages/resize_hidden.jpg" width="6" height="40"></td>
+	</tr> 
+</table> 
+
+
+</html>
+<script>
+function resizebutton(){
+	if (parent.document.getElementById("analysis").cols=="0,5,*"){
+			parent.document.getElementById("analysis").cols="165,5,*";
+			document.getElementById("rbutton").src="../biimages/resize_hidden.jpg"
+		}	
+	else{
+		alert(parent.document.getElementById("analysis_contents").document.getElementById("leaderChart"))
+		parent.document.getElementById("analysis").cols="0,5,*";
+		document.getElementById("rbutton").src="../biimages/resize_show.jpg"
+
+		}
+  }
+</script>

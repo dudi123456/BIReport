@@ -1,0 +1,1195 @@
+/*公用样式************************************************************/
+body {
+/*
+    scrollbar-face-color: #f9f9f9;
+    scrollbar-highlight-color: #dbdddc;
+    scrollbar-3dlight-color: #f9f9f9;
+    scrollbar-darkshadow-color: #dbdddc;
+    scrollbar-shadow-color: #f4f4f4;
+    scrollbar-arrow-color: #bdbdbd;
+    scrollbar-track-color: #eaeaea;
+*/
+    font-size: 12px;
+    color: #000000;
+    line-height: 150%;
+    font-family: tahoma, arial, sans-serif;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+table {
+    border-collapse: collapse;
+    border: 0px;
+}
+
+td {
+    font-size: 12px;
+}
+
+img {
+    border: 0;
+}
+
+label {
+    margin: 0 15px 0 0;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* 链接无下划线,有为underline */
+a:link {
+    font-size: 12px;
+    color: #000000;
+}
+
+/* 未访问的链接 */
+a:visited {
+    font-size: 12px;
+    color: #000000;
+}
+
+/* 已访问的链接 */
+a:hover {
+    font-size: 12px;
+    color: #ef5b01;
+}
+
+/* 鼠标在链接上 */
+a:active {
+    font-size: 12px;
+    color: #ef5b01;
+}
+
+/* 点击激活链接 */
+
+/* title菜单栏样式*/
+.top-menu-bg {
+    background-image: url(../biimages/home/top-menu-bg.gif);
+
+}
+
+.top-menubg {
+    background-image: url(../biimages/home/top-menubg.gif);
+    color: #ffffff;
+    width: 85px;
+    padding-top: 2px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 12px;
+    height: 28px;
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+.top-menubg-on {
+    background-image: url(../biimages/home/top_menubg_on.gif);
+    width: 85px;
+    font-weight: bold;
+    color: #ffffff;
+    padding-top: 2px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 12px;
+    background-position: center;
+    height: 28px;
+
+}
+
+.top-menubg-link {
+    color: #ffffff;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a.top-menubg-link:link {
+    color: #ffffff;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a.top-menubg-link:visited {
+    color: #ffffff;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a.top-menubg-link:active {
+    color: #ddf7ff;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a.top-menubg-link:hover {
+    color: #ddf7ff;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.top-menubg-on-link {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.top-menubg-on-link:link {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.top-menubg-on-link:visited {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/*左侧菜单栏样式*/
+
+.title-bg {
+    background-image: url(../biimages/home/top-bg.gif);
+}
+
+.toolbg{
+    background-image:url('../biimages/toolbg2.jpg');
+    background-repeat:repeat-x;
+    background-position:bottom;
+
+	background-color:#f9f9f9;
+	height:30px;
+	padding-left:5px;
+	padding-right:5px;
+}
+
+.toolbg1{
+    background-image:url('../biimages/toolbg2.jpg');
+    background-repeat:repeat-x;
+    background-position:bottom;
+
+	background-color:#f9f9f9;
+	height:30px;
+	padding-left:5px;
+	padding-right:5px;
+}
+
+.font-nav {
+    color: #df5913;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.font-white {
+    font-size: 12px;
+    color: #ffffff;
+}
+
+.fontbd-org {
+    font-weight: bold;
+    color: #df5913;
+}
+
+.fontbd {
+    font-weight: bold;
+    color: #000000;
+}
+
+.font-bule {
+    color: #003a9a;
+}
+
+a.font-bule:link {
+    color: #003a9a;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a.font-bule:visited {
+    color: #003a9a;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a.font-bule:active {
+    color: #ef5b01;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a.font-bule:hover {
+    color: #ef5b01;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+/*login样式*/
+.login-font {
+    color: #686868;
+    font-family: "arial", "helvetica", "sans-serif";
+}
+
+.login-text {
+    height: 20px;
+    border: 1px groove #bdbdbd;
+    width: 120px;
+    padding-top: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    background-image: url(../biimages/login/text_bg.gif);
+}
+
+.login-btn {
+    background-image: url(../biimages/login/login_btn.gif);
+    text-align: center;
+    margin: 0px;
+    padding: 3px 0px 0px;
+    height: 21px;
+    width: 65px;
+    border: none;
+    background-color: transparent;
+    font-size: 12px;
+    word-spacing: 2px;
+    cursor: pointer;
+}
+
+.login-btn-over {
+    background-image: url(../biimages/login/login_btn_over.gif);
+    text-align: center;
+    margin: 0px;
+    padding: 3px 0px 0px;
+    height: 21px;
+    width: 65px;
+    border: none;
+    background-color: transparent;
+    font-size: 12px;
+    word-spacing: 2px;
+    cursor: pointer;
+}
+
+.td-info {
+    background-color: #f3f6f8;
+    height: 28px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-top-color: #ffffff;
+    border-bottom-color: #ccd1d5;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.load-text {
+    border: 1px #89abbf double;
+    color: #7f9db9;
+    font-size: 12px;
+    background-color: #f7faef;
+    padding-top: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    height: 20px;
+}
+
+.tab-button-on {
+    background-image: url(../biimages/taber/tab_bg_on.gif);
+    vertical-align: bottom;
+    font-size: 12px;
+    line-height: 22px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #9f4700;
+}
+
+/*固定表头样式*/
+.datalist td.fixedcolumn {
+    position: relative;
+    left: expression(this.parentElement.parentElement.parentElement.parentElement.scrollLeft);
+    border-bottom: 0px;
+    background-color: #fafafa;
+}
+
+.datalist tr.fixedtitlerow {
+    position: relative;
+    top: expression(this.parentElement.parentElement.parentElement.scrollTop);
+    z-index: -20;
+}
+
+.datalist tr.fixedtitlerow td {
+    background: #f0f0f0;
+    padding: 2px 8px 0 8px;
+    position: relative;
+    border-bottom: 0px;
+    border-right: 0px;
+    font-weight: bold;
+    text-align: center;
+    font-weight: bold;
+}
+
+.datalist td.fixeddouble {
+    position: relative;
+    left: expression(this.parentElement.parentElement.parentElement.parentElement.scrollLeft);
+    z-index: -10;
+}
+
+.datalist td.fixedleftline {
+    border-left: 0px;
+}
+
+#fixrow {
+    left: expression(this.parentElement.parentElement.parentElement.parentElement.scrollLeft);
+    position: relative;
+    z-index: -10;
+    border-right: 1px #d8d8e4 solid;
+}
+
+.datalist {
+}
+
+.datalist td {
+    text-align: right;
+    padding: 0 5px 0 5px;
+    height: 24px;
+    border-collapse: 0px;
+    border-spacing: 0px;
+    border-right-width: 1px;
+    border-left: 1px solid #D7D8EA;
+    border-right: 1px solid #D7D8EA;
+    border-bottom: 1px solid #D7D8EA;
+}
+
+.datalist tr.celtitle td {
+    background-color: #DCE6ED;
+    color: #666666;
+    text-align: center;
+    font-weight: bold;
+    border-left: 1px solid #BCC7D4;
+    border-top: 1px solid #BCC7D4;
+}
+
+.datalist td.leftdata {
+    text-align: left;
+}
+
+.datalist td.rightdata {
+    text-align: right;
+}
+
+.datalist td.centerdata {
+    text-align: center;
+}
+
+.inputtitle {
+    background: #f2f2ff;
+}
+
+/*.celdata {text-align:right;height:23px;background:expression(this.rowindex%2==0 ? "#fff":"#f7f7f7")} 
+.celdata {
+    text-align: right;
+    height: 23px;
+    background: expression(this.rowindex%2==0 ? "#fff":"#f2f2ff")
+}
+*/
+
+.shadow {
+    background: url('../biimages/shadow.jpg') no-repeat top left;
+    padding-left: 12px;
+}
+
+.celtitleC {
+    border: 1px #fff solid;
+    color: white;
+    height: 25px;
+}
+
+.celtitleTab td {
+    padding: 2px 8px 0 8px;
+}
+
+.celtitleTab {
+/*background-color:#5494b5;*/
+    color: white;
+    height: 25px;
+    text-align: right;
+}
+
+.celtitleTab td {
+    padding: 2px 8px 0 8px;
+}
+
+}
+.FixedTitleColumn {
+    position: relative;
+    left: expression(this.parentElement.offsetParent.scrollLeft);
+}
+
+.FixedDataColumn {
+    position: relative;
+    left: expression(this.parentElement.offsetParent.parentElement.scrollLeft);
+}
+
+.FixedTitleRow {
+    position: relative;
+    top: expression(this.offsetParent.scrollTop);
+    z-index: 10;
+}
+
+/*.celtitle{color:#404040;height:25px;text-align:right; border:1px aqua solid;} */
+/*.celtitle td{background-color:#F0F0F0;padding:2px 8px 0 8px;}
+
+.celtitle{color:#404040;height:24px;text-align:right;background-color:d1e3ed;} 
+.celtitle td{background:url('../biimages/titlebg7.jpg') repeat-x;padding:2px 8px 0 8px;color:#ffffff;
+}*/
+
+.celtitle {
+    color: #EFEFEF;
+    height: 24px;
+    text-align: right;
+    background-color: #CFCFCF;
+}
+
+.celtitle td {
+    padding: 2px 8px 0 8px;
+}
+
+.celtitle th {
+    font-size: 12px;
+    padding: 2px 8px 0 8px;
+}
+
+/*.celdata {text-align:right;height:22px;background-color:#fff;cursor:pointer;} */
+/*.celdata {text-align:right;height:22px;background-color:#fff;cursor:pointer;}*/
+/*.celdata td{padding:0 8px 0 8px;}*/
+
+.celdata {
+    text-align: right;
+    height: 23px;
+    background: expression(this.rowIndex%2==0 ? "#fff":"#f9f9f9")
+}
+
+.celdata td {
+    padding: 0 8px 0 8px;
+    color: #4F6B72;
+}
+
+.celdata_default {
+    text-align: left;
+    height: 23px;
+    background: expression(this.rowIndex%2==0 ? "#fff":"#fff")
+}
+
+.celdata_default td {
+    padding: 0 8px 0 8px;
+    color: #4F6B72;
+}
+
+.mouseM {
+    text-align: right;
+    height: 23px;
+    background: expression(this.rowIndex%2==0 ? "#fefece":"#fefece");
+}
+
+.mouseM td {
+    padding: 0 8px 0 8px;
+}
+
+/*
+.mousem {
+    text-align: right;
+    height: 23px;
+    background: expression(this.rowindex%2==0 ? "#fff9a9":"#fff9a9");
+}
+
+.mousem td {
+    padding: 0 5px 0 5px;
+}
+*/
+
+/*报表*/
+.titletext {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    color: #444444;
+}
+
+/*taber*/
+.tab-line {
+    background-image: url(../biimages/taber/tab_right_line.gif);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #c8c8c8;
+}
+
+.tab-button-on {
+    background-image: url(../biimages/taber/tab_bg_on.gif);
+    vertical-align: bottom;
+    font-size: 12px;
+    line-height: 22px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #9f4700;
+}
+
+.tab-button-off {
+    background-image: url(../biimages/taber/tab_bg_off.gif);
+    vertical-align: bottom;
+    line-height: 22px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #666666;
+}
+
+.tab-button-off-over {
+    background-image: url(../biimages/taber/tab_bg_off.gif);
+    vertical-align: bottom;
+    line-height: 22px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #666666;
+}
+
+.tab-button-on-link {
+    color: #9f4700;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+a.tab-button-on-link:link {
+    color: #9f4700;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+a.tab-button-on-link:visited {
+    color: #9f4700;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+a.tab-button-on-link:active {
+    color: #ff0000;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+a.tab-button-on-link:hover {
+    color: #ff0000;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.tab-button-off-link {
+    color: #666666;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a.tab-button-off-link:link {
+    color: #666666;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a.tab-button-off-link:visited {
+    color: #666666;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a.tab-button-off-link:active {
+    color: #ff0000;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a.tab-button-off-link:hover {
+    color: #ff0000;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.numred {
+    color: #d70000;
+}
+
+.kuang {
+    padding: 0px 2px 10px 10px;
+    background: url('../biimages/system/kuangbg.jpg') no-repeat left bottom;
+}
+
+.tablesty2 {
+    width: 100%;
+    font-size: 12px;
+    line-height: 20px;
+    border-collapse: collapse;
+}
+
+.tablesty2 td {
+    line-height: 20px;
+    border: 1px solid #e6e6e6;
+    padding-right: 2px;
+    padding-left: 2px;
+    white-space: nowrap;
+    text-align: left;
+    color: #666666;
+    background-color: expression((this.sectionrowindex%2==0)?"ffffff":"f9f9f9");
+}
+
+.tablesty2 th {
+    font-weight: 100;
+    white-space: nowrap;
+    background-color: #eeeeee;
+    border: 1px solid #d7d7d7;
+}
+
+.tablesty2 td.leftdata {
+    text-align: left;
+}
+
+.tablelist {
+    width: 98%;
+}
+
+.tablelist th {
+    font-weight: 100;
+    font-size: 12px;
+    font-style: inherit;
+    white-space: nowrap;
+    background-color: #eeeeee;
+    border: 0 solid #d7d7d7;
+    border-right: 1px solid #ffffff;
+    padding: 3px;
+}
+
+.tablelist td {
+    line-height: 23px;
+    border-bottom: 1px solid #e6e6e6;
+    padding-right: 5px;
+    padding-left: 5px; /*white-space: nowrap;*/
+    text-align: right;
+    padding-top: 3px;
+    color: #666666;
+}
+
+.tablelist td.leftlist {
+    text-align: left;
+}
+
+.tablelist tr.highlight {
+    background-color: #d6e5f2;
+    color: #eaeff3;
+}
+
+.info-table {
+    width: 100%;
+    background-color: #C4C8D3;
+}
+
+.info-table  td {
+    padding-right: 5px;
+    padding-left: 5px;
+    line-height: 28px;
+    white-space: nowrap;
+    background-color: expression((this.cellIndex%2==0)?"EDF0F7":"F7F7F8");
+/ / 第 二 列 为 交 替 色 td {
+background-color : expression ( ( this . cellIndex % 2 = = 0 ) ? "" : ( ( this . parentElement . sectionRowIndex % 2 = = 0 ) ? "green" : "yellow" ) )
+}
+
+}
+.body-bg {
+    background-image: url(../biimages/home/body-welcome.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+/*搜索框*/
+#search_box {
+    width: 140px;
+    height: 20px;
+    background: url(../biimages/system/search_box.png);
+}
+
+#search_box #s {
+    float: left;
+    padding: 2;
+    margin: 1px;
+    border: 0;
+    width: 120px;
+    background: none;
+    color: #999999;
+}
+
+#search_box #go {
+    float: right;
+    margin: 4px 4px 0 0;
+}
+
+.title1 {
+    background: url('../biimages/sign_title2.gif') no-repeat;
+    padding-left: 16px;
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 18px;
+}
+
+
+a.tab_short{text-decoration: none;height:21px;background:url('../biimages/tab_new.jpg') no-repeat top left;text-align:center;width:88px;color:#000000;padding-top:4px;margin-left:2px;} /* 链接无下划线,有为underline */ 
+a.tab_short:link {font-size:12px;color: #000000;} /* 未访问的链接 */
+a.tab_short:visited {font-size:12px;color:#000000;} /* 已访问的链接 */
+a.tab_short:hover{font-size:12px;COLOR: #000000;background:url('../biimages/tab_new.jpg') no-repeat bottom left;background-position:0px -21px;} /* 鼠标在链接上 */ 
+a.tab_short:active {font-size:12px;color: #000000;} /* 点击激活链接 */
+
+
+a.tab_act_short{text-decoration: none;height:21px;background:url('../biimages/tab_new.jpg') no-repeat bottom left;text-align:center;width:88px;color:#ffffff;padding-top:4px;margin-left:2px;font-weight:bold;} /* 链接无下划线,有为underline */ 
+a.tab_act_short:link {font-size:12px;color: #ffffff;} /* 未访问的链接 */
+a.tab_act_short:visited {font-size:12px;color:#ffffff;} /* 已访问的链接 */
+a.tab_act_short:hover{font-size:12px;COLOR: #ffffff;} /* 鼠标在链接上 */ 
+a.tab_act_short:active {font-size:12px;color: #ffffff;} /* 点击激活链接 */
+
+
+.tab2_line {
+    background-color: blue;
+    height: 2px;
+}
+
+/*数据视窗*/
+.kuangcontent {
+    background: url('../biimages/system/titlebg1.jpg') no-repeat left top;
+    padding: 1px 1px 1px 1px;
+    border: 1px #caddeb solid;
+}
+
+.title1 {
+    background: url('../biimages/system/sign_title2.gif') no-repeat;
+    padding-left: 16px;
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 18px;
+}
+
+.newcontent {
+    background: url('../biimages/system/txtbg.gif');
+    line-height: 25px;
+}
+
+.newtitle {
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 150%;
+}
+
+.out {
+    display: block;
+    background: #ebebeb;
+    position: relative;
+    margin: 5px 2px;
+}
+
+.in {
+    background: #fff;
+    position: relative;
+    font-weight: normal;
+}
+
+.ltin {
+    left: -2px;
+}
+
+.tpin {
+    top: -2px;
+}
+
+.rtin {
+    left: -2px;
+}
+
+/*bar*/
+.titlebg3 {
+    background: url(../biimages/home/titlebg3_bg.gif);
+    height: 23px;
+    padding-left: 5px;
+    padding-right: 15px;
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+.body-bg {
+    background-image: url(../biimages/home/body-welcome.jpg);
+    background-repeat: no-repeat;
+    background-position: right bottom;
+}
+
+.font-bold {
+    COLOR: #EF5B01;
+    font-weight: bold;
+    FONT-SIZE: 12px;
+    TEXT-DECORATION: none;
+}
+
+A.font-bold:link {
+    COLOR: #EF5B01;
+    font-weight: bold;
+    FONT-SIZE: 12px;
+    TEXT-DECORATION: none;
+}
+
+A.font-bold:visited {
+    COLOR: #EF5B01;
+    font-weight: bold;
+    FONT-SIZE: 12px;
+    TEXT-DECORATION: none;
+}
+
+A.font-bold:active {
+    COLOR: #EF5B01;
+    font-weight: bold;
+    FONT-SIZE: 12px;
+    TEXT-DECORATION: underline;
+}
+
+A.font-bold:hover {
+    COLOR: #EF5B01;
+    font-weight: bold;
+    FONT-SIZE: 12px;
+    TEXT-DECORATION: underline;
+}
+
+.popwidow {
+    background-color: #fff7bd;
+    border: 1px #ffd75a solid;
+}
+
+.poptitle {
+    background-color: #ffd75a;
+    border: 1px #ffd75a solid;
+    text-align: center;
+    height: 25px;
+
+}
+
+.d9_sel_desc {
+    BORDER-RIGHT: medium none;
+    BORDER-TOP: medium none;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 8.5pt;
+    BORDER-LEFT: medium none;
+    CURSOR: hand;
+    COLOR: #444444;
+    BORDER-BOTTOM: medium none;
+    HEIGHT: 15px
+}
+
+.d9_pop {
+    BORDER-RIGHT: #ffd75a 1px solid;
+    PADDING-RIGHT: 3px;
+    BORDER-TOP: #ffd75a 1px solid;
+    PADDING-LEFT: 3px;
+    Z-INDEX: 10;
+    PADDING-BOTTOM: 3px;
+    OVERFLOW: hidden;
+    BORDER-LEFT: #ffd75a 1px solid;
+    PADDING-TOP: 3px;
+    BORDER-BOTTOM: #ffd75a 1px solid;
+    BACKGROUND-COLOR: #fff7bd
+}
+
+.d9_title {
+    PADDING-RIGHT: 10px;
+    PADDING-LEFT: 10px;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 9pt;
+    COLOR: #000000;
+    BORDER-BOTTOM: #eaeaea 1px solid;
+    HEIGHT: 25px;
+    BACKGROUND-COLOR: #ffd75a
+}
+
+.d9_pop_table {
+    BACKGROUND-COLOR: #ffd75a;
+}
+
+.d9_pop_td_sel {
+    PADDING-RIGHT: 4px;
+    PADDING-LEFT: 4px;
+    FONT-SIZE: 9pt;
+    PADDING-BOTTOM: 4px;
+    CURSOR: hand;
+    PADDING-TOP: 4px;
+    BACKGROUND-COLOR: #cddeee;
+    TEXT-ALIGN: center;
+    TEXT-DECORATION: underline
+}
+
+.d9_pop_td {
+    PADDING-RIGHT: 4px;
+    PADDING-LEFT: 4px;
+    FONT-SIZE: 9pt;
+    PADDING-BOTTOM: 4px;
+    CURSOR: hand;
+    PADDING-TOP: 4px;
+    BACKGROUND-COLOR: #fff7ce;
+    TEXT-ALIGN: center
+}
+//
+.d9_sel_desc_a {
+    BORDER-RIGHT: medium none;
+    BORDER-TOP: medium none;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 15pt;
+    BORDER-LEFT: medium none;
+    CURSOR: hand;
+    COLOR:  #B8FAF7;
+    BORDER-BOTTOM: medium none;
+    HEIGHT: 15px
+}
+
+.d9_pop_a {
+    BORDER-RIGHT: #333366 1px solid;
+    PADDING-RIGHT: 3px;
+    BORDER-TOP: #333366 1px solid;
+    PADDING-LEFT: 3px;
+    Z-INDEX: 10;
+    PADDING-BOTTOM: 3px;
+    OVERFLOW: hidden;
+    BORDER-LEFT: #333366 1px solid;
+    PADDING-TOP: 3px;
+    BORDER-BOTTOM: #333366 1px solid;
+    BACKGROUND-COLOR:  #E6F6FA;
+}
+
+.d9_title_a {
+    PADDING-RIGHT: 10px;
+    PADDING-LEFT: 10px;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 15pt;
+    COLOR: #000000;
+    BORDER-BOTTOM: #eaeaea 1px solid;
+    HEIGHT: 25px;
+    BACKGROUND-COLOR:  #B8FAF7;
+}
+
+.d9_pop_table_a {
+    BACKGROUND-COLOR: #778899;
+}
+
+.d9_pop_td_sel_a {
+    PADDING-RIGHT: 4px;
+    PADDING-LEFT: 4px;
+    FONT-SIZE: 9pt;
+    PADDING-BOTTOM: 4px;
+    CURSOR: hand;
+    PADDING-TOP: 4px;
+    BACKGROUND-COLOR:  #CCCCFF;
+    TEXT-ALIGN: center;
+    TEXT-DECORATION: underline
+}
+
+.d9_pop_td_disable_a{
+	PADDING-RIGHT: 4px;
+    PADDING-LEFT: 4px;
+    FONT-SIZE: 9pt;
+    PADDING-BOTTOM: 4px;
+    CURSOR: hand;
+    PADDING-TOP: 4px;
+    BACKGROUND-COLOR:  #FFFFFF;
+    TEXT-ALIGN: center;
+    disable:true;
+
+}
+
+.d9_pop_td_a {
+    PADDING-RIGHT: 4px;
+    PADDING-LEFT: 4px;
+    FONT-SIZE: 9pt;
+    PADDING-BOTTOM: 4px;
+    CURSOR: hand;
+    PADDING-TOP: 4px;
+    BACKGROUND-COLOR:  #E6F6FA;
+    TEXT-ALIGN: center
+}
+
+
+//
+
+
+
+
+
+.button_ok{
+	font-size: 12px;
+	color:#000;
+	width:65px;
+	height:20px;
+	padding-top:2px;
+	padding-left:25px;
+	text-align:left;
+	border:1px #BBBBBB solid;
+	background:url('../biimages/button_ok.jpg') left top;
+}
+
+#button_submit {
+    font-size: 12px;
+    color: #000;
+    width: 65px;
+    height: 20px;
+    padding-top: 2px;
+    padding-left: 25px;
+    text-align: left;
+    border: 1px #BBBBBB solid;
+    background: url('../biimages/button_submit.jpg') left top;
+    margin-right: 8px;
+}
+
+#button_reset {
+    font-size: 12px;
+    color: #000;
+    width: 65px;
+    height: 20px;
+    padding-top: 2px;
+    padding-left: 25px;
+    text-align: left;
+    border: 1px #BBBBBB solid;
+    background: url('../biimages/button_reset.jpg') left top;
+    margin-right: 8px;
+}
+
+a.txt_hidden {
+    text-decoration: underline;
+    /*background: url('../biimages/sign_hidden.gif') no-repeat;
+    padding-left: 12px;*/
+}
+
+/* 链接无下划线,有为underline */
+a.txt_hidden:link {
+    font-size: 12px;
+    color: #000000;
+}
+
+/* 未访问的链接 */
+a.txt_hidden:visited {
+    font-size: 12px;
+    color: #000000;
+}
+
+/* 已访问的链接 */
+a.txt_hidden:hover {
+    font-size: 12px;
+    color: #EF5B01;
+}
+
+/* 鼠标在链接上 */
+a.txt_hidden:active {
+    font-size: 12px;
+    color: #000000;
+}
+
+/* 点击激活链接 */
+a.txt_show {
+    text-decoration: underline;
+    /*background: url('../biimages/sign_show.gif') no-repeat;
+    padding-left: 12px;*/
+    font-weight: bold;
+}
+
+/* 链接无下划线,有为underline */
+a.txt_show:link {
+    font-size: 12px;
+    color: #000000;
+}
+
+/* 未访问的链接 */
+a.txt_show:visited {
+    font-size: 12px;
+    color: #000000;
+}
+
+/* 已访问的链接 */
+a.txt_show:hover {
+    font-size: 12px;
+    color: #EF5B01;
+}
+
+/* 鼠标在链接上 */
+a.txt_show:active {
+    font-size: 12px;
+    color: #000000;
+}
+
+/* 点击激活链接 */
+
+a.dataurl {
+    text-decoration: underline;
+    background: url('../biimages/sign_data.gif') no-repeat left;
+    padding-left: 8px;
+    margin-left: 15px
+}
+
+/* 链接无下划线,有为underline */
+a.dataurl:link {
+    font-size: 12px;
+    color: #000000;
+}
+
+/* 未访问的链接 */
+a.dataurl:visited {
+    font-size: 12px;
+    color: #000000;
+}
+
+/* 已访问的链接 */
+a.dataurl:hover {
+    font-size: 12px;
+    COLOR: #EF5B01;
+}
+
+/* 鼠标在链接上 */
+a.dataurl:active {
+    font-size: 12px;
+    color: #EF5B01;
+}
+
+/* 点击激活链接 */
+
+.menuline_1{	
+	font-size: 12px;
+	color: #EF5B01;
+    width:85px;
+	height:12px;
+	text-align: center; 
+	margin:0 0px 0 0px;
+}
+
+.menuline_2{	
+	font-size: 12px;
+	color: #EF5B01;
+    width:50px;
+	height:12px;
+	text-align: center; 
+	margin:0 0px 0 0px;
+}
+
+.tools{
+	background:url('../biimages/toolbg.jpg') repeat_x left;
+	background-color:#e2eef6;
+	height:27px;
+}
+.tooltitle{
+	background:url('../biimages/sign_title2.gif') no-repeat left;
+	font-weight:bold;
+	margin-left:15px;
+	padding-left:15px;
+	padding-right:5px;
+	padding-top:3px;
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--关于此配置文件的使用说明
+	(1)对于测试调试使用的配置项,请以 T 开头  譬如 ID="T0001"
+
+	(2)对于系统使用的配置项 , 请以 S 开头,譬如:  ID="S0001"
+
+	(3)每一个省一张配置表,单独维护
+
+	(4)请注意:其他标记,正式上线得全部清除!
+-->
+<mappings>
+	<select_list>
+		<!-- 如果一下的模块调用以上的某个相同的部分，必须在该段描述中加上一个说明 -->
+  <!-- 报表管理开始 -->
+   	<smapping ID="S3001" DESC="统计周期" VALUES="4,月;6,日" />
+   	<smapping ID="S3002" DESC="报表状态" VALUES="Y,认证通过;W,待认证;N,不可用" />
+   	<smapping ID="S3003" DESC="是否标志" VALUES="Y,有效;N,无效" />
+   	<smapping ID="S3004" DESC="是否标志" VALUES="0,否;1,是" />
+   	<smapping ID="S3005" DESC="是否标志" VALUES="Y,是;N,否" />
+   	<smapping ID="S3011" DESC="报表合计" VALUES="201,是;200,否" />
+   	<smapping ID="S3012" DESC="区间日期" VALUES="99,是;-99,否" />
+   	<smapping ID="S3013" DESC="比较对象" VALUES="0,本期值;1,同比;2,环比" />
+   	<smapping ID="S3014" DESC="比较对象" VALUES="R,红色;G,绿色" />
+   	<smapping ID="S3015" DESC="预警方式" VALUES="1,单元格颜色;2,箭头颜色;3,文字颜色" />
+   	<smapping ID="S3016" DESC="数据转化为%" VALUES="Y,乘100转换;Z,直接转换;N,不转换" />
+   	<smapping ID="S3017" DESC="列定义来源" VALUES="Y,通过指标体系定义;N,通过手工定义" />
+   	<smapping ID="S3020" DESC="条件类型" VALUES="T,文本框;L,下拉列表框;M,合并下拉列表框;R,单选按钮;S,脚本生成" />
+   	<smapping ID="S3021" DESC="数据来源" VALUES="S,SQL语句提取;D,数据表提取;M,数据串定义;N,没有" />
+   	<smapping ID="S3022" DESC="字段类型" VALUES="1,数值型;2,字符型" />
+   	<smapping ID="S3025" DESC="报表统计周期" VALUES="6,日报;4,月报" />
+	<smapping ID="S3026" DESC="显示设置" VALUES="0,默认;1,扩展显示列;2,日数据按月报条件过滤;3,月数据按年条件过滤" />
+
+   	<smapping ID="S4001" DESC="图形类型" VALUES="1,JFreeChart;2,FusionChart多序图;3,FusionChart单序图;4,FusionChart散点图;5,FusionChart气泡图"/>
+   	<smapping ID="S4002" DESC="图形数据组织类型" VALUES="0,默认(0);1,启用分组描述(1);2,启用分组描述和索引(2)" />
+   	<smapping ID="S4003" DESC="图形X轴描述截取设置" VALUES="N,不截取;F,前截取;B,后截取" />
+  <!-- 报表管理结束 -->
+
+
+
+  	<smapping ID="P001" DESC="单表配置条件关系类型" VALUES="and,与;or,或;" />
+    <smapping ID="P002" DESC="单表配置条件操作类型" VALUES="=,等于;&lt;&gt;,不等于;&gt;,大于;&lt;,小于;LIKE,相似;NOT LIKE,不相似;" />
+    <smapping ID="P003" DESC="有效标志" VALUES="1,有效;0,无效" />
+    <smapping ID="P004" DESC="是否叶子节点" VALUES="Y,是;N,否" />
+    <smapping ID="P005" DESC="字段类型" VALUES="N,数值;V,字符;D,日期;L,长字符" />
+    <smapping ID="P006" DESC="显示类型" VALUES="1,文本框;2,日期;3,月份;4,自定义SQL;5,自定义标识;6,textarea;7,内存参数" />
+    <smapping ID="P007" DESC="是否显示" VALUES="N,否;Y,是" />
+    <smapping ID="P008" DESC="是否默认标识" VALUES="N,否;Y,是" />
+    <smapping ID="P009" DESC="是否组合套餐" VALUES="1,是;0,否" />
+    <smapping ID="P010" DESC="套餐类型" VALUES="BD,保底;ZZ,增值;TC,套餐" />
+	<smapping ID="P011" DESC="摊分类型" VALUES="1,金额摊分 ;2,按比例摊分;3,混合型 " />
+	<smapping ID="P012" DESC="优先级" VALUES=",;1,1级;2,2级;3,3级;4,4级;5,5级;6,6级;7,7级;8,8级;9,9级;10,10级" />
+	<smapping ID="P013" DESC="递延类别" VALUES="ZF,租费;NRC,NRC" />
+	<smapping ID="P014" DESC="递延方式" VALUES="1,按账目;2,按资费计划;3,按资费计划和账目" />
+	<smapping ID="P015" DESC="科目类别" VALUES="1,应收;2,预收;3,应付" />
+	<smapping ID="P016" DESC="账款类型" VALUES="1001,应收出租电路款;1002,预收账款－电信卡销售;1003,应收账款－用户欠费" />
+	<smapping ID="P017" DESC="融合标识" VALUES="1,单产品;2,融合产品" />
+	<smapping ID="P018" DESC="农村标识" VALUES="1,城市;2,农村" />
+	<smapping ID="P019" DESC="呼叫标识" VALUES="1,本地;2,国内;3,国际" />
+	<smapping ID="P020" DESC="计算方式类型" VALUES="1,沉淀卡计算方式;2,非沉淀卡计算方式" />
+
+	<smapping ID="OPP001" DESC="稳定性阀值" VALUES="1,&lt;=1;2,&lt;=2;3,&lt;=3;4,&lt;=4;5,&lt;=5;6,&lt;=6;7,&lt;=7;8,&lt;=8;9,&lt;=9;10,&lt;=10;" />
+	<smapping ID="OPP002" DESC="数据条数" VALUES="101,100条;501,500条;1001,1000条" />
+	<smapping ID="OPP003" DESC="高价值阀值" VALUES="10,&gt;=10;9,&gt;=9;8,&gt;=8;7,&gt;=7;6,&gt;=6;5,&gt;=5;4,&gt;=4;3,&gt;=3;2,&gt;=2;" />
+
+
+	<smapping ID="ADD001" DESC="饱和度分析视角" VALUES="add_subject_bhd_01,ARPU分档;add_subject_bhd_02,在网时长分档;" />
+	</select_list>
+</mappings>

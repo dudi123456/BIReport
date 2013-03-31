@@ -1,0 +1,81 @@
+td{font-size:14px;}
+
+.webfx-tree-container {
+	margin: 0px;
+	padding: 0px;
+	font: icon;
+	white-space: nowrap;
+}
+
+.webfx-tree-item {
+	padding: 0px;
+	margin: 0px;
+	font: icon;
+	color: WindowText;
+	white-space: nowrap;
+	height: 16px;
+}
+
+.webfx-tree-item a, .webfx-tree-item a:active, .webfx-tree-item a:hover {
+	margin-left: 3px;
+	padding: 0px 2px 1px 2px;
+	font-size:9pt;
+}
+
+.webfx-tree-item a {
+	color: black;
+	text-decoration: none;
+}
+
+.webfx-tree-item a:hover {
+	color: blue;
+	text-decoration: underline;
+}
+
+.webfx-tree-item a:active {
+	background: highlight;
+	color: highlighttext;
+	text-decoration: none;
+}
+
+.webfx-tree-item img {
+	vertical-align: middle;
+	border: 0px;
+}
+
+.webfx-tree-icon {
+	width: 16px;
+	height: 16px;
+}a:link {
+	color: #000000;
+	text-decoration: none;
+}
+a:visited {
+	color: #000000;
+	text-decoration: none;
+}
+a:hover {
+	color: #0000FF;
+	text-decoration: underline;
+}
+a:active {
+	color: #FFFFFF;
+	background-color: #000000;
+	text-decoration: none;
+}
+
+
+BODY
+{
+    SCROLLBAR-FACE-COLOR: #A2B7DB;
+    MARGIN: 0px;
+    FONT-SIZE: 12pt;
+    SCROLLBAR-HIGHLIGHT-COLOR: #f3f3ff;
+    SCROLLBAR-SHADOW-COLOR: #eaf2ff;
+    SCROLLBAR-3DLIGHT-COLOR: #ddddff;
+    SCROLLBAR-ARROW-COLOR: black;
+    SCROLLBAR-TRACK-COLOR: #e1e1ff;
+    SCROLLBAR-DARKSHADOW-COLOR: #336699;
+    SCROLLBAR-BASE-COLOR: #eaf2ff;
+}
+

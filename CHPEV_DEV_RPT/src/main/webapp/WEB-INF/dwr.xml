@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN" "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+
+<dwr>
+    <allow>
+        <convert converter="bean"
+                 match="com.ailk.bi.leader.struct.LeaderKpiInfoStruct"/>
+        <convert converter="bean" match="com.ailk.bi.base.struct.LeaderQryStruct"/>
+        <convert converter="bean" match="com.ailk.bi.base.struct.UserCtlRegionStruct"/>
+
+        <create creator="new" javascript="LeaderKpiUtil" scope="page">
+            <param name="class" value="com.ailk.bi.leader.util.LeaderKpiUtil"/>
+        </create>
+
+        <create creator="new" javascript="TableDef">
+            <param name="class" value="com.ailk.bi.metamanage.dao.impl.TableDefDaoImpl"/>
+            <include method="getDomain"/>
+            <include method="getEtlJob"/>
+        </create>
+
+        <create creator="new" javascript="SourceFlow">
+            <param name="class" value="com.ailk.bi.metamanage.service.impl.SourceAnalyseServiceImpl"/>
+            <include method="getSourceFlow"/>
+            <include method="isExistTable"/>
+        </create>
+
+        <create creator="new" javascript="ImpactFlow">
+            <param name="class" value="com.ailk.bi.metamanage.service.impl.ImpactAnalyseServiceImpl"/>
+            <include method="getImpactFlow"/>
+        </create>
+
+    </allow>
+</dwr>

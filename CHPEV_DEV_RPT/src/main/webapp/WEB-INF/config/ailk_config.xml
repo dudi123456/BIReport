@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- BI系统 配置文件-->
+<bibm>
+	<system>
+		<systemname></systemname>
+		<companyname></companyname>
+		<companyaddress></companyaddress>
+		<companypost></companypost>
+		<companyfax></companyfax>
+		<web></web>
+		<admin_email></admin_email>
+	</system>
+	<config>
+		<!--system config info-->
+		<!-- 使用连接池的类型 99:直连 0:WLS 1:TOMCAT 2:WebShpere ...-->
+		<db_ctype>1</db_ctype>
+		<!-- Oracle DB Server Info For Tomcat-->
+		<db_url></db_url>
+		<db_user>bi_ui</db_user>
+		<db_pwd>bi_ui</db_pwd>
+		<db_datasource>DataSource</db_datasource>
+        <db_datesoucesys>sysFrameDS</db_datesoucesys>
+        <!-- 公司开发环境-->
+        <yuyan_url>http://10.1.251.175:14721/yyrule</yuyan_url>
+        <!-- 现网
+        	<yuyan_url>http://132.35.224.218:14412/CHPEV-PV1</yuyan_url> 
+        -->
+		<!-- Web Server address-->
+		<web_ip>127.0.0.1</web_ip>
+		<!-- login request url-->
+		<login_url>login.rptdo</login_url>
+		<!-- Web Server port-->
+		<web_port>7001</web_port>
+		<!-- Web Server SSL port-->
+		<web_sport>7002</web_sport>
+		<!-- Need GB transform TRUE/FALSE-->
+		<gb_trans>FALSE</gb_trans>
+		<clear_classes>com.ailk.bi.base.util.WebKeys</clear_classes>
+	</config>
+	<ext_config>
+		<sqldef_file>/config/sqldef.xml</sqldef_file>
+		<xsl_file>/config/xsl/</xsl_file>
+		<upload_fold>/upload/</upload_fold>
+		<free_marker>/templates/</free_marker>
+	</ext_config>
+</bibm>

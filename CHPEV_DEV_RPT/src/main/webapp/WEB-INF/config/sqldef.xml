@@ -1,0 +1,3667 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sql-mapping>
+
+    <!--关于特殊字符的转义,如果你的SQL中包含如下特殊字符,请按如下映射关系处理:
+         " &quot;
+         & &amp;
+         > &gt;
+         < &lt;
+         如: SELECT * FROM a WHERE a.f1 >= 'abc' 要写成
+         SELECT * FROM a WHERE a.f1 &lt;='abc'
+
+         编号规定：
+         前缀为 AIQ(查询) AIC(更改) AII(插入) AID(删除)
+         号段为:X为Q|C|I|D
+         领导看板AIX1000-AIX1999
+         运营监控AIX2000-AIX2999
+         经营盘点AIX3000-AIX3999
+         套餐专题AIX4000-AIX4999
+
+     -->
+    <!-- 如果一下的模块调用以上的某个相同的部分，必须在该段描述中加上一个说明 -->
+    <!-- 系统通用功能开始 -->
+    <Stmt ID="AIS1001" Desc="查询区域信息" Author="JCM">
+        SELECT REGION_ID , REGION_NAME FROM ui_info_region
+    </Stmt>
+    <Stmt ID="AIS1002" Desc="查询统一资源信息" Author="JCM">
+        SELECT RES_ID , NAME FROM UI_PUB_INFO_RESOURCE
+    </Stmt>
+    <Stmt ID="AIS1003" Desc="查询部门信息" Author="JCM">
+        select dept_id , dept_name from ui_info_dept
+    </Stmt>
+    <Stmt ID="Q0009" Desc="提取资源路径信息" Author="jcm">
+        select level,res_id,name,parent_id
+        from ui_pub_info_resource
+        start with res_id='?'
+        connect by prior parent_id = res_id
+        order by level desc
+    </Stmt>
+    <!-- 系统通用功能结束 -->
+
+    <!-- 领导首页开始 -->
+    <Stmt ID="AIQ1001" Desc="查询领导看板门户指标信息">
+        SELECT B.MSU_ID,
+        B.MSU_NAME,
+        B.UNIT,
+        B.DIGIT,
+       case when b.msu_cycle=6 then
+       COALESCE(A.VALUE1, 0) else COALESCE(A1.VALUE1, 0) end,
+       case when b.msu_cycle=6 then
+       COALESCE(A.VALUE2, 0) else COALESCE(A1.VALUE2, 0) end,
+       case when b.msu_cycle=6 then
+       COALESCE(A.VALUE3, 0) else COALESCE(A1.VALUE3, 0) end,
+       case when b.msu_cycle=6 then
+       COALESCE(A.VALUE4, 0) else COALESCE(A1.VALUE4, 0) end,
+       case when b.msu_cycle=6 then
+       COALESCE(A.VALUE5, 0) else COALESCE(A1.VALUE5, 0) end,
+       case when b.msu_cycle=6 then
+       COALESCE(A.VALUE6, 0) else COALESCE(A1.VALUE6, 0) end,
+        B.PARENT_ID,
+        B.MSU_CYCLE
+        FROM
+        (SELECT B.* FROM UI_LEADER_RULE_MSU_GROUP A LEFT OUTER JOIN UI_PUB_INFO_MSU B
+        ON A.MSU_ID = B.MSU_ID
+        WHERE A.GROUP_ID = '?') B LEFT OUTER JOIN
+        (SELECT A.MSU_ID,
+        COALESCE(SUM(A.CUR_VALUE), 0) AS VALUE1,
+        COALESCE(SUM(A.LAST_VALUE), 0) AS VALUE2,
+        COALESCE(SUM(A.SAME_VALUE), 0) AS VALUE3,
+        COALESCE(SUM(A.AGG_VALUE), 0) AS VALUE4,
+        COALESCE(SUM(A.LAST_AGG_VALUE), 0) AS VALUE5,
+        COALESCE(SUM(A.SAME_AGG_VALUE), 0) VALUE6
+        FROM UI_LEADER_KPI_INFO_DATA_D A
+        WHERE 1 = 1 ?
+        GROUP BY A.MSU_ID
+        ) A
+        ON B.MSU_ID = A.MSU_ID
+        LEFT OUTER JOIN (SELECT A.MSU_ID,
+                          COALESCE(SUM(A.CUR_VALUE), 0) AS VALUE1,
+                          COALESCE(SUM(A.LAST_VALUE), 0) AS VALUE2,
+                          COALESCE(SUM(A.SAME_VALUE), 0) AS VALUE3,
+                          COALESCE(SUM(A.AGG_VALUE), 0) AS VALUE4,
+                          COALESCE(SUM(A.LAST_AGG_VALUE), 0) AS VALUE5,
+                          COALESCE(SUM(A.SAME_AGG_VALUE), 0) VALUE6
+                     FROM UI_LEADER_KPI_INFO_DATA_M A
+                    WHERE 1 = 1
+                      ?
+                    GROUP BY A.MSU_ID) A1
+    ON B.MSU_ID = A1.MSU_ID
+        order by B.sequence
+    </Stmt>
+    <Stmt ID="AIQ1010" Desc="查询领导看板门户指标数据源" Author="jincm">
+        SELECT DATA_SOURCE FROM UI_LEADER_RULE_MSU_DATASOURCE WHERE GROUP_ID = '?' AND DATA_CYCLE = '?'
+    </Stmt>
+    <!-- 新版地图 2011年12月 -->
+    <Stmt ID="M001F" Desc="更具mapid查詢地圖信息" Author="fanghui">
+       select t.map_id,
+       t.city_id,
+       t.map_width,
+       t.map_height,
+       t.compar_parame,
+       t.delay_day,
+       t.delay_mon,
+       t.mv_name,
+       t.data_sql,
+       t.show_title,
+       t.is_drift,
+       t.is_green_flag,
+       t.green_flag_num,
+       t.is_red_flag,
+       t.red_flag_num,
+       t.is_button
+  	   from ui_map_mapinfo t WHERE MAP_ID = '?'
+    </Stmt>
+     <Stmt ID="M002F" Desc="更具mapid查詢颜色信息" Author="fanghui">
+       select  group_name ,color_Name,color_RGB ,sta_Num,end_Num from UI_MAP_colorInfo t  where t.GROUP_NAME = '?' order by  t.serial_num
+    </Stmt>
+    <Stmt ID="M003F" Desc="更具metropolis_id查詢多条地域信息" Author="fanghui">
+       select city_id as area_id,city_desc as area_name,region_id as code_id,region_desc as bgColor from d_city where metropolis_id = '?'
+    </Stmt>
+    <Stmt ID="M004F" Desc="更具city_id查詢一条地域信息" Author="fanghui">
+      select city_id as area_id,city_desc as area_name,region_id as code_id,region_desc as bgColor from d_city where city_id = '?'
+    </Stmt>
+    <!-- 新版地图 结束-->
+
+
+    <!-- 领导首页结束 -->
+
+    <!-- 功能点通用说明部分开始 -->
+    <Stmt ID="TQ3002" Desc="查询描述信息" Author="rh">
+        select obj_info from ui_pub_info_editor where obj_id='?' and
+        obj_date=?
+    </Stmt>
+    <Stmt ID="TQ3003" Desc="删除描述信息" Author="rh">
+        delete from ui_pub_info_editor where obj_id='?' and obj_date=?
+    </Stmt>
+    <Stmt ID="TQ3004" Desc="插入描述信息" Author="rh">
+        insert into ui_pub_info_editor(obj_id,obj_date,obj_info)
+        values('?',?,'?')
+    </Stmt>
+    <Stmt ID="TQ3005" Desc="更新描述信息" Author="rh">
+        update ui_pub_info_editor set obj_info='?' where obj_id='?' and
+        obj_date=?
+    </Stmt>
+    <Stmt ID="TQ3006" Desc="查询公共条件信息" Author="rh">
+        SELECT
+        RES_ID,RES_TYPE,QRY_TYPE,QRY_CODE,CON_CODE,DATA_TYPE,CON_TAG
+        FROM UI_PUB_INFO_CONDITION WHERE STATUS='Y' AND RES_TYPE in(?)
+        AND RES_ID='?' ORDER BY SEQUENCE
+    </Stmt>
+    <!-- 功能点通用说明部分结束 -->
+
+
+    <!-- 报表中心开始 -->
+
+    <!-- 报表展示开始(3000-3199) -->
+    <Stmt ID="Q3000" Desc="查询报表基本信息(new)" Author="rh">
+        SELECT A.RES_ID,
+        A.PARENT_ID,
+        A3.NAME AS PARENT_NAME,
+        A.URL,
+        B.LOCAL_RES_CODE,
+        B.CODE,
+        B.NAME,
+        B.CYCLE,
+        B.TITLE_NOTE,
+        B.FILLDEPT,
+        B.FILLPERSON,
+        B.MAKEDEPT,
+        B.MAKEPERSON,
+        B.NEEDDEPT,
+        B.NEEDPERSON,
+        B.NEEDREASON,
+        B.INPUTNOTE,
+        B.RPT_TYPE,
+        B.START_DATE,
+        B.DIVCITY_FLAG,
+        B.ROW_FLAG,
+        B.PAGECOUNT,
+        B.ISHEAD,
+        B.ISLEFT,
+        B.SMS_FLAG,
+        B.STARTCOL,
+        B.PROCESSFLAG,
+        B.DISPENSEFLAG,
+        B.METAFLAG,
+        B.PRIVATEFLAG,
+        B.D_USER_ID,
+        B.DATA_TABLE,
+        B.DATA_WHERE,
+        B.DATA_ORDER,
+        B.DATA_SEQUENCE,
+        B.DATA_DATE,
+        B.RPT_EXPORT_RULE,
+        B.STATUS,B.Rp_Status,B.RP_ENGINE
+        FROM UI_PUB_INFO_RESOURCE A,
+        UI_PUB_INFO_RESOURCE A3,
+        UI_RPT_INFO_REPORT B
+        WHERE A3.RES_ID = A.PARENT_ID
+        AND A.RES_ID = B.RPT_ID
+        AND B.STATUS&lt;&gt;'D' ?
+        ORDER BY A.PARENT_ID,A.RES_ID
+    </Stmt>
+    <Stmt ID="Q3001" Desc="获取报表导出的分组(new)" Author="rh">
+        SELECT A.RPT_ID, B.GROUP_ID, C.GROUP_NAME
+        FROM UI_RPT_INFO_REPORT A,
+        UI_RPT_INFO_GROUP_LIST B,
+        UI_RPT_INFO_GROUP_DEFINE C
+        WHERE A.RPT_ID = B.RPT_ID
+        AND B.GROUP_ID = C.GROUP_ID
+        AND A.STATUS&lt;&gt;'D'
+    </Stmt>
+    <Stmt ID="Q3002" Desc="获取普通报表树目录结构数据(new)" Author="rh">
+        SELECT A.PARENT_ID, A1.NAME, B.RPT_ID, B.NAME, A.URL, A.SEQUENCE
+        FROM UI_PUB_INFO_RESOURCE A,
+        UI_PUB_INFO_RESOURCE A1,
+        UI_RPT_INFO_REPORT B
+        WHERE A1.RES_ID = A.PARENT_ID
+        AND A.RES_ID = B.RPT_ID
+        AND A.ISRESOURCE = 'Y'
+        AND A.PARENT_ID IN
+        (SELECT RES_ID FROM UI_PUB_INFO_RESOURCE WHERE PARENT_ID = '?')
+        AND B.STATUS='Y'
+
+        ORDER BY PARENT_ID, SEQUENCE, RPT_ID
+    </Stmt>
+    <Stmt ID="Q3004" Desc="获取我定制的报表树目录结构数据(new)" Author="rh">
+        SELECT A.PARENT_ID, A1.NAME, B.RPT_ID, B.NAME, A.URL, A.SEQUENCE
+        FROM UI_PUB_INFO_RESOURCE A,
+        UI_PUB_INFO_RESOURCE A1,
+        UI_RPT_INFO_REPORT B
+        WHERE A1.RES_ID = A.PARENT_ID
+        AND A.RES_ID = B.RPT_ID
+        AND A.ISRESOURCE = 'Y'
+        AND A.PARENT_ID IN
+        (SELECT RES_ID FROM UI_PUB_INFO_RESOURCE WHERE PARENT_ID = '?')
+        AND B.D_USER_ID = '?'
+        AND B.PRIVATEFLAG = 'Y'
+        AND B.STATUS = 'Y'
+    </Stmt>
+    <Stmt ID="Q3005" Desc="获取别人发布给我的报表树目录结构数据(new)" Author="rh">
+        SELECT A.PARENT_ID, A1.NAME, B.RPT_ID, '*'||B.NAME, A.URL, A.SEQUENCE
+        FROM UI_PUB_INFO_RESOURCE A,
+        UI_PUB_INFO_RESOURCE A1,
+        UI_RPT_INFO_REPORT B
+        WHERE A1.RES_ID = A.PARENT_ID
+        AND A.RES_ID = B.RPT_ID
+        AND A.ISRESOURCE = 'Y'
+        AND A.RES_ID IN
+        (SELECT DISTINCT RPT_ID FROM UI_RPT_INFO_DISPENSE WHERE R_ROLE_ID IN ('?'))
+        AND A.PARENT_ID IN
+        (SELECT RES_ID FROM UI_PUB_INFO_RESOURCE WHERE PARENT_ID = '?')
+        AND B.RPT_ID NOT IN
+        (SELECT RPT_ID FROM UI_RPT_INFO_REPORT WHERE PRIVATEFLAG = 'Y' AND D_USER_ID = '?')
+        AND B.PRIVATEFLAG = 'Y'
+        AND B.STATUS = 'Y'
+    </Stmt>
+    <Stmt ID="Q3006" Desc="获取定制报表列表(不分状态)" Author="rh">
+        SELECT B.PARENT_ID,A.NAME,B.RES_ID,B.NAME,B.URL,B.SEQUENCE FROM
+        UI_PUB_INFO_RESOURCE A,UI_PUB_INFO_RESOURCE B WHERE
+        A.RES_ID=B.PARENT_ID AND B.PARENT_ID IN (SELECT RES_ID FROM
+        UI_PUB_INFO_RESOURCE WHERE PARENT_ID='?') ORDER BY
+        PARENT_ID,SEQUENCE
+    </Stmt>
+    <Stmt ID="Q3009" Desc="获取报表数据最大日期" Author="rh">
+        SELECT MAX(DATE_ID) FROM UI_RPT_INFO_MEASURE_DATA WHERE
+        MEASURE_ID IN ( SELECT MEASURE_ID FROM UI_RPT_RELT_MEASURE WHERE
+        REPORT_ID = '?' )
+    </Stmt>
+    <Stmt ID="Q3010" Desc="获取报表数据最大日期" Author="rh">
+        SELECT MAX(?) FROM ?
+    </Stmt>
+    <Stmt ID="Q3012" Desc="指标类报表检查报表数据(new)" Author="rh">
+        SELECT MEASURE_ID,VALUE FROM UI_RPT_INFO_MEASURE_DATA WHERE
+        MEASURE_ID IN ( SELECT MEASURE_ID FROM UI_RPT_RELT_MEASURE WHERE
+        REPORT_ID = '?' ) AND DATE_ID=?
+    </Stmt>
+
+    <Stmt ID="Q3030" Desc="获取报表的审核关系(new)" Author="rh">
+        SELECT RPT_ID,P_ID FROM UI_RPT_RELT_PROCESS WHERE RPT_ID='?'
+    </Stmt>
+    <Stmt ID="Q3032" Desc="获取报表指定日期的流程步骤信息(new)" Author="rh">
+        SELECT
+        B.RPT_DATE,B.P_ID,B.P_STEP_FLAG,B.P_STEP_FLAG_NAME,B.R_ROLE_ID,B.R_ROLE_TYPE,B.P_STEP_VISIBLE_DATA,B.P_STEP_NOTE
+        FROM UI_RPT_RELT_PROCESS A,UI_RPT_INFO_PROCESS_STEP B WHERE
+        A.P_ID=B.P_ID AND B.RPT_DATE=? AND A.RPT_ID='?' ORDER BY
+        B.P_STEP_FLAG
+    </Stmt>
+    <Stmt ID="Q3035" Desc="获取报表审批历史信息(new)" Author="rh">
+        SELECT P_TIME,P_ID,P_DECISION,
+        P_STEP_FLAG,P_STEP_NEXT,P_USER_ID,P_USER_NAME,P_HIS_NOTE FROM
+        UI_RPT_INFO_PROCESS_HIS WHERE RPT_DATE=? AND RPT_ID='?'
+        ORDER BY P_TIME DESC
+    </Stmt>
+    <Stmt ID="Q3036" Desc="获取报表审批历史信息(new)" Author="rh">
+        SELECT TO_CHAR(P_TIME,'yyyy-mm-dd hh24:mi;ss'),P_ID,P_DECISION,
+        P_STEP_FLAG,P_STEP_NEXT,P_USER_ID,P_USER_NAME,P_HIS_NOTE FROM
+        UI_RPT_INFO_PROCESS_HIS WHERE RPT_DATE=? AND RPT_ID='?' AND REGION_ID='?'
+        ORDER BY P_TIME DESC
+    </Stmt>
+    <Stmt ID="I3038" Desc="添加报表审批记录(new)" Author="rh">
+        INSERT INTO
+        UI_RPT_INFO_PROCESS_HIS(RPT_ID,RPT_DATE,REGION_ID,P_TIME,P_ID,P_DECISION,P_STEP_FLAG,P_STEP_NEXT,P_USER_ID,P_USER_NAME,P_HIS_NOTE)
+        VALUES('?',?,'?',sysdate,'?','?','?','?','?','?','?')
+    </Stmt>
+    <Stmt ID="Q3024" Desc="获取审核回退步骤下拉列表内容" Author="rh">
+        SELECT P_STEP_FLAG,P_STEP_FLAG_NAME FROM
+        UI_RPT_INFO_PROCESS_STEP WHERE P_STEP_FLAG &lt; '?' AND
+        RPT_DATE=? AND P_ID='?' ORDER BY P_STEP_FLAG DESC
+    </Stmt>
+    <Stmt ID="Q3025" Desc="获取审核前进步骤下拉列表内容" Author="rh">
+        SELECT P_STEP_FLAG,P_STEP_FLAG_NAME FROM
+        UI_RPT_INFO_PROCESS_STEP WHERE P_STEP_FLAG &gt;= '?' AND
+        RPT_DATE=? AND P_ID='?' ORDER BY P_STEP_FLAG
+    </Stmt>
+
+    <Stmt ID="Q3100" Desc="根据报表ID获取该报表的指标(new)" Author="rh">
+        SELECT A.ID,A.PARENT_ID,A.ISMEASURE,A.CODE,A.NAME,A.EXPLAIN,A.TYPE,A.UNIT,
+        A.DIGIT_LEN,A.DATA_SRC,A.DATA_SQL,A.ISTOLEADER,
+        A.NOTE1,A.NOTE2,A.NOTE3,A.NOTE4,A.DESCR FROM
+        UI_RPT_INFO_MEASURE A,UI_RPT_RELT_MEASURE B
+        WHERE B.REPORT_ID='?' AND A.ID=B.MEASURE_ID
+        ORDER BY B.MEASURE_SEQUENCE
+    </Stmt>
+    <!--
+     <Stmt ID="Q3100" Desc="根据报表ID获取该报表的指标(new)" Author="rh">
+         SELECT A.ID,A.PARENT_ID,A.ISMEASURE,A.CODE,A.NAME,A.UNIT,A.CYCLE,
+         A.DIGIT_LEN,A.DATA_SRC,A.BASE_FLAG,A.ISTOLEADER,A.DESCR FROM
+         UI_RPT_INFO_MEASURE A,UI_RPT_RELT_MEASURE B
+         WHERE B.REPORT_ID='?' AND A.ID=B.MEASURE_ID
+         ORDER BY B.MEASURE_SEQUENCE
+     </Stmt>
+     -->
+    <Stmt ID="Q3101" Desc="获取指标报表展示列信息" Author="rh">
+        SELECT REPORT_ID,CODE,NAME FROM UI_RPT_INFO_MEASURE_SHOW WHERE REPORT_ID='?' ORDER BY SEQUENCE
+    </Stmt>
+
+    <Stmt ID="Q3102" Desc="获取地域信息(地域表未确定)" Author="rh">
+        SELECT CITY_ID,CITY_DESC FROM D_CITY
+    </Stmt>
+    <Stmt ID="Q3103" Desc="根据条件获取指标型报表按子区域的指标值(new)" Author="rh">
+        SELECT A.MEASURE_ID , B.DIM , B.MEASURE_VALUE
+        FROM
+        (SELECT A.ID AS MEASURE_ID
+        FROM UI_RPT_INFO_MEASURE A,UI_RPT_RELT_MEASURE B
+        WHERE B.REPORT_ID='?'
+        AND A.ID=B.MEASURE_ID
+        ORDER BY B.MEASURE_SEQUENCE
+        ) A LEFT JOIN
+        (
+        SELECT MEASURE_ID,? AS DIM ,VALUE AS MEASURE_VALUE
+        FROM UI_RPT_INFO_MEASURE_DATA
+        WHERE STATUS=1
+        ?
+        ) B
+        ON A.MEASURE_ID = B.MEASURE_ID
+    </Stmt>
+    <Stmt ID="Q3100X" Desc="根据报表ID获取该报表的指标(new)" Author="rh">
+        SELECT A.ID FROM
+        UI_RPT_INFO_MEASURE A,UI_RPT_RELT_MEASURE B
+        WHERE B.REPORT_ID='?' AND A.ID=B.MEASURE_ID
+    </Stmt>
+    <Stmt ID="Q3105" Desc="根据条件获取指标型报表不按子区域的指标值(new)" Author="rh">
+        SELECT A.ID,A.ISMEASURE,A.CODE,A.NAME,A.explain,A.type,A.UNIT,A.DIGIT_LEN,
+        A.DATA_SRC,A.ISTOLEADER,A.Note1,A.note2,A.Note3,A.Note4,
+        A.DESCR,sum(B.VALUE) FROM
+        (SELECT A.ID,A.ISMEASURE,A.CODE,A.NAME,A.explain,A.type,A.UNIT,A.DIGIT_LEN,
+        A.DATA_SRC,A.ISTOLEADER,A.Note1,A.note2,A.Note3,A.Note4,A.DESCR,
+        B.MEASURE_SEQUENCE
+        FROM UI_RPT_INFO_MEASURE A RIGHT JOIN
+        (SELECT * FROM UI_RPT_RELT_MEASURE WHERE REPORT_ID='?') B
+        ON A.ID=B.MEASURE_ID) A
+        LEFT JOIN UI_RPT_INFO_MEASURE_DATA B
+        ON A.ID=B.MEASURE_ID AND B.REGION_ID LIKE '?%' AND B.DATE_ID &gt;=?
+        and B.DATE_ID &lt;=?
+        GROUP BY A.ID,A.ISMEASURE,A.CODE,A.NAME,A.explain,A.type,A.UNIT,A.DIGIT_LEN,
+        A.DATA_SRC,A.ISTOLEADER,A.Note1,A.note2,A.Note3,A.Note4,
+        A.DESCR,A.MEASURE_SEQUENCE
+        ORDER BY A.MEASURE_SEQUENCE
+    </Stmt>
+    <Stmt ID="Q3106" Desc="根据条件获取指标型报表不按子区域的指标值" Author="rh">
+        SELECT A.MEASURE_ID,sum(A.VALUE),C.MEASURE_LEVEL FROM
+        UI_RPT_INFO_MEASURE_DATA A,UI_RPT_INFO_MEASURE
+        B,UI_RPT_RELT_MEASURE C WHERE A.MEASURE_ID=B.ID AND
+        A.MEASURE_ID=C.MEASURE_ID AND C.REPORT_ID='?' AND
+        A.REGION_ID='?' AND A.DATE_ID like '?%' AND A.STATUS=1 GROUP BY
+        A.MEASURE_ID,C.MEASURE_LEVEL
+    </Stmt>
+
+    <Stmt ID="Q3110" Desc="获取指标型报表分析维度配置信息" Author="JCM">
+        SELECT DIM_FIELD,DIM_SRC_SQL,DIM_NAME,DIM_RULE,TOP_HEAD
+        FROM UI_RPT_RULE_MEASURE_DIM
+        WHERE REPORT_ID = '?' AND ISACTIVE = 0
+    </Stmt>
+
+    <Stmt ID="Q3150" Desc="根据报表ID获取本地化报表字典信息(new)" Author="rh">
+        SELECT rpt_id,col_sequence,default_display,dim_code_display,
+        is_expand_col,is_subsum,valuable_sum,field_dim_code,field_code,field_title,
+        data_type,msu_length,msu_unit,comma_splitted,zero_proc,ratio_displayed,
+        has_comratio,has_same,has_last,has_link,link_url,link_target,data_order,
+        sms_flag,td_wrap,title_style,col_style,print_title_style,print_col_style,
+        need_alert,compare_to,ratio_compare,high_value,low_value,alert_mode,
+        rise_color,down_color,is_msu,is_user_msu,msu_id,datatable,status
+        FROM UI_RPT_INFO_DICT WHERE STATUS='Y' AND RPT_ID='?' ORDER BY
+        COL_SEQUENCE
+    </Stmt>
+    <Stmt ID="Q3155" Desc="根据报表ID获取报表条件信息(new)" Author="rh">
+        SELECT
+        A.RPT_ID,A.COL_SEQUENCE,A.DISPLAY_SEQUENCE,B.FIELD_DIM_CODE,B.FIELD_CODE,A.FIELD_TITLE,A.FILTER_TYPE,
+        A.FILTER_SCRIPT,A.FILTER_DATASOURCE,A.FILTER_SQL,A.FILTER_ALL,A.FILTER_DEFAULT,A.STATUS,B.DATA_TYPE
+        FROM UI_RPT_INFO_FILTER A,UI_RPT_INFO_DICT B WHERE
+        A.RPT_ID=B.RPT_ID AND A.COL_SEQUENCE=B.COL_SEQUENCE AND
+        A.STATUS='Y' AND A.RPT_ID='?' ORDER BY A.DISPLAY_SEQUENCE
+    </Stmt>
+
+    <Stmt ID="Q3160" Desc="获取本地化报表表头内容(new)" Author="rh">
+        SELECT RPT_ID,RPT_HEADER FROM UI_RPT_INFO_HEAD WHERE RPT_ID='?'
+    </Stmt>
+    <Stmt ID="Q3170" Desc="获取本地化报表类型添加报表用(new)" Author="rh">
+        SELECT DISTINCT A2.RES_ID,
+        A1.NAME || '-' || A2.NAME AS A3NAME,
+        A1.RES_ID AS PARENT_ID
+        FROM UI_PUB_INFO_RESOURCE A,
+        UI_PUB_INFO_RESOURCE A1,
+        UI_PUB_INFO_RESOURCE A2
+        WHERE A.RES_ID = A1.PARENT_ID
+        AND A1.RES_ID = A2.PARENT_ID
+        AND A.RES_ID IN (SELECT RES_ID FROM UI_PUB_INFO_RESOURCE WHERE PARENT_ID='0')
+        AND A1.RES_ID NOT IN ('9909050', '9909100', '9909150')
+        ORDER BY A1.RES_ID, A3NAME
+    </Stmt>
+    <Stmt ID="Q3171" Desc="获取定制报表类型添加报表用(new)" Author="rh">
+        SELECT RES_ID,NAME FROM UI_PUB_INFO_RESOURCE WHERE PARENT_ID='9909050'
+    </Stmt>
+
+    <Stmt ID="Q3172" Desc="获取报表类型大类(new)" Author="rh">
+        SELECT RES_ID,NAME FROM UI_PUB_INFO_RESOURCE
+        WHERE PARENT_ID='7700009' AND RES_ID NOT IN('9900199','9900430')
+    </Stmt>
+
+    <Stmt ID="Q3175" Desc="获取报表图形定义(new)" Author="rh">
+        select rpt_id,a.chart_id,pos,rowpos,sequence,width,height,
+               is_chanage,change_type,change_pos,
+               is_function,function_type,function_pos,function_direction,function_rownum,c.chart_type_code
+            from UI_RPT_INFO_CHART a,ui_pub_info_chart_def b,ui_pub_info_chart_kind_def c
+            where a.chart_id=b.chart_id and b.chart_type=c.chart_type_id
+            and b.chart_distype=c.chart_distype
+            and rpt_id=?
+            order by sequence
+    </Stmt>
+    <!-- 报表展示结束 -->
+
+
+    <!-- 报表管理开始(3200-3499) -->
+    <Stmt ID="Q3210" Desc="获取报表流程定义表内容(new)" Author="rh">
+        SELECT P_ID,P_FLAG_NAME,P_NOTE,TO_CHAR(CREATE_TIME,'YYYY-MM-DD
+        HH24:MI:SS'),STATUS FROM UI_RPT_INFO_PROCESS WHERE
+        STATUS&lt;&gt;'D' ? ORDER BY P_ID
+    </Stmt>
+    <Stmt ID="I3212" Desc="新增报表流程定义表内容(new)" Author="rh">
+        INSERT INTO UI_RPT_INFO_PROCESS(P_ID,P_FLAG_NAME,P_NOTE,STATUS)
+        VALUES('?','?','?','?')
+    </Stmt>
+    <Stmt ID="C3214" Desc="更新报表流程定义表内容(new)" Author="rh">
+        UPDATE UI_RPT_INFO_PROCESS SET
+        P_FLAG_NAME='?',P_NOTE='?',STATUS='?' WHERE P_ID='?'
+    </Stmt>
+    <Stmt ID="D3216" Desc="删除流程定义信息设置删除标记(new)" Author="rh">
+        UPDATE UI_RPT_INFO_PROCESS SET STATUS='D' WHERE P_ID='?'
+    </Stmt>
+    <Stmt ID="Q3230" Desc="获取报表审核流程步骤角色(new)" Author="rh">
+        SELECT ROLE_CODE,ROLE_NAME,COMMENTS FROM info_role WHERE
+        ROLE_TYPE='3' ORDER BY RES_INIT
+    </Stmt>
+    <Stmt ID="Q3231" Desc="获取报表流程步骤定义表内容(new)" Author="rh">
+        SELECT
+        RPT_DATE,P_ID,P_STEP_FLAG,P_STEP_FLAG_NAME,R_ROLE_ID,R_ROLE_TYPE,P_STEP_VISIBLE_DATA,P_STEP_NOTE
+        FROM UI_RPT_INFO_PROCESS_STEP WHERE RPT_DATE=? AND P_ID='?'
+        ORDER BY P_STEP_FLAG
+    </Stmt>
+    <Stmt ID="I3234" Desc="新增报表流程步骤定义表内容(new)" Author="rh">
+        INSERT INTO
+        UI_RPT_INFO_PROCESS_STEP(RPT_DATE,P_ID,P_STEP_FLAG,P_STEP_FLAG_NAME,R_ROLE_ID,R_ROLE_TYPE,P_STEP_VISIBLE_DATA,P_STEP_NOTE
+        ) VALUES(?,'?','?','?','?',?,'?','?')
+    </Stmt>
+    <Stmt ID="D3236" Desc="删除报表流程步骤定义表内容(new)" Author="rh">
+        DELETE FROM UI_RPT_INFO_PROCESS_STEP WHERE RPT_DATE=0 AND
+        P_ID='?'
+    </Stmt>
+    <Stmt ID="Q3240" Desc="获取报表流程发布列表(new)" Author="rh">
+        SELECT DISTINCT
+        M.RES_ID,M.NAME,M.CYCLE,M.PARENT_ID,M.PARENT_NAME3,M.PARENT_NAME2,M.PARENT_NAME1,R.P_ID,P.P_FLAG_NAME
+        FROM UI_RPT_RELT_PROCESS R RIGHT OUTER JOIN ( SELECT
+        A.RES_ID,A.PARENT_ID,A3.NAME AS PARENT_NAME3,A2.NAME AS PARENT_NAME2,A1.NAME AS
+        PARENT_NAME1,A.URL,B.LOCAL_RES_CODE,B.CODE,B.NAME,B.CYCLE,B.TITLE_NOTE,
+        B.FILLDEPT,B.FILLPERSON,B.MAKEDEPT,B.MAKEPERSON,B.NEEDDEPT,B.NEEDPERSON,B.NEEDREASON,B.INPUTNOTE,
+        B.RPT_TYPE,B.START_DATE,B.DIVCITY_FLAG,B.ROW_FLAG,B.PAGECOUNT,B.ISHEAD,B.ISLEFT,B.SMS_FLAG,B.STARTCOL,
+        B.PROCESSFLAG,B.DISPENSEFLAG,B.D_USER_ID,B.DATA_TABLE,B.DATA_WHERE,B.DATA_ORDER,B.DATA_DATE,B.STATUS
+        FROM UI_PUB_INFO_RESOURCE A,UI_PUB_INFO_RESOURCE
+        A1,UI_PUB_INFO_RESOURCE A2,UI_PUB_INFO_RESOURCE
+        A3,UI_RPT_INFO_REPORT B WHERE A1.RES_ID=A.PARENT_ID AND
+        A2.RES_ID=A1.PARENT_ID AND A3.RES_ID=A2.PARENT_ID AND
+        A.RES_ID=B.RPT_ID AND B.STATUS='Y' ?) M ON R.RPT_ID =
+        M.RES_ID LEFT JOIN (SELECT P_ID, P_FLAG_NAME FROM
+        UI_RPT_INFO_PROCESS) P ON P.P_ID = R.P_ID ORDER BY M.PARENT_ID,
+        M.CYCLE
+    </Stmt>
+    <Stmt ID="I3242" Desc="添加报表流程关系(new)" Author="rh">
+        INSERT INTO UI_RPT_RELT_PROCESS(RPT_ID,P_ID) VALUES ('?','?')
+    </Stmt>
+    <Stmt ID="C3243" Desc="更新报表流程关系状态(new)" Author="rh">
+        UPDATE UI_RPT_INFO_REPORT SET PROCESSFLAG='?' WHERE RPT_ID='?'
+    </Stmt>
+    <Stmt ID="C3246" Desc="更新报表流程关系状态(new)" Author="wn">
+        UPDATE ui_rpt_info_report r
+        SET r.processflag = '?'
+        WHERE r.rpt_id = '?'
+        AND exists (select 1
+        from ui_rpt_relt_process p
+        where p.p_id = '?'
+        and p.rpt_id = r.rpt_id)
+    </Stmt>
+    <Stmt ID="D3244" Desc="删除报表流程关系(new)" Author="rh">
+        DELETE FROM UI_RPT_RELT_PROCESS WHERE RPT_ID = '?' AND P_ID='?'
+    </Stmt>
+    <Stmt ID="D3245" Desc="删除报表流程关系(new)" Author="wn">
+        DELETE FROM UI_RPT_RELT_PROCESS WHERE RPT_ID = '?'
+    </Stmt>
+    <Stmt ID="Q3330" Desc="查询流程默认步骤信息" Author="rh">
+        SELECT
+        RPT_DATE,P_ID,P_STEP_FLAG,P_STEP_FLAG_NAME,R_ROLE_ID,R_ROLE_TYPE,P_STEP_NOTE
+        FROM UI_RPT_INFO_PROCESS_STEP WHERE RPT_DATE=0 AND
+        (P_STEP_FLAG='1' OR P_STEP_FLAG='E') ORDER BY P_ID,P_STEP_FLAG
+    </Stmt>
+    <Stmt ID="Q3332" Desc="查询流程默认步骤信息" Author="rh">
+        SELECT DISTINCT A.RES_ID,B.RPT_DATE,A.NAME,A.URL,
+        D.P_ID,D.P_STEP_FLAG,D.R_ROLE_ID FROM UI_PUB_INFO_RESOURCE A,
+        UI_RPT_INFO_DATA B, UI_RPT_RELT_PROCESS C,
+        UI_RPT_INFO_PROCESS_STEP D WHERE A.RES_ID=B.RPT_ID AND
+        B.RPT_ID=C.RPT_ID AND C.P_ID=D.P_ID ? ?
+
+        UNION
+
+        SELECT DISTINCT A.RES_ID, C.DATE_ID, A.NAME, A.URL, E.P_ID,
+        E.P_STEP_FLAG, E.R_ROLE_ID FROM UI_PUB_INFO_RESOURCE A,
+        UI_RPT_RELT_MEASURE B, UI_RPT_INFO_MEASURE_DATA C,
+        UI_RPT_RELT_PROCESS D, UI_RPT_INFO_PROCESS_STEP E WHERE A.RES_ID
+        = B.REPORT_ID AND B.MEASURE_ID = C.MEASURE_ID AND B.REPORT_ID =
+        D.RPT_ID AND D.P_ID = E.P_ID ? ?
+    </Stmt>
+    <Stmt ID="Q3334" Desc="查询流程默认步骤信息" Author="rh">
+        SELECT RPT_ID,RPT_DATE,P_TIME,P_ID,P_DECISION,P_STEP_FLAG,
+        P_STEP_NEXT,P_USER_ID,P_USER_NAME,P_HIS_NOTE FROM
+        UI_RPT_INFO_PROCESS_HIS WHERE RPT_ID IN( SELECT DISTINCT
+        A.RES_ID FROM UI_PUB_INFO_RESOURCE A, UI_RPT_RELT_PROCESS B,
+        UI_RPT_INFO_PROCESS_STEP C WHERE A.RES_ID=B.RPT_ID AND
+        B.P_ID=C.P_ID ? ? ) ? ORDER BY RPT_ID,RPT_DATE,P_TIME DESC
+    </Stmt>
+    <Stmt ID="I3340" Desc="添加报表打印基本信息(new)" Author="rh">
+        INSERT INTO
+        UI_RPT_INFO_PRINT(PRINT_CODE,PRINT_TIME,REPORT_ID,USER_ID,USER_NAME)
+        VALUES('?',to_date('?','yyyy-mm-dd hh24:mi:ss'),'?','?','?')
+    </Stmt>
+    <Stmt ID="Q3341" Desc="查询报表打印基本信息(new)" Author="rh">
+        SELECT A.PRINT_CODE,TO_CHAR(A.PRINT_TIME,'yyyy-mm-dd
+        hh24:mi:ss'),A.REPORT_ID,B.NAME,B.URL,A.USER_ID,A.USER_NAME FROM
+        UI_RPT_INFO_PRINT A,UI_PUB_INFO_RESOURCE B WHERE
+        A.REPORT_ID=B.RES_ID
+    </Stmt>
+
+
+    <Stmt ID="Q3400" Desc="获取报表编码" Author="rh">
+        select seq_custom_rpt_id.nextval from dual
+    </Stmt>
+    <Stmt ID="I3450" Desc="添加报表本地资源表信息(new)" Author="rh">
+        INSERT INTO
+        UI_PUB_INFO_RESOURCE(RES_ID,PARENT_ID,ISRESOURCE,ISHOT,HOT_TYPE,NAME,CYCLE,URL,STATUS)
+        VALUES ('?','?','Y','Y','?','?','?','?','N')
+    </Stmt>
+    <Stmt ID="C3451" Desc="修改报表本地资源表信息(new)" Author="rh">
+        UPDATE UI_PUB_INFO_RESOURCE SET PARENT_ID='?',NAME='?',CYCLE=?,STATUS='?'
+        WHERE RES_ID='?'
+    </Stmt>
+    <Stmt ID="I3452" Desc="添加报表信息表(new)" Author="rh">
+        INSERT INTO
+        UI_RPT_INFO_REPORT(RPT_ID,LOCAL_RES_CODE,NAME,CYCLE,START_DATE,TITLE_NOTE,
+        RPT_TYPE,PAGECOUNT,ISHEAD,ISLEFT,DISPENSEFLAG,METAFLAG,PRIVATEFLAG,D_USER_ID,
+        DATA_TABLE,DATA_WHERE,DATA_DATE,NEEDDEPT,NEEDPERSON,NEEDREASON,INPUTNOTE,FILLDEPT,STATUS,RP_STATUS,RP_ENGINE)
+        VALUES ('?','?','?','?','?','?',
+        '?','?','?','?','?','?','?','?',
+        '?','?','?','?','?','?','?','?','N','?','?')
+    </Stmt>
+    <Stmt ID="C3453" Desc="修改报表信息表(new)" Author="rh">
+        UPDATE UI_RPT_INFO_REPORT SET
+        LOCAL_RES_CODE='?',NAME='?',CYCLE='?',START_DATE='?',TITLE_NOTE='?',
+        RPT_TYPE='?',PAGECOUNT='?',ISHEAD='?',ISLEFT='?',STARTCOL='?',
+        DISPENSEFLAG='?',METAFLAG='?',PRIVATEFLAG='?',
+        DATA_TABLE='?',DATA_WHERE='?',DATA_DATE='?',
+        NEEDDEPT='?',NEEDPERSON='?',NEEDREASON='?',INPUTNOTE='?',STATUS='?',FILLDEPT='?',RP_STATUS='?',RP_ENGINE='?'
+        WHERE RPT_ID='?'
+    </Stmt>
+    <Stmt ID="D3454" Desc="删除报表本地资源表信息(new)" Author="rh">
+        DELETE FROM UI_PUB_INFO_RESOURCE WHERE RES_ID='?'
+    </Stmt>
+    <Stmt ID="D3455" Desc="删除报表信息表(new)" Author="rh">
+        DELETE FROM UI_RPT_INFO_REPORT WHERE RPT_ID='?'
+    </Stmt>
+    <Stmt ID="Q3460" Desc="不论状态根据报表ID获取报表字典信息(new)" Author="rh">
+        SELECT rpt_id,col_sequence,default_display,dim_code_display,
+        is_expand_col,is_subsum,valuable_sum,field_dim_code,field_code,field_title,
+        data_type,msu_length,msu_unit,comma_splitted,zero_proc,ratio_displayed,
+        has_comratio,has_same,has_last,has_link,link_url,link_target,data_order,
+        sms_flag,td_wrap,title_style,col_style,print_title_style,print_col_style,
+        need_alert,compare_to,ratio_compare,high_value,low_value,alert_mode,
+        rise_color,down_color,is_msu,is_user_msu,msu_id,datatable,status
+        FROM UI_RPT_INFO_DICT WHERE RPT_ID='?' ORDER BY COL_SEQUENCE
+    </Stmt>
+    <Stmt ID="I3461" Desc="添加报表列定义信息(new)" Author="rh">
+        INSERT INTO UI_RPT_INFO_DICT
+        (RPT_ID,COL_SEQUENCE,DEFAULT_DISPLAY,DIM_CODE_DISPLAY,IS_EXPAND_COL,
+        IS_SUBSUM,VALUABLE_SUM,FIELD_DIM_CODE,FIELD_CODE,FIELD_TITLE,DATA_TYPE,MSU_LENGTH,MSU_UNIT,COMMA_SPLITTED,
+        ZERO_PROC,RATIO_DISPLAYED,HAS_COMRATIO,HAS_SAME,HAS_LAST,HAS_LINK,LINK_URL,LINK_TARGET,DATA_ORDER,SMS_FLAG,
+        TD_WRAP,TITLE_STYLE,COL_STYLE,PRINT_TITLE_STYLE,PRINT_COL_STYLE,NEED_ALERT,COMPARE_TO,RATIO_COMPARE,
+        HIGH_VALUE,LOW_VALUE,ALERT_MODE,RISE_COLOR,DOWN_COLOR,IS_MSU,IS_USER_MSU,MSU_ID,DATATABLE,STATUS)
+        VALUES('?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?',
+        '?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?')
+    </Stmt>
+    <Stmt ID="D3463" Desc="删除报表列定义信息(new)" Author="rh">
+        DELETE FROM UI_RPT_INFO_DICT WHERE RPT_ID='?'
+    </Stmt>
+    <Stmt ID="Q3465" Desc="不论状态根据报表ID获取报表条件信息(new)" Author="rh">
+        SELECT A.RPT_ID,A.COL_SEQUENCE,B.DISPLAY_SEQUENCE, CASE WHEN
+        B.RPT_ID IS NULL THEN 'N' ELSE 'Y' END,
+        CASE WHEN C.CON_CODE IS NULL THEN A.FIELD_DIM_CODE ELSE C.CON_CODE END,
+        A.FIELD_CODE, CASE WHEN B.FIELD_TITLE IS NULL
+        THEN A.FIELD_TITLE ELSE B.FIELD_TITLE END, CASE WHEN
+        B.FILTER_TYPE IS NULL THEN 'T' ELSE B.FILTER_TYPE END,
+        B.FILTER_SCRIPT, CASE WHEN B.FILTER_DATASOURCE IS NULL THEN 'N'
+        ELSE B.FILTER_DATASOURCE END, B.FILTER_SQL, CASE WHEN
+        B.FILTER_ALL IS NULL THEN 'N' ELSE B.FILTER_ALL END,
+        B.FILTER_DEFAULT, CASE WHEN B.STATUS IS NULL THEN 'Y' ELSE
+        B.STATUS END, CASE WHEN C.DATA_TYPE IS NULL THEN 2 ELSE
+        C.DATA_TYPE END, CASE WHEN C.CON_TAG IS NULL THEN '=' ELSE
+        C.CON_TAG END
+        FROM UI_RPT_INFO_DICT A
+        LEFT JOIN UI_RPT_INFO_FILTER B ON A.RPT_ID = B.RPT_ID
+        AND A.COL_SEQUENCE = B.COL_SEQUENCE
+        LEFT JOIN (SELECT * FROM UI_PUB_INFO_CONDITION WHERE RES_TYPE = 0 AND QRY_TYPE=0 AND QRY_CODE NOT LIKE
+        '%right_%') C ON A.RPT_ID = C.RES_ID
+        AND A.FIELD_DIM_CODE = C.CON_CODE
+        WHERE A.RPT_ID = '?'
+        AND A.DATA_TYPE = 2
+        ORDER BY B.DISPLAY_SEQUENCE, A.COL_SEQUENCE
+
+    </Stmt>
+    <Stmt ID="I3466" Desc="添加报表条件定义信息(new)" Author="rh">
+        INSERT INTO
+        UI_RPT_INFO_FILTER(RPT_ID,COL_SEQUENCE,DISPLAY_SEQUENCE,FIELD_TITLE,FILTER_TYPE,
+        FILTER_SCRIPT,FILTER_DATASOURCE,FILTER_SQL,FILTER_ALL,FILTER_DEFAULT,STATUS)
+        VALUES ('?','?','?','?','?','?','?','?','?','?','?')
+    </Stmt>
+    <Stmt ID="I3467" Desc="添加条件解析表信息(new)" Author="rh">
+        INSERT INTO
+        UI_PUB_INFO_CONDITION(RES_ID,RES_TYPE,QRY_TYPE,QRY_CODE,CON_CODE,
+        DATA_TYPE,CON_TAG,SEQUENCE,STATUS) VALUES
+        ('?','?','?','?','?','?','?','?','?')
+    </Stmt>
+    <Stmt ID="D3468" Desc="删除报表条件定义信息(new)" Author="rh">
+        DELETE FROM UI_RPT_INFO_FILTER WHERE RPT_ID='?'
+    </Stmt>
+    <Stmt ID="D3469" Desc="删除条件解析表信息(new)" Author="rh">
+        DELETE FROM UI_PUB_INFO_CONDITION WHERE RES_TYPE=0 AND
+        QRY_TYPE=0 AND RES_ID='?'
+        AND qry_code &lt;&gt; 'right_attach_region'
+        AND qry_code &lt;&gt; 'right_metro_id'
+        AND qry_code &lt;&gt; 'right_city_id'
+        AND qry_code &lt;&gt; 'right_county_id'
+        AND qry_code &lt;&gt; 'right_sec_area_id'
+        AND qry_code &lt;&gt; 'right_area_id'
+    </Stmt>
+    <Stmt ID="D3469A" Desc="删除条件解析表信息(new)" Author="rh">
+        DELETE FROM UI_PUB_INFO_CONDITION WHERE RES_TYPE=0 AND
+        QRY_TYPE=1 AND RES_ID='?'
+    </Stmt>
+    <Stmt ID="I3470" Desc="添加报表表头信息(new)" Author="rh">
+        INSERT INTO UI_RPT_INFO_HEAD(RPT_ID,RPT_HEADER) VALUES('?','?')
+    </Stmt>
+    <Stmt ID="U3471" Desc="修改报表表头信息(new)" Author="rh">
+        UPDATE UI_RPT_INFO_HEAD SET RPT_HEADER='?' WHERE RPT_ID='?'
+    </Stmt>
+    <Stmt ID="D3472" Desc="删除报表表头信息(new)" Author="rh">
+        DELETE FROM UI_RPT_INFO_HEAD WHERE RPT_ID='?'
+    </Stmt>
+    <Stmt ID="D3473" Desc="删除报表数据(new)" Author="rh">
+        DELETE FROM UI_RPT_INFO_DATA WHERE RPT_ID='?'
+    </Stmt>
+    <Stmt ID="Q3475" Desc="获取自定义报表指标数据表(new)" Author="rh">
+        SELECT DISTINCT DATATABLE FROM UI_RPT_INFO_DICT WHERE RPT_ID='?'
+        AND IS_MSU='Y' AND STATUS='Y'
+    </Stmt>
+    <Stmt ID="Q3476" Desc="获取自定义报表指标包含的纬度(new)" Author="rh">
+        SELECT
+        DIM_ID,DIM_NAME,DIM_DESC,DIM_TYPE,DIM_TABLE,CODE_IDFLD,IDFLD_TYPE,CODE_DESCFLD,DIM_UNIT,IS_DEPTDIM,TO_USERLVL
+        FROM UI_PUB_META_DIMENSION WHERE DIM_ID IN( SELECT DIM_ID FROM
+        UI_PUB_META_DATATABDIMS WHERE SRCTAB_ID = '?' ) AND IS_VALID='Y'
+        AND DIM_ID NOT LIKE 'T1%'
+    </Stmt>
+    <Stmt ID="Q3477" Desc="获取自定义报表指标包含的纬度(new)" Author="rh">
+        SELECT
+        DIM_ID,DIM_NAME,DIM_DESC,DIM_TYPE,DIM_TABLE,CODE_IDFLD,IDFLD_TYPE,CODE_DESCFLD,DIM_UNIT,IS_DEPTDIM,TO_USERLVL
+        FROM UI_PUB_META_DIMENSION WHERE DIM_ID IN( SELECT DIM_ID FROM
+        UI_PUB_META_DATATABDIMS WHERE SRCTAB_ID IN (?) GROUP BY DIM_ID
+        HAVING COUNT(*) = (SELECT COUNT(DISTINCT SRCTAB_ID) FROM UI_PUB_META_DATA_TAB where SRCTAB_ID in (?) ) ) AND
+        IS_VALID='Y' AND DIM_ID NOT LIKE 'T1%'
+    </Stmt>
+
+    <Stmt ID="D3480" Desc="删除私有报表发布权限" Author="rh">
+        DELETE FROM UI_RPT_INFO_DISPENSE WHERE R_ROLE_ID='?' AND RPT_ID='?'
+    </Stmt>
+    <Stmt ID="C3481" Desc="更新报表发布关系状态(new)" Author="rh">
+        UPDATE UI_RPT_INFO_REPORT SET DISPENSEFLAG='?' WHERE RPT_ID='?'
+    </Stmt>
+    <Stmt ID="I3482" Desc="添加定制报表权限" Author="rh">
+        INSERT INTO UI_RPT_INFO_DISPENSE(RPT_ID,R_ROLE_ID,R_ROLE_TYPE)
+        VALUES('?','?','2')
+    </Stmt>
+    <Stmt ID="Q3490" Desc="定制报表批量发布(定制报表)" Author="rh">
+        SELECT DISTINCT
+        M.RES_ID,M.NAME,M.CYCLE,M.PARENT_ID,M.PARENT_NAME,R.R_ROLE_ID
+        FROM UI_RPT_INFO_DISPENSE R RIGHT OUTER JOIN ( SELECT
+        A.RES_ID,A.NAME,A.CYCLE,A.PARENT_ID,B.NAME AS PARENT_NAME FROM
+        UI_PUB_INFO_RESOURCE A,UI_PUB_INFO_RESOURCE B
+        ,UI_RPT_INFO_DISPENSE C WHERE A.PARENT_ID=B.RES_ID AND A.RES_ID
+        = C.RPT_ID AND C.R_ROLE_TYPE = 2 AND C.R_ROLE_ID IN(SELECT
+        ROLE_CODE FROM ULP.RULE_OPER_ROLE@CREDIT_ROUTER_LINK WHERE
+        OPER_NO='?') AND A.DISPENSEFLAG='Y' AND A.STATUS='Y' AND
+        A.ISRESOURCE='Y' AND ? ) M ON R.RPT_ID = M.RES_ID AND
+        R.R_ROLE_ID = '?' ORDER BY M.PARENT_ID, M.CYCLE
+    </Stmt>
+    <Stmt ID="I3492" Desc="添加报表权限" Author="jcm">
+        INSERT INTO UI_RPT_INFO_DISPENSE(RPT_ID,R_ROLE_ID,R_ROLE_TYPE)
+        VALUES('?','?',2)
+    </Stmt>
+    <Stmt ID="Q3493" Desc="判断报表权限是否已经存在" Author="jcm">
+        SELECT RPT_ID FROM UI_RPT_INFO_DISPENSE WHERE R_ROLE_ID='?' AND
+        RPT_ID = '?'
+    </Stmt>
+    <Stmt ID="Q3590" Desc="查询多列报表数据" Author="jcm">
+        SELECT A.REPORT_ID , A.MEASURE_ID , A.ORDER_NUM , A.NAME , A.VALUE , A.UNIT ,A.LENGTH , B.MEASURE_ID , B.NAME
+        ,B.VALUE , B.UNIT ,B.LENGTH
+        FROM
+        (SELECT A.REPORT_ID,A.MEASURE_ID,A.ORDER_NUM,A.NAME,B.VALUE,A.UNIT,A.LENGTH
+        FROM
+        (select B.REPORT_ID AS REPORT_ID ,
+        B.measure_id AS MEASURE_ID ,
+        B.MEASURE_SEQUENCE AS ORDER_NUM,
+        c.name AS NAME,
+        c.unit AS UNIT ,
+        c.digit_len AS LENGTH
+        from ui_rpt_relt_measure B , ui_rpt_info_measure C
+        where 1=1
+        and B.REPORT_ID = '?'
+        and B.measure_level = 1
+        and B.MEASURE_ID = C.id(+) ) A left join
+        (SELECT * FROM ui_rpt_info_measure_data WHERE REGION_ID = ? AND DATE_ID = ?) B
+        on A.MEASURE_ID = b.Measure_Id) A,
+        (SELECT A.REPORT_ID,A.MEASURE_ID,A.ORDER_NUM,A.NAME,B.VALUE,A.UNIT,A.LENGTH
+        FROM
+        (select B.REPORT_ID AS REPORT_ID ,
+        B.measure_id AS MEASURE_ID ,
+        B.MEASURE_SEQUENCE AS ORDER_NUM,
+        c.name AS NAME,
+        c.unit AS UNIT ,
+        c.digit_len AS LENGTH
+        from ui_rpt_relt_measure B , ui_rpt_info_measure C
+        where 1=1
+        and B.REPORT_ID = '?'
+        and B.measure_level = 2
+        and B.MEASURE_ID = C.id(+) ) A
+        left join (SELECT * FROM ui_rpt_info_measure_data WHERE REGION_ID = ? AND DATE_ID = ?) B
+        on A.MEASURE_ID = b.Measure_Id) B
+        where A.REPORT_ID = B.REPORT_ID(+)
+        AND A.ORDER_NUM = B.ORDER_NUM(+)
+    </Stmt>
+
+    <Stmt ID="Q5100" Desc="获取某级基本指标(自定义指标)" Author="dxf">
+        SELECT DISTINCT E.SRCTAB_ID,E.DATATAB_NAME,A.MSU_ID,D.MSU_NAME,
+        D.MSU_RULE,D.RULE_DESC,D.MSU_DESC,D.PRECISION,D.CHILD_ID FROM
+        UI_PUB_META_DERI_MSU_DIMS A, (SELECT DISTINCT
+        B.MSU_ID,B.MSU_NAME,B.MSU_RULE,B.RULE_DESC,B.MSU_DESC,B.PRECISION,
+        B.PARENT_ID,B.IS_VALID,C.PARENT_ID AS CHILD_ID FROM
+        UI_PUB_META_MEASURE B LEFT JOIN UI_PUB_META_MEASURE C ON
+        B.MSU_ID=C.PARENT_ID) D, UI_PUB_META_DATA_TAB E WHERE
+        A.MSU_ID=D.MSU_ID AND D.PARENT_ID=? AND D.IS_VALID='Y' AND
+        E.SRCTAB_ID=A.SRCTAB_ID AND (E.USED_FOR=? OR E.USED_FOR=?) AND
+        E.STATIC_PERIOD=?
+    </Stmt>
+    <Stmt ID="Q5105" Desc="获取某级基本指标(自定义指标)" Author="dxf">
+        SELECT DISTINCT D.MSU_TYPE,F.TYPE_DESC FROM
+        UI_PUB_META_DERI_MSU_DIMS A, (SELECT DISTINCT
+        B.MSU_ID,B.MSU_NAME,B.MSU_RULE,B.RULE_DESC,B.MSU_DESC,B.PRECISION,
+        B.PARENT_ID,B.IS_VALID,C.PARENT_ID AS CHILD_ID,B.MSU_TYPE FROM
+        UI_PUB_META_MEASURE B LEFT JOIN UI_PUB_META_MEASURE C ON
+        B.MSU_ID=C.PARENT_ID) D, UI_PUB_META_DATA_TAB
+        E,UI_PUB_META_MSUTYPE F WHERE A.MSU_ID=D.MSU_ID AND
+        F.TYPE_ID=D.MSU_TYPE AND D.IS_VALID='Y' AND
+        E.SRCTAB_ID=A.SRCTAB_ID AND (E.USED_FOR=? OR E.USED_FOR=?) AND
+        E.STATIC_PERIOD=?
+    </Stmt>
+    <Stmt ID="Q5110" Desc="获取基本指标的相关维度(自定义指标)" Author="dxf">
+        SELECT A.DIM_ID,A.VLVL_ID,A.HLVL_ID, (CASE WHEN A.VLVL_ID=0 THEN
+        B.DIM_NAME ELSE C.LVL_NAME END ) AS DIM_NAME, (CASE WHEN
+        A.VLVL_ID=0 THEN B.DIM_TABLE ELSE C.LVL_TABLE END ) AS
+        DIM_SRCTAB, (CASE WHEN A.VLVL_ID=0 THEN B.CODE_IDFLD ELSE
+        C.CODE_IDFLD END ) AS DIM_CODE, (CASE WHEN A.VLVL_ID=0 THEN
+        B.CODE_DESCFLD ELSE C.CODE_DESCFLD END ) AS DIM_DESC FROM
+        UI_PUB_META_DERI_MSU_DIMS A LEFT JOIN
+        UI_PUB_META_DIMENSION B ON A.DIM_ID=B.DIM_ID LEFT JOIN
+        UI_PUB_META_DIMHIERARCHY C ON A.DIM_ID=C.DIM_ID AND
+        A.VLVL_ID=C.LVL_ID WHERE A.MSU_ID=? AND A.SRCTAB_ID=? ORDER BY
+        A.HLVL_ID ASC
+    </Stmt>
+    <Stmt ID="I5120" Desc="获取基本指标的相关维度(自定义指标)" Author="dxf">
+        INSERT INTO UI_RPT_META_DERI_MEASURE (USER_ID,
+        MSU_ID,MSU_NAME,BASE_MSU,SRCTAB_ID,STAT_PERIOD,IS_VALID)VALUES
+        (?,?,?,?,?,?,?)
+    </Stmt>
+    <Stmt ID="I5130" Desc="获取基本指标的相关维度(自定义指标)" Author="dxf">
+        INSERT INTO UI_RPT_META_USER_SELECTED_DIM (MSU_ID,
+        DIM_ID,DIM_LEVEL,DIM_VALUE)VALUES (?,?,?,?)
+    </Stmt>
+    <Stmt ID="Q5140" Desc="判断是否存在相同名称的指标(自定义指标)" Author="dxf">
+        SELECT MSU_ID FROM UI_RPT_META_DERI_MEASURE WHERE USER_ID=?
+        AND MSU_NAME=? AND STAT_PERIOD=?
+    </Stmt>
+    <Stmt ID="Q5150" Desc="判断是否有日或月自定义指标(自定义指标)" Author="dxf">
+        SELECT MSU_ID FROM UI_RPT_META_DERI_MEASURE WHERE USER_ID=?
+        AND STAT_PERIOD=?
+    </Stmt>
+    <Stmt ID="Q5155" Desc="获取自定义指标(自定义指标)" Author="dxf">
+        SELECT A.MSU_ID,A.MSU_NAME,A.BASE_MSU,A.SRCTAB_ID,B.PRECISION
+        FROM UI_RPT_META_DERI_MEASURE A, UI_PUB_META_MEASURE B WHERE
+        B.MSU_ID=A.BASE_MSU AND A.USER_ID=? AND A.STAT_PERIOD=? AND
+        A.IS_VALID='Y'
+    </Stmt>
+    <Stmt ID="Q5160" Desc="获取自定义指标(自定义指标)" Author="dxf">
+        SELECT DISTINCT
+        B.MSU_ID,B.MSU_NAME,A.SRCTAB_ID,B.PRECISION,B.MSU_DESC FROM
+        UI_RPT_META_DERI_MEASURE A, UI_PUB_META_MEASURE B WHERE
+        B.MSU_ID=A.BASE_MSU AND A.USER_ID=? AND A.STAT_PERIOD=? AND
+        A.IS_VALID='Y'
+    </Stmt>
+    <Stmt ID="Q5165" Desc="获取自定义指标(自定义指标)" Author="dxf">
+        SELECT A.MSU_ID,A.MSU_NAME,A.SRCTAB_ID,B.PRECISION,B.MSU_DESC
+        FROM UI_RPT_META_DERI_MEASURE A, UI_PUB_META_MEASURE B WHERE
+        B.MSU_ID=A.BASE_MSU AND A.BASE_MSU=? AND A.USER_ID=? AND
+        A.STAT_PERIOD=? AND A.IS_VALID='Y'
+    </Stmt>
+    <Stmt ID="Q5170" Desc="获取自定义指标(自定义指标)" Author="dxf">
+        SELECT A.DIM_ID,A.VLVL_ID,A.HLVL_ID, (CASE WHEN A.VLVL_ID=0 THEN
+        B.DIM_NAME ELSE C.LVL_NAME END ) AS DIM_NAME, (CASE WHEN
+        A.VLVL_ID=0 THEN B.DIM_TABLE ELSE C.LVL_TABLE END ) AS
+        DIM_SRCTAB, (CASE WHEN A.VLVL_ID=0 THEN B.CODE_IDFLD ELSE
+        C.CODE_IDFLD END ) AS DIM_CODE, (CASE WHEN A.VLVL_ID=0 THEN
+        B.CODE_DESCFLD ELSE C.CODE_DESCFLD END ) AS DIM_DESC,
+        E.DIM_VALUE FROM UI_PUB_META_DERI_MSU_DIMS A LEFT JOIN
+        UI_PUB_META_DIMENSION B ON A.DIM_ID=B.DIM_ID LEFT JOIN
+        UI_PUB_META_DIMHIERARCHY C ON A.DIM_ID=C.DIM_ID AND
+        A.VLVL_ID=C.LVL_ID LEFT JOIN UI_RPT_META_DERI_MEASURE D ON
+        A.MSU_ID=D.BASE_MSU AND A.SRCTAB_ID=D.SRCTAB_ID LEFT JOIN
+        UI_RPT_META_USER_SELECTED_DIM E ON D.MSU_ID=E.MSU_ID AND
+        A.DIM_ID=E.DIM_ID WHERE D.MSU_ID=? ORDER BY A.HLVL_ID ASC
+    </Stmt>
+    <Stmt ID="D5180" Desc="删除自定义指标(自定义指标)" Author="dxf">
+        DELETE FROM UI_RPT_META_DERI_MEASURE WHERE MSU_ID=?
+    </Stmt>
+    <Stmt ID="D5190" Desc="删除自定义指标的维度(自定义指标)" Author="dxf">
+        DELETE FROM UI_RPT_META_USER_SELECTED_DIM WHERE MSU_ID=?
+    </Stmt>
+    <Stmt ID="C5200" Desc="更改自定义指标(自定义指标)" Author="dxf">
+        UPDATE UI_RPT_META_DERI_MEASURE SET MSU_NAME=? WHERE
+        MSU_ID=?
+    </Stmt>
+    <Stmt ID="Q5210" Desc="查询自定义指标是否已被使用(自定义指标)" Author="dxf">
+        SELECT MSU_ID FROM UI_RPT_INFO_DICT WHERE IS_MSU='Y' AND
+        IS_USER_MSU='Y' AND MSU_ID=?
+    </Stmt>
+    <Stmt ID="Q5220" Desc="查询是否存在相同名称的自定义指标(自定义指标)" Author="dxf">
+        SELECT MSU_ID FROM UI_RPT_META_DERI_MEASURE WHERE MSU_ID!=?
+        AND MSU_NAME=?
+    </Stmt>
+    <!-- 报表管理结束 -->
+
+    <!-- 报表中心结束 -->
+
+    <!-- 统一文字描述开始 -->
+    <Stmt ID="CON_Q5500" Desc="统一文字模板内容" Author="rh">
+        SELECT  CUSTCONTENT_ID
+               ,CUSTCONTENT_NAME
+               ,CUSTCONTENT
+               ,CUSTCONTENT_BUSINESS_TYPE
+               ,DATA_TABLE
+               ,DATE_CODE
+               ,MSU_CODE
+               ,CREATE_TIME
+               ,CREATE_USER_ID
+               ,LAST_MODIFY_TIME
+               ,LAST_MODIFY_USER_ID
+               ,MODIFY_TIMES
+               ,VIEW_TIMES
+        FROM UI_CUSTCONTENT_TEMPLATE WHERE 1=1 ?
+    </Stmt>
+    <Stmt ID="CON_Q5510" Desc="统一文字模板内容指标" Author="rh">
+        SELECT  A.CUSTCONTENT_ID
+               ,A.RULE_ID
+               ,A.CONTENT_SEQUENCE
+               ,A.STATUS
+               ,A.MSU_ID
+               ,A.MSU_DESC
+               ,A.DEFAULT_DISPLAY
+               ,A.TYPE_DISPLAY
+               ,A.TYPE_DISPLAY_ORDER
+               ,A.TYPE_DISPLAY_NUM
+               ,A.DATE_DESC
+               ,A.DESC_DATE
+               ,A.DESC_FORNT
+               ,A.DESC_CENTER
+               ,A.DESC_BACK
+               ,A.RES_RUL
+               ,A.CAL_REAL_FLD
+               ,A.CAL_MSU_FLD
+               ,A.CAL_MSU_DESC
+               ,A.DEFAULT_CAL_DISPLAY
+               ,A.TYPE_CAL_DISPLAY
+               ,A.NEED_ALERT
+               ,A.DISPLAY_ALERT
+               ,A.ALERT_TYPE
+               ,A.HIGH_VALUE
+               ,A.LOW_VALUE
+               ,A.RISE_COLOR
+               ,A.DOWN_COLOR
+               ,A.SHOW_CHANGEINFO
+               ,A.SHOW_PICTURE
+               ,A.DIM_CODE1
+               ,A.DIM_VALUE1
+               ,A.DIM_DESC1
+               ,A.DIM_CODE2
+               ,A.DIM_VALUE2
+               ,A.DIM_DESC2
+               ,A.DIM_CODE3
+               ,A.DIM_VALUE3
+               ,A.DIM_DESC3
+               ,B.MSU_FLD
+               ,B.REAL_FLD
+               ,B.MSU_UNIT
+               ,B.PRECISION
+               ,B.COMMA_SPLITTED
+        FROM UI_CUSTCONTENT_MEASURE A, UI_PUB_META_MEASURE B
+        WHERE A.STATUS='Y' AND A.MSU_ID=B.MSU_ID ?
+        ORDER BY A.CONTENT_SEQUENCE
+    </Stmt>
+    <Stmt ID="CON_Q5520" Desc="统一文字模板内容指标" Author="rh">
+        SELECT  A.CUSTCONTENT_ID
+               ,A.RULE_ID
+               ,A.CONTENT_SEQUENCE
+               ,A.STATUS
+               ,A.MSU_ID
+               ,A.MSU_DESC
+               ,A.CAL_MSU_TYPE
+               ,A.CAL_REAL_FLD
+               ,A.SHOW_CHANGEINFO
+               ,A.TYPE_DISPLAY
+               ,A.TYPE_DISPLAY_ORDER
+               ,A.TYPE_DISPLAY_NUM
+               ,A.RES_RUL
+               ,A.NEED_ALERT
+               ,A.ALERT_TYPE
+               ,A.HIGH_VALUE
+               ,A.LOW_VALUE
+               ,A.RISE_COLOR
+               ,A.DOWN_COLOR
+               ,A.SHOW_PICTURE
+               ,A.DIM_CODE1
+               ,A.DIM_VALUE1
+               ,A.DIM_DESC1
+               ,A.DIM_CODE2
+               ,A.DIM_VALUE2
+               ,A.DIM_DESC2
+               ,A.DIM_CODE3
+               ,A.DIM_VALUE3
+               ,A.DIM_DESC3
+               ,A.SELF_SQL
+               ,B.MSU_FLD
+               ,B.REAL_FLD
+               ,B.MSU_UNIT
+               ,B.PRECISION
+               ,B.COMMA_SPLITTED
+        FROM UI_CUSTCONTENT_CALMEASURE A, UI_PUB_META_MEASURE B
+        WHERE A.STATUS='Y' AND A.MSU_ID=B.MSU_ID ?
+        ORDER BY A.CONTENT_SEQUENCE
+    </Stmt>
+
+    <!-- 统一文字描述结束 -->
+
+    <!-- 统一收藏夹开始(4000-4099) -->
+    <Stmt ID="Q4000" Desc="生成统一收藏夹树目录" Author="rh">
+        SELECT DISTINCT RES_ID,NAME,ISRESOURCE,URL FROM
+        UI_PUB_INFO_RESOURCE WHERE PARENT_ID='?' START WITH RES_ID IN
+        (SELECT RES_ID FROM UI_PUB_INFO_FAVORITE WHERE USER_ID='?')
+        CONNECT BY PRIOR PARENT_ID = RES_ID ORDER BY RES_ID
+    </Stmt>
+    <Stmt ID="Q4001" Desc="生成统一收藏夹树目录" Author="rh">
+        SELECT DISTINCT RES_ID,NAME,ISRESOURCE,URL FROM
+        UI_PUB_INFO_RESOURCE WHERE ISRESOURCE='Y' START WITH RES_ID IN
+        (SELECT RES_ID FROM UI_PUB_INFO_FAVORITE WHERE USER_ID='?' AND
+        ITEM_TYPE='?') CONNECT BY PRIOR PARENT_ID = RES_ID ORDER BY
+        RES_ID
+    </Stmt>
+    <Stmt ID="Q4002" Desc="生成统一收藏夹树目录" Author="rh">
+        SELECT RES_ID,NAME,ISRESOURCE,URL FROM UI_PUB_INFO_RESOURCE
+        WHERE PARENT_ID='?'
+    </Stmt>
+    <Stmt ID="Q4006" Desc="获取用户收藏列表" Author="rh">
+        SELECT
+        A.USER_ID,A.RES_ID,A.ITEM_TYPE,A.ITEM_DEFAULT,B.NAME,B.HOT_TYPE,C.NAME
+        FROM UI_PUB_INFO_FAVORITE A,UI_PUB_INFO_RESOURCE
+        B,UI_PUB_INFO_RESOURCE C WHERE A.RES_ID=B.RES_ID AND
+        B.HOT_TYPE=C.RES_ID AND A.USER_ID='?'
+    </Stmt>
+    <Stmt ID="Q4010" Desc="查询某用户的收藏夹信息" Author="rh">
+        SELECT USER_ID,RES_ID,ITEM_TYPE FROM UI_PUB_INFO_FAVORITE WHERE
+        USER_ID='?' AND RES_ID='?'
+    </Stmt>
+    <Stmt ID="Q4011" Desc="查询某用户的默认浏览收藏" Author="rh">
+        SELECT B.NAME,B.URL FROM UI_PUB_INFO_FAVORITE
+        A,UI_PUB_INFO_RESOURCE B WHERE A.RES_ID=B.RES_ID AND
+        A.USER_ID='?' AND A.ITEM_DEFAULT='1'
+    </Stmt>
+    <Stmt ID="I4012" Desc="加入收藏夹信息" Author="rh">
+        INSERT INTO UI_PUB_INFO_FAVORITE(USER_ID,RES_ID,ITEM_TYPE)
+        VALUES('?','?','?')
+    </Stmt>
+    <Stmt ID="D4014" Desc="删除收藏夹信息" Author="rh">
+        DELETE FROM UI_PUB_INFO_FAVORITE WHERE USER_ID='?' AND
+        RES_ID='?'
+    </Stmt>
+    <Stmt ID="C4016" Desc="更新为默认收藏" Author="rh">
+        UPDATE UI_PUB_INFO_FAVORITE SET ITEM_TYPE='0' WHERE USER_ID='?'
+    </Stmt>
+    <Stmt ID="C4017" Desc="更新为常用收藏" Author="rh">
+        UPDATE UI_PUB_INFO_FAVORITE SET ITEM_TYPE='1' WHERE USER_ID='?'
+        AND RES_ID='?'
+    </Stmt>
+    <Stmt ID="C4018" Desc="更新为一般访问收藏" Author="rh">
+        UPDATE UI_PUB_INFO_FAVORITE SET ITEM_DEFAULT='0' WHERE
+        USER_ID='?'
+    </Stmt>
+    <Stmt ID="C4019" Desc="更新为默认访问收藏" Author="rh">
+        UPDATE UI_PUB_INFO_FAVORITE SET ITEM_DEFAULT='1' WHERE
+        USER_ID='?' AND RES_ID='?'
+    </Stmt>
+    <!-- 统一收藏夹结束 -->
+
+
+    <!-- 首页及其他功能结束 -->
+
+    <!-- 通用图形功能开始(4700-4799) -->
+    <Stmt ID="Q4700" Desc="得到通用图形定义" Author="rh">
+        SELECT
+        CHART_ID,CHART_TYPE,CHART_INDEX,CHART_ATTRIBUTE,SQL_MAIN,SQL_WHERE,SQL_ORDER,
+        ISUSECD,CATEGORY_INDEX,SERIES_INDEX,SERIES_LENGTH,SERIES_CUT,SERIES_CUT_LEN,
+        VALUE_INDEX,CATEGORY_DESC,CATEGORY_DESC_INDEX,CHART_DISTYPE,SERIES_ATTRIBUTE FROM
+        UI_PUB_INFO_CHART_DEF WHERE CHART_ID='?'
+    </Stmt>
+    <Stmt ID="Q4700X" Desc="得到通用图形定义" Author="rh">
+        SELECT
+        a.CHART_ID,a.CHART_TYPE,a.CHART_INDEX,a.CHART_ATTRIBUTE,a.SQL_MAIN,a.SQL_WHERE,a.SQL_ORDER,
+        a.ISUSECD,a.CATEGORY_INDEX,a.SERIES_INDEX,a.SERIES_LENGTH,a.SERIES_CUT,a.SERIES_CUT_LEN,
+        a.VALUE_INDEX,a.CATEGORY_DESC,a.CATEGORY_DESC_INDEX,a.CHART_DISTYPE,b.CHART_TYPE_CODE,a.SERIES_ATTRIBUTE
+        FROM UI_PUB_INFO_CHART_DEF a,UI_PUB_INFO_CHART_KIND_DEF b
+        WHERE CHART_ID='?'
+        and a.chart_type=b.CHART_TYPE_ID
+        and a.chart_distype = '?'
+        and b.chart_distype = '?'
+    </Stmt>
+    <Stmt ID="Q4701" Desc="得到通用图形定义" Author="rh">
+        SELECT
+        a.CHART_ID,a.chart_belong,a.CHART_TYPE,a.CHART_INDEX,a.CHART_ATTRIBUTE,a.SQL_MAIN,a.SQL_WHERE,a.SQL_ORDER,
+        a.ISUSECD,a.CATEGORY_INDEX,a.SERIES_INDEX,a.SERIES_LENGTH,a.SERIES_CUT,a.SERIES_CUT_LEN,
+        a.VALUE_INDEX,a.CATEGORY_DESC,a.CATEGORY_DESC_INDEX,a.CHART_DISTYPE,b.CHART_TYPE_CODE,
+        a.SERIES_ATTRIBUTE,b.chart_type_desc
+        FROM UI_PUB_INFO_CHART_DEF a left join UI_PUB_INFO_CHART_KIND_DEF b
+        on a.chart_type=b.CHART_TYPE_ID
+        and a.chart_distype=b.chart_distype
+        WHERE 1=1 ?
+    </Stmt>
+    <Stmt ID="I4702" Desc="insert通用图形定义" Author="rh">
+        insert into UI_PUB_INFO_CHART_DEF(
+        CHART_ID,chart_belong,CHART_TYPE,CHART_INDEX,CHART_ATTRIBUTE,SQL_MAIN,SQL_WHERE,SQL_ORDER,
+        ISUSECD,CATEGORY_INDEX,SERIES_INDEX,SERIES_LENGTH,SERIES_CUT,SERIES_CUT_LEN,
+        VALUE_INDEX,CATEGORY_DESC,CATEGORY_DESC_INDEX,CHART_DISTYPE,SERIES_ATTRIBUTE)
+        values('?','?',?,?,'?','?','?','?',?,?,?,?,'?',?,?,'?','?',?,'?')
+    </Stmt>
+    <Stmt ID="U4703" Desc="update通用图形定义" Author="rh">
+        update UI_PUB_INFO_CHART_DEF set
+        chart_belong='?',CHART_TYPE=?,CHART_INDEX=?,CHART_ATTRIBUTE='?',
+        SQL_MAIN='?',SQL_WHERE='?',SQL_ORDER='?',
+        ISUSECD=?,CATEGORY_INDEX=?,SERIES_INDEX=?,SERIES_LENGTH=?,SERIES_CUT='?',SERIES_CUT_LEN=?,
+        VALUE_INDEX=?,CATEGORY_DESC='?',CATEGORY_DESC_INDEX='?',CHART_DISTYPE=?,SERIES_ATTRIBUTE='?'
+        where CHART_ID='?'
+    </Stmt>
+    <Stmt ID="Q4704" Desc="得到通用图形扩展功能定义" Author="rh">
+        SELECT
+        CHART_ID,FRAME_NAME,CHART_DESC,CATEGORY_DESC,CATEGORY_DESC_INDEX,VALUE_INDEX,
+        WHERESQL,REPLACE_CONTENT,IS_CHECKED,COL_SEQUENCE
+        FROM UI_PUB_INFO_CHART_FUN_DEF WHERE CHART_ID='?'
+        order by COL_SEQUENCE
+    </Stmt>
+    <Stmt ID="I4705" Desc="insert通用图形扩展功能定义" Author="rh">
+        insert into UI_PUB_INFO_CHART_FUN_DEF(
+        CHART_ID,FRAME_NAME,CHART_DESC,CATEGORY_DESC,CATEGORY_DESC_INDEX,VALUE_INDEX,
+        WHERESQL,REPLACE_CONTENT,IS_CHECKED,COL_SEQUENCE)
+        values('?','?','?','?','?',?,'?','?','?',?)
+    </Stmt>
+    <Stmt ID="U4706" Desc="update通用图形扩展功能定义" Author="rh">
+        update UI_PUB_INFO_CHART_FUN_DEF set
+        FRAME_NAME='?',CHART_DESC='?',CATEGORY_DESC='?',CATEGORY_DESC_INDEX='?',
+        VALUE_INDEX=?,WHERESQL='?',REPLACE_CONTENT='?',IS_CHECKED='?'
+        where CHART_ID='?' and COL_SEQUENCE=?
+    </Stmt>
+    <Stmt ID="D4707" Desc="delete通用图形扩展功能定义" Author="rh">
+        delete from UI_PUB_INFO_CHART_FUN_DEF
+        where CHART_ID='?' and COL_SEQUENCE=?
+    </Stmt>
+    <!-- 通用图形功能结束 -->
+
+    <!-- 分析型报表开始 -->
+    <Stmt ID="Q5500" Desc="得到分析型报表的某张报表的定义" Author="dxf">
+        SELECT A.RES_ID,A.PARENT_ID,A.ISRESOURCE,A.ISHOT,A.HOT_TYPE,
+        A.BELONG,A.TYPE,A.CODE,A.NAME,A.CYCLE,A.URL,A.FILLDEPT,
+        A.FILLPERSON,A.MAKEDEPT,A.MAKEPERSON,A.NEEDDEPT,A.NEEDPERSON,
+        A.NEEDREASON,A.INPUTNOTE,
+        A.DIVCITY_FLAG,A.ROW_FLAG,A.ISHEAD,A.ISLEFT,A.STARTCOL,A.PROCESSTYPE,
+        A.PROCESSFLAG,A.DISPENSEFLAG,A.START_DATE,A.DATA_TABLE,
+        A.DATA_WHERE,A.FILTER_ZEROROW,A.DATA_ORDER,A.SEQUENCE,A.STATUS,B.RPT_HEADER
+        FROM UI_PUB_INFO_RESOURCE A LEFT JOIN UI_RPT_INFO_HEAD B
+        ON A.RES_ID=B.RPT_ID WHERE A.STATUS='Y' AND A.RES_ID=?
+    </Stmt>
+    <Stmt ID="Q5510" Desc="得到某个父分析型报表的所有子报表" Author="dxf">
+        SELECT A.RES_ID,A.PARENT_ID,A.ISRESOURCE,A.ISHOT,A.HOT_TYPE,
+        A.BELONG,A.TYPE,A.CODE,A.NAME,A.CYCLE,A.URL,A.FILLDEPT,
+        A.FILLPERSON,A.MAKEDEPT,A.MAKEPERSON,A.NEEDDEPT,A.NEEDPERSON,
+        A.NEEDREASON,A.INPUTNOTE,
+        A.DIVCITY_FLAG,A.ROW_FLAG,A.ISHEAD,A.ISLEFT,A.STARTCOL,A.PROCESSTYPE,
+        A.PROCESSFLAG,A.DISPENSEFLAG,A.START_DATE,A.DATA_TABLE,
+        A.DATA_WHERE,A.FILTER_ZEROROW,A.DATA_ORDER,A.SEQUENCE,A.STATUS,B.RPT_HEADER
+        FROM UI_PUB_INFO_RESOURCE A LEFT JOIN UI_RPT_INFO_HEAD B
+        ON A.RES_ID=B.RPT_ID WHERE A.STATUS='Y' AND A.PARENT_ID=? ORDER
+        BY A.RES_ID ASC
+    </Stmt>
+    <Stmt ID="I5550" Desc="保存用户定制" Author="dxf">
+        INSERT INTO
+        UI_RPT_INFO_USER_OLAP(CUSTOM_RPTID,CUSTOM_RPTNAME,USER_ID,REPORT_ID,DISPLAY_MODE,IS_VALID)
+        VALUES(?,?,?,?,?,?)
+    </Stmt>
+    <Stmt ID="Q55500" Desc="查询用户定制" Author="dxf">
+        SELECT CUSTOM_RPTID,CUSTOM_RPTNAME,USER_ID,REPORT_ID,DISPLAY_MODE,IS_VALID FROM
+        UI_RPT_INFO_USER_OLAP WHERE USER_ID=? AND REPORT_ID=?
+    </Stmt>
+    <Stmt ID="U55501" Desc="更新用户定制" Author="dxf">
+        UPDATE UI_RPT_INFO_USER_OLAP SET CUSTOM_RPTNAME=?,
+        	USER_ID=?,REPORT_ID=?,DISPLAY_MODE=?
+    </Stmt>
+    <Stmt ID="I55502" Desc="删除用户定制报表" Author="dxf">
+        DELETE FROM UI_RPT_INFO_USER_OLAP WHERE CUSTOM_RPTID=?
+    </Stmt>
+    <Stmt ID="I55503" Desc="删除用户定制报表" Author="dxf">
+        DELETE FROM UI_RPT_META_USER_OLAP_DIM WHERE CUSTOM_RPTID=?
+    </Stmt>
+    <Stmt ID="I55504" Desc="删除用户定制报表" Author="dxf">
+        DELETE FROM UI_RPT_META_USER_OLAP_MSU WHERE CUSTOM_RPTID=?
+    </Stmt>
+    <Stmt ID="Q5555" Desc="获取用户收藏的报表属性" Author="dxf">
+        SELECT A.RES_ID,A.PARENT_ID,A.ISRESOURCE,A.ISHOT,A.HOT_TYPE,
+        A.BELONG,A.TYPE,A.CODE,A.NAME,A.CYCLE,A.URL,A.FILLDEPT,
+        A.FILLPERSON,A.MAKEDEPT,A.MAKEPERSON,A.NEEDDEPT,A.NEEDPERSON,
+        A.NEEDREASON,A.INPUTNOTE,
+        A.DIVCITY_FLAG,A.ROW_FLAG,A.ISHEAD,A.ISLEFT,A.STARTCOL,A.PROCESSTYPE,
+        A.PROCESSFLAG,A.DISPENSEFLAG,A.START_DATE,A.DATA_TABLE,
+        A.DATA_WHERE,A.DATA_ORDER,A.SEQUENCE,A.STATUS,B.RPT_HEADER,C.CUSTOM_RPTID,
+        C.CUSTOM_RPTNAME,C.USER_ID,C.REPORT_ID,C.DISPLAY_MODE FROM
+        UI_RPT_INFO_USER_OLAP C, UI_PUB_INFO_RESOURCE A LEFT JOIN
+        UI_RPT_INFO_HEAD B ON A.RES_ID=B.RPT_ID WHERE
+        C.REPORT_ID=A.RES_ID AND C.IS_VALID='Y' AND C.CUSTOM_RPTID=?
+    </Stmt>
+    <Stmt ID="Q5556" Desc="获取用户收藏的报表列表" Author="dxf">
+        SELECT A.RES_ID,A.PARENT_ID,A.ISRESOURCE,A.ISHOT,A.HOT_TYPE,
+        A.BELONG,A.TYPE,A.CODE,A.NAME,A.CYCLE,A.URL,A.FILLDEPT,
+        A.FILLPERSON,A.MAKEDEPT,A.MAKEPERSON,A.NEEDDEPT,A.NEEDPERSON,
+        A.NEEDREASON,A.INPUTNOTE,
+        A.DIVCITY_FLAG,A.ROW_FLAG,A.ISHEAD,A.ISLEFT,A.STARTCOL,A.PROCESSTYPE,
+        A.PROCESSFLAG,A.DISPENSEFLAG,A.START_DATE,A.DATA_TABLE,
+        A.DATA_WHERE,A.DATA_ORDER,A.SEQUENCE,A.STATUS,B.RPT_HEADER,C.CUSTOM_RPTID,
+        C.CUSTOM_RPTNAME,C.USER_ID,C.REPORT_ID,C.DISPLAY_MODE FROM
+        UI_RPT_INFO_USER_OLAP C, UI_PUB_INFO_RESOURCE A LEFT JOIN
+        UI_RPT_INFO_HEAD B ON A.RES_ID=B.RPT_ID WHERE
+        C.REPORT_ID=A.RES_ID AND A.STATUS='Y' AND C.USER_ID='?'
+    </Stmt>
+    <Stmt ID="Q5557" Desc="获取用户定制分析报表" Author="dxf">
+      SELECT   CUSTOM_RPTID,CUSTOM_RPTNAME,USER_ID, REPORT_ID,
+  		DISPLAY_MODE, IS_VALID FROM UI_RPT_INFO_USER_OLAP WHERE
+        IS_VALID='Y' AND CUSTOM_RPTID=?
+    </Stmt>
+    <Stmt ID="Q5558" Desc="获取用户定制分析报表" Author="dxf">
+        SELECT   CUSTOM_RPTID,CUSTOM_RPTNAME,USER_ID, REPORT_ID,
+  		DISPLAY_MODE, IS_VALID FROM UI_RPT_INFO_USER_OLAP WHERE USER_ID=? AND REPORT_ID=? AND IS_VALID='Y'
+    </Stmt>
+    <Stmt ID="Q5560" Desc="获取用户定制的序列值" Author="dxf">
+        SELECT SEQ_RPT_USER_OLAP.NEXTVAL FROM DUAL
+    </Stmt>
+    <Stmt ID="I5570" Desc="保存用户定制的维度" Author="dxf">
+        INSERT INTO
+        UI_RPT_META_USER_OLAP_DIM(CUSTOM_RPTID,DIM_ID,DISPLAY_ORDER)
+        VALUES(?,?,?)
+    </Stmt>
+    <Stmt ID="D5571" Desc="删除用户定制的维度" Author="dxf">
+        DELETE
+        UI_RPT_META_USER_OLAP_DIM WHERE CUSTOM_RPTID=?
+    </Stmt>
+    <Stmt ID="Q5575" Desc="获取用户定制的维度" Author="dxf">
+        SELECT CUSTOM_RPTID,DIM_ID,DISPLAY_ORDER FROM
+        UI_RPT_META_USER_OLAP_DIM WHERE CUSTOM_RPTID=:CUSTOM_RPTID ORDER BY DISPLAY_ORDER
+    </Stmt>
+    <Stmt ID="I5580" Desc="保存用户定制的指标" Author="dxf">
+        INSERT INTO
+        UI_RPT_META_USER_OLAP_MSU(CUSTOM_RPTID,MSU_ID,DISPLAY_ORDER)
+        VALUES(?,?,?)
+    </Stmt>
+    <Stmt ID="D5581" Desc="删除用户定制的指标" Author="dxf">
+        DELETE
+        UI_RPT_META_USER_OLAP_MSU WHERE CUSTOM_RPTID=?
+    </Stmt>
+    <Stmt ID="Q5585" Desc="保存用户定制的指标" Author="dxf">
+        SELECT CUSTOM_RPTID,MSU_ID,DISPLAY_ORDER FROM
+        UI_RPT_META_USER_OLAP_MSU WHERE CUSTOM_RPTID=? ORDER BY DISPLAY_ORDER
+    </Stmt>
+    <Stmt ID="Q5600" Desc="得到指标体系的所有维度定义" Author="dxf">
+        SELECT
+        A.DIM_ID,A.DIM_NAME,A.DIM_DESC,A.DIM_TYPE,A.DIM_TABLE,A.CODE_IDFLD,
+        A.IDFLD_TYPE,A.CODE_DESCFLD,A.DIM_UNIT,A.IS_DEPTDIM,A.TO_USERLVL,A.IS_VALID,
+        A.VAL_DATE,A.EXP_DATE,A.RSV_FLD1,A.RSV_FLD2,A.RSV_FLD3,
+        B.DIM_ID,B.LVL_ID,B.LVL_NAME,B.LVL_DESC,B.LVL_TABLE,B.PARENT_IDFLD,
+        B.PIDFLD_TYPE,B.CODE_IDFLD,B.IDFLD_TYPE,B.CODE_DESCFLD,B.TO_USERLVL,
+        B.IS_VALID,B.RSV_FLD1,B.RSV_FLD2,B.RSV_FLD3 FROM
+        UI_PUB_META_DIMENSION A LEFT JOIN
+        UI_PUB_META_DIMHIERARCHY B ON A.DIM_ID=B.DIM_ID AND
+        B.IS_VALID='Y' WHERE A.IS_VALID='Y' ORDER BY A.DIM_ID,B.LVL_ID
+        ASC
+    </Stmt>
+    <Stmt ID="Q5610" Desc="获取某张分析型报表的维度定义" Author="dxf">
+        SELECT
+        A.REPORT_ID,A.DIM_ID,A.DEFAULT_DISPLAY,A.IS_TIMEDIM,A.DISPLAY_ORDER,
+        A.NEED_DIG,A.INIT_LEVEL,A.MAX_LEVEL,A.TO_USERLIST,A.IS_EVALDEPT,A.IS_DEVDEPT,
+        A.IS_SVCKND,A.IS_VALID,
+        B.REPORT_ID,B.BY_YEAR,B.BY_QUARTER,B.BY_MONTH,B.BY_TENDAYS,B.BY_WEEK,B.BY_DAY
+        FROM UI_RPT_META_OLAP_DIM A LEFT JOIN
+        UI_RPT_META_OLAP_TIME B ON A.REPORT_ID=B.REPORT_ID WHERE
+        A.IS_VALID='Y' AND A.REPORT_ID='?' ORDER BY A.DISPLAY_ORDER ASC
+    </Stmt>
+    <Stmt ID="Q5700" Desc="得到指标体系的所有指标定义" Author="dxf">
+        SELECT
+        A.MSU_ID,A.MSU_NAME,A.MSU_TARGET,A.IS_CALMSU,A.IS_TIMEMSU,A.IS_DERI,
+        A.MSU_TYPE,A.PARENT_ID,A.MSU_RULE,A.RULE_DESC,A.MSU_DESC,A.MSU_UNIT,
+        A.PRECISION,A.COMMA_SPLITTED,A.RATIO_DISPLAYED,A.NVL_PROC,A.ZERO_PROC,
+        A.MSU_FLD,A.REAL_FLD,A.FLD_TYPE,A.IS_VALID,A.VAL_DATE,A.EXP_DATE,
+        A.RSV_FLD1,A.RSV_FLD2,A.RSV_FLD3 FROM UI_PUB_META_MEASURE A
+        WHERE A.IS_VALID='Y' ORDER BY A.MSU_ID
+    </Stmt>
+    <Stmt ID="Q5710" Desc="得到某张报表的所有指标定义" Author="dxf">
+        SELECT
+        A.REPORT_ID,A.MSU_ID,A.COL_NAME,A.DEFAULT_DISPLAY,A.ORDER_ID,
+        A.IS_DIG,A.DIG_LEVEL,A.IS_SUMBYDATE,A.HAS_LINK,A.LINK_URL,A.LINK_TARGET,
+        A.NEED_ALERT,A.COMPARE_TO,A.RATIO_COMPARE,A.HIGH_VALUE,A.LOW_VALUE,A.ALERT_MODE,
+        A.RISE_COLOR,A.DOWN_COLOR,A.IS_VALID FROM
+        UI_RPT_META_OLAP_MSU A WHERE A.IS_VALID='Y' AND
+        A.REPORT_ID='?' ORDER BY A.ORDER_ID ASC
+    </Stmt>
+    <Stmt ID="Q5720" Desc="得到指标体系的某个指标的子节点定义" Author="dxf">
+        SELECT
+        A.MSU_ID,A.MSU_NAME,A.MSU_TARGET,A.IS_CALMSU,A.IS_TIMEMSU,A.IS_DERI,
+        A.MSU_TYPE,A.PARENT_ID,A.MSU_RULE,A.RULE_DESC,A.MSU_DESC,A.MSU_UNIT,
+        A.PRECISION,A.COMMA_SPLITTED,A.RATIO_DISPLAYED,A.NVL_PROC,A.ZERO_PROC,
+        A.MSU_FLD,A.REAL_FLD,A.FLD_TYPE,A.IS_VALID,A.VAL_DATE,A.EXP_DATE,
+        A.RSV_FLD1,A.RSV_FLD2,A.RSV_FLD3 FROM UI_PUB_META_MEASURE A
+        WHERE A.IS_VALID='Y' AND A.PARENT_ID=? ORDER BY A.MSU_ID
+    </Stmt>
+    <Stmt ID="Q5730" Desc="得到指标体系的某个指标的定义" Author="dxf">
+        SELECT
+        A.MSU_ID,A.MSU_NAME,A.MSU_TARGET,A.IS_CALMSU,A.IS_TIMEMSU,A.IS_DERI,
+        A.MSU_TYPE,A.PARENT_ID,A.MSU_RULE,A.RULE_DESC,A.MSU_DESC,A.MSU_UNIT,
+        A.PRECISION,A.COMMA_SPLITTED,A.RATIO_DISPLAYED,A.NVL_PROC,A.ZERO_PROC,
+        A.MSU_FLD,A.REAL_FLD,A.FLD_TYPE,A.IS_VALID,A.VAL_DATE,A.EXP_DATE,
+        A.RSV_FLD1,A.RSV_FLD2,A.RSV_FLD3 FROM UI_PUB_META_MEASURE A
+        WHERE A.IS_VALID='Y' AND A.MSU_ID=? ORDER BY A.MSU_ID
+    </Stmt>
+    <Stmt ID="Q5800" Desc="获取图形分析的默认设置" Author="dxf">
+        SELECT
+        A.REPORT_ID,A.CHART_TYPE,A.ATTR_ID,A.DIM_MSU_ID,A.ALL_DIM_VALUES,
+        A.DIM_LEVEL,A.DIM_VALUE,B.TIME_DUE FROM
+        UI_RPT_META_OLAP_CHART A LEFT JOIN
+        UI_RPT_META_OLAP_CHART_TIME B ON A.REPORT_ID=B.REPORT_ID AND
+        A.CHART_TYPE=B.CHART_TYPE WHERE A.REPORT_ID='?' ORDER BY
+        A.CHART_TYPE,ATTR_ID ASC
+    </Stmt>
+
+
+    <Stmt ID="Q6100" Desc="获取某个表格定义" Author="dxf">
+        SELECT
+        A.TABLE_ID,A.OBJ_TYPE_ID,A.TABLE_DESC,A.DATA_TABLE,A.SQL_WHERE,
+        A.SQL_ORDER,A.ISEXPAND,A.TIME_FIELD,A.FIELD_TYPE,A.TIME_LEVEL,
+        A.CAL_RATIO,A.IS_ROW_CLICK_CHART_CHANGE,A.RLT_CHART_ID,A.HAS_HEAD,
+        B.TABLE_ID,B.TABLE_HEADER,A.HASSUBPAGE,A.SUBPAGE_ID,A.SUBPAGE_URL
+        FROM UI_COMMON_TABLE_DEF A LEFT JOIN UI_COMMON_RTPHEAD B ON
+        A.TABLE_ID=B.TABLE_ID WHERE A.TABLE_ID=?
+    </Stmt>
+    <Stmt ID="Q6110" Desc="获取所有表格定义" Author="dxf">
+        SELECT TABLE_ID FROM UI_COMMON_TABLE_DEF
+    </Stmt>
+    <Stmt ID="Q6200" Desc="获取某个报表的的列定义" Author="dxf">
+        SELECT
+        A.TABLE_ID,A.COL_ID,A.COL_NAME,A.COL_SEQUENCE,A.CODE_FIELD,A.DESC_FIELD,
+        A.IS_DISPLAY,A.IS_CALBYOTHER,A.DATA_TYPE,A.DIGIT_LENGTH,A.ISMEASURE,
+        A.ISEXPANDCOL,A.DEFAULT_DRILLED,A.INIT_LEVEL,
+        A.COLSRCH_WHERE,A.HAS_LINK,A.LINK_URL,A.LINK_TARGET,A.HAS_LAST,A.LAST_FIELD,
+        A.LAST_DISPLAY,A.RISE_ARROW_COLOR,A.HAS_LAST_LINK,A.LAST_URL,A.LAST_TARGET,
+        A.HAS_LOOP,A.LOOP_FIELD,A.LOOP_DISPLAY,A.HAS_LOOP_LINK,A.LOOP_URL,A.LOOP_TARGET,
+        A.HAS_COMRATIO,A.IS_COL_CLICK_CHART_CHANGE,A.COL_RLT_CHART_ID,A.IS_CELL_CLICK_CHART_CHANGE,
+        A.CELL_RLT_CHART_ID,A.STATUS,
+        B.TABLE_ID,B.COL_ID,B.CAL_CMD,B.CAL_MEMO,B.ZERO_NUL,B.RSV_FLD1,B.RSV_FLD2,
+        B.RSV_FLD3,A.COL_DESC,A.IS_RATIO,A.BLK_NUM,A.IS_SUMDISPLAY,COL_RLT_CHART_TARGET
+        FROM UI_COMMON_TABLEDICT A LEFT JOIN UI_COMMON_MSUCAL B ON
+        A.TABLE_ID=B.TABLE_ID AND A.COL_ID=B.COL_ID WHERE A.TABLE_ID=?
+        ORDER BY A.COL_SEQUENCE
+    </Stmt>
+    <Stmt ID="Q6300" Desc="获取某个表格的所有层次定义" Author="dxf">
+        SELECT
+        TABLE_ID,COL_ID,LEV_ID,LEV_NAME,LEV_MEMO,SRC_IDFLD,IDFLD_TYPE,
+        SRC_NAMEFLD,DIMSRCH_WHERE,IS_VALID,RSV_FLD1,RSV_FLD2,RSV_FLD3
+        FROM UI_COMMON_DIMHIERARCHY WHERE TABLE_ID=? ORDER BY
+        COL_ID,LEV_ID
+    </Stmt>
+
+    <!-- 分析型报表结束 -->
+    <!-- 专题公共部分开始 -->
+    <Stmt ID="Q6500" Desc="获取某个表格定义" Author="dxf">
+        SELECT
+        A.TABLE_ID,A.TABLE_NAME,A.TABLE_DESC,A.DATA_TABLE,A.DATA_WHERE,
+        A.HAS_EXPAND,A.THROW_OLD,A.HAS_PAGING,A.TIME_FIELD,A.FIELD_TYPE,A.TIME_LEVEL,
+        A.ROW_CLICKED_CHART_CHANGE,A.RLT_CHART_ID,A.HAS_HEAD,A.SUM_DISPLAY,
+        A.DIM_ASCOL,A.CUSTOM_MSU,A.HAS_EXPANDALL,B.TABLE_ID,B.TABLE_HEADER,B.ROW_SPAN,
+        B.ROW_HEAD_SWAP_HEADER,
+        A.TABLE_TYPE,A.ROW_CLICKED_TABLE_CHANGE,A.RLT_TABLE_ID,A.HAS_SORT,PAGE_ROWS,
+        A.ROW_HEAD_SWAP,A.RIGHT_COL_ID,A.RIGHT_LVL,A.HAS_AVG,A.AVG_POS,A.HEAD_SWAP_RATIO_INDEX,
+        A.HEAD_SWAP_RATIO_DIGIT,A.HEAD_SWAP_COL_DIGIT,A.SUM_POS,A.CONDITION_IN,NO_GROUPBY,
+        NO_ORDERBY 
+        FROM UI_SUBJECT_COMMON_TABLE_DEF A LEFT JOIN
+        UI_SUBJECT_COMMON_RTPHEAD B ON A.TABLE_ID=B.TABLE_ID WHERE
+        A.TABLE_ID='?'
+    </Stmt>
+    <Stmt ID="Q6510" Desc="获取所有表格定义" Author="dxf">
+        SELECT TABLE_ID FROM UI_SUBJECT_COMMON_TABLE_DEF
+    </Stmt>
+    <Stmt ID="Q6520" Desc="获取某个报表的的列定义" Author="dxf">
+        SELECT A.TABLE_ID,A.COL_ID,A.COL_NAME,A.COL_DESC,A.COL_SEQUENCE,
+        A.IS_MEASURE,A.DIM_ASWHERE,A.DIM_ASCOL,A.DEFAULT_DISPLAY,A.IS_EXPAND_COL,
+        A.DEFAULT_DRILLED,A.INIT_LEVEL,
+        A.CODE_FIELD,A.DESC_FIELD,A.DESC_ASTITLE,A.IS_RATIO,A.DATA_TYPE,A.DIGIT_LENGTH,
+        A.HAS_COMRATIO, A.HAS_LINK,A.LINK_URL,A.LINK_TARGET,
+        A.HAS_LAST,A.LAST_DISPLAY,A.RISE_ARROW_COLOR,A.HAS_LAST_LINK,A.LAST_URL,A.LAST_TARGET,
+        A.HAS_LOOP,A.LOOP_DISPLAY,A.HAS_LOOP_LINK,A.LOOP_URL,A.LOOP_TARGET,
+        A.IS_COL_CLICK_CHART_CHANGE,A.COL_RLT_CHART_ID,A.IS_CELL_CLICK_CHART_CHANGE,
+        A.CELL_RLT_CHART_ID,A.STATUS,A.TOTAL_DISPLAYED,A.ROW_SPAN,
+        A.HEAD_PLACE,DEFAULT_SORT,SORT_ORDER,HAS_RANK,RANK_MODE,RANK_ORDER,
+        RANK_VARITY,RANK_LAST, ROW_CSS_CLASS,TITLE_ALIGN,LINK_LIMIT_RIGHT,AVG_DISPLAY,POS_NEG_PROCESS,
+        POS_PROCESS,DIGIT_PROCESS,NEED_SUBSTR,SUBSTR_NUM 
+         FROM UI_SUBJECT_COMMON_TABLE_COLDEF
+        A WHERE A.TABLE_ID='?' ORDER BY A.COL_SEQUENCE
+    </Stmt>
+    <Stmt ID="Q6530" Desc="获取某个表格的所有层次定义" Author="dxf">
+        SELECT
+        TABLE_ID,COL_ID,LEV_ID,LEV_NAME,LEV_MEMO,SRC_IDFLD,IDFLD_TYPE,
+        SRC_NAMEFLD,DESC_ASTITLE,HAS_LINK,LINK_URL,LINK_TARGET FROM
+        UI_SUBJECT_COMMON_DIMHIERARCHY WHERE TABLE_ID='?' ORDER BY
+        COL_ID,LEV_ID
+    </Stmt>
+    <!-- 专题公共部分结束 -->
+
+
+    <!--领导门户开始-->
+    <Stmt ID="AIQ1005" Desc="查询领导看板门户 单一指标信息" Author="jincm">
+        SELECT MSU_ID,
+        MSU_CODE,
+        PARENT_ID,
+        MSU_TYPE,
+        MSU_NAME,
+        MSU_DESC,
+        UNIT,
+        STATUS,
+        DIGIT,
+        SEQUENCE,
+        DAY_SAME_LIMIT,
+        DAY_LAST_LIMIT,
+        DAY_AGG_SAME_LIMIT,
+        DAY_AGG_LAST_LIMIT,
+        MONTH_SAME_LIMIT,
+        MONTH_LAST_LIMIT,
+        MONTH_AGG_SAME_LIMIT,
+        MONTH_AGG_LAST_LIMIT,
+        MSU_BELONG,
+        MSU_KND,
+        MSU_CYCLE
+        FROM UI_PUB_INFO_MSU
+        WHERE MSU_ID = '?'
+    </Stmt>
+    <Stmt ID="AIQ1006" Desc="查询领导看板门户指标区域排名聚焦" Author="jincm">
+        SELECT A.CITY_ID AS CITY_ID,A.CITY_NAME AS CITY_NAME, SUM(A.CUR_VALUE) as valuenum
+        FROM ? A
+        WHERE 1=1 ?
+        GROUP BY A.CITY_ID ,A.CITY_NAME
+        UNION
+        SELECT A.CITY_ID AS CITY_ID,A.CITY_NAME AS CITY_NAME,A.DATA1/B.NUM as valuenum
+        FROM
+        (SELECT '999' AS CITY_ID,
+        '市均值' AS CITY_NAME,
+        SUM(A.CUR_VALUE) as data1
+        FROM ? A
+        WHERE 1 = 1 ?) A , (SELECT COUNT(*) AS NUM FROM D_CITY) B
+        ORDER BY valuenum desc
+    </Stmt>
+
+    <Stmt ID="AIQ1009" Desc="查询领导看板门户竞争对手雷达图" Author="jincm">
+        SELECT A.CITY_ID ,
+        A.CITY_DESC,
+        COALESCE(SUM(CASE WHEN OPP_ID ='11' THEN A.NEW_UNUM END),0),
+        COALESCE(SUM(CASE WHEN OPP_ID ='11' THEN A.AGG_NEW_UNUM END),0),
+        COALESCE(SUM(CASE WHEN OPP_ID ='11' THEN A.ARRIVE_UNUM END),0),
+        COALESCE(SUM(CASE WHEN OPP_ID ='12' THEN A.NEW_UNUM END),0),
+        COALESCE(SUM(CASE WHEN OPP_ID ='12' THEN A.AGG_NEW_UNUM END),0),
+        COALESCE(SUM(CASE WHEN OPP_ID ='12' THEN A.ARRIVE_UNUM END),0),
+        COALESCE(SUM(CASE WHEN OPP_ID ='13' THEN A.NEW_UNUM END),0),
+        COALESCE(SUM(CASE WHEN OPP_ID ='13' THEN A.AGG_NEW_UNUM END),0),
+        COALESCE(SUM(CASE WHEN OPP_ID ='13' THEN A.ARRIVE_UNUM END),0),
+        COALESCE(SUM(A.NEW_UNUM),0),
+        COALESCE(SUM(A.AGG_NEW_UNUM),0),
+        COALESCE(SUM(A.ARRIVE_UNUM),0)
+        FROM FUI_LEADER_OPP_UNUM_D A
+        WHERE 1=1 ?
+        GROUP BY A.CITY_ID , A.CITY_DESC
+        ORDER BY A.CITY_ID
+    </Stmt>
+
+    <Stmt ID="AIMAPD01" Desc="地图查询C网日新增用户数" Author="liuhc">
+        select case when B.city_id is null then '999' else B.city_id end city_id,
+        case when B.city_id is null then '全市' else B.city_DESC end city_name,
+        COALESCE(sum(A.cur_value),0),
+        COALESCE(sum(A.last_value),0),
+        COALESCE(sum(A.agg_value),0),
+        COALESCE(sum(A.same_value), 0),
+        COALESCE(sum(A.last_agg_value), 0),
+        COALESCE(sum(A.same_agg_value), 0)
+        from ?  A RIGHT OUTER JOIN D_CITY B
+        on A.CITY_ID = B.CITY_ID ?
+        GROUP BY rollup (B.city_id , B.city_DESC)
+        HAVING(B.city_id IS NOT NULL AND B.city_desc IS NOT NULL) OR (B.city_id IS NULL AND B.city_desc IS NULL)
+        ORDER BY B.city_id
+    </Stmt>
+
+    <Stmt ID="MAP002" Desc="FALSH地图阀值限定查询" Author="liuhc">
+        select ?_last_limit, ?_same_limit, ?_agg_last_limit, ?_agg_same_limit from UI_PUB_INFO_MSU where MSU_ID = '?'
+    </Stmt>
+
+    <Stmt ID="MAP001" Desc="FLASH实例地图信息查询" Author="liuhc">
+        select
+        map_id,map_name,map_width,map_height,map_color,bg_color,isshowbgcolor,isshowpop,areasql,map_src_name,res_id,res_type,js_function,limit_color
+        from UI_PUB_MAP_INFO
+        where map_id = '?'
+    </Stmt>
+
+    <Stmt ID="AIVIEW01" Desc="根据指标查询该指标能显示的视图" Author="liuhc">
+        select a.VIEW_ID,b.view_name
+        from UI_LEADER_RULE_MSU_VIEW a,UI_LEADER_ANALYSE_VIEW b
+        where a.VIEW_ID = b.VIEW_ID and a.MSU_ID = '?'
+        order by a.SEQUENCE
+    </Stmt>
+
+    <!--领导门户结束-->
+
+    <!--运营监控开始-->
+    <Stmt ID="DAYTOP001-1" Desc="总体日分析查询" Author="shidf">
+
+        select
+        MSU_NAME,decimal(MSU_VAL_AGG_CUR,12),decimal(MSU_VAL_AGG_L1M_CUR,12),decimal((MSU_VAL_AGG_CUR-MSU_VAL_AGG_L1M_CUR),12)
+        as
+        zl,rtrim(char(mod(bigint(abs((MSU_VAL_AGG_CUR-MSU_VAL_AGG_L1M_CUR)/MSU_VAL_AGG_L1M_CUR*100)),99999999)))||'.'||substr(char(decimal((MSU_VAL_AGG_CUR-MSU_VAL_AGG_L1M_CUR)/MSU_VAL_AGG_L1M_CUR*100,12,2)),12,2)||'%'
+        from FUI_MONITOR_OVERVIEW_D where (city_id = '?' or ''='?') and gather_date=?
+    </Stmt>
+    <Stmt ID="DAYTOP001" Desc="总体日分析查询" Author="shidf">
+        select
+        m.MSU_NAME,
+        sum(decimal(value(MSU_VAL_AGG_CUR,0),12)),
+        sum(decimal(value(MSU_VAL_AGG_L1M_CUR,0),12)),
+        sum(decimal((value(MSU_VAL_AGG_CUR,0)-value(MSU_VAL_AGG_L1M_CUR,0)),12)) as zl,
+        case when sum(decimal(value(MSU_VAL_AGG_L1M_CUR,0),12))=0 then 100 else
+        100.00*sum(decimal((value(MSU_VAL_AGG_CUR,0)-value(MSU_VAL_AGG_L1M_CUR,0)),12))
+        /sum(decimal(value(MSU_VAL_AGG_L1M_CUR,0),12)) end
+        from
+        (select * from dw.ui_pub_info_msu where msu_id in
+        ('FOV0010','FOV0020','FOV0070','FOV0030','SOV0180','UOV0150','SOV0190','UOV0160','FOV0170') ) m
+        left join
+        (select * from FUI_MONITOR_OVERVIEW_D where (city_id = '?' or '?'='')
+        and (svc_kind_id like '?%' or '?'='')
+        and gather_date=? ) a
+        on m.msu_id=a.msu_id
+        group by m.MSU_NAME,m.msu_id
+        order by m.msu_id
+    </Stmt>
+
+
+    <Stmt ID="DAYTOP002" Desc="总体日分析查询_分区域" Author="shidf">
+        select a.city_name
+        ,sum(a.sr0001) as sr0001
+        ,sum(a.sr0002) as sr0002
+        ,sum(a.sr0003) as sr0003
+        ,sum(a.sr0004) as sr0004
+        ,sum(a.sr0005) as sr0005
+        ,sum(a.sr0006) as sr0006
+        ,sum(a.sr0007) as sr0007
+        ,sum(a.sr0008) as sr0008
+        ,sum(a.sr0009) as sr0009
+        from
+        (
+        select city_id,city_name
+        ,case when msu_id='FOV0010' then (?) else 0 end as sr0001
+        ,case when msu_id='FOV0020' then (?) else 0 end as sr0002
+        ,case when msu_id='FOV0070' then (?) else 0 end as sr0003
+        ,case when msu_id='FOV0030' then (?) else 0 end as sr0004
+        ,case when msu_id='SOV0180' then (?) else 0 end as sr0005
+        ,case when msu_id='UOV0150' then (?) else 0 end as sr0006
+        ,case when msu_id='SOV0190' then (?) else 0 end as sr0007
+        ,case when msu_id='UOV0160' then (?) else 0 end as sr0008
+        ,case when msu_id='FOV0170' then (?) else 0 end as sr0009
+        from FUI_MONITOR_OVERVIEW_D
+        where 1=1 ?
+        ) a
+        group by a.city_name
+    </Stmt>
+    <Stmt ID="DAYTOP003" Desc="总体日分析查询_分区域" Author="shidf">
+        select a.city_name
+        ,sum(a.sr0001) as sr0001
+        ,sum(a.sr0002) as sr0002
+        ,sum(a.sr0003) as sr0003
+        ,sum(a.sr0004) as sr0004
+        ,sum(a.sr0005) as sr0005
+        ,sum(a.sr0006) as sr0006
+        ,sum(a.sr0007) as sr0007
+        ,sum(a.sr0008) as sr0008
+        ,sum(a.sr0009) as sr0009
+        from
+        (
+        select city_id,city_name
+        ,case when msu_id='FOV0010' then (?) else 0 end as sr0001
+        ,case when msu_id='FOV0020' then (?) else 0 end as sr0002
+        ,case when msu_id='FOV0070' then (?) else 0 end as sr0003
+        ,case when msu_id='FOV0030' then (?) else 0 end as sr0004
+        ,case when msu_id='SOV0180' then (?) else 0 end as sr0005
+        ,case when msu_id='UOV0150' then (?) else 0 end as sr0006
+        ,case when msu_id='SOV0190' then (?) else 0 end as sr0007
+        ,case when msu_id='UOV0160' then (?) else 0 end as sr0008
+        ,case when msu_id='FOV0170' then (?) else 0 end as sr0009
+        from FUI_MONITOR_OVERVIEW_D
+        where 1=1 ?
+        group by city_id,city_name,msu_id
+        ) a
+        group by a.city_name
+    </Stmt>
+    <Stmt ID="callView001" Desc="话务监控图形" Author="shidf">
+        select GATHER_DATE,sum(msu_val) from FUI_MONITOR_CDR_D
+        where MSU_ID='?' and (CITY_ID='?' or '?'='' ) and (SVC_KIND_ID='?' or '?'='') and GATHER_MONTH=?
+        group by GATHER_DATE
+    </Stmt>
+    <Stmt ID="callView002" Desc="话务监控图形" Author="shidf">
+        select msu_id,msu_name from UI_PUB_INFO_MSU where msu_id in (?)
+    </Stmt>
+
+
+    <Stmt ID="yyjkDim" Desc="运行监控取维表信息" Author="xh">
+        select ?,? from ? order by SEQUENCE
+    </Stmt>
+
+    <Stmt ID="AIM1001" Desc="门户日监控总览分析" Author="jincm">
+        select B.MSU_ID,
+        B.MSU_NAME,
+        B.PARENT_ID,
+        A.DATA1,
+        A.DATA2,
+        A.DATA3,
+        A.DATA4,
+        A.DATA5,
+        A.DATA6,
+        A.DATA7,
+        A.DATA8,
+        A.DATA9,
+        A.DATA10,
+        A.DATA11,
+        A.DATA12,
+        A.DATA13,
+        A.DATA14,
+        A.DATA15,
+        B.UNIT,
+        B.digit
+        FROM (SELECT A.MSU_ID,
+        A.MSU_NAME,
+        COALESCE(SUM(A.MSU_VAL_CUR), 0) AS DATA1,
+        COALESCE(SUM(A.MSU_VAL_L1D), 0) AS DATA2,
+        COALESCE(SUM(A.MSU_VAL_L2D), 0) AS DATA3,
+        COALESCE(SUM(A.MSU_VAL_L3D), 0) AS DATA4,
+        COALESCE(SUM(A.MSU_VAL_AGG_CUR), 0) AS DATA5,
+        COALESCE(SUM(A.MSU_VAL_L1M_CUR), 0) AS DATA6,
+        COALESCE(SUM(A.MSU_VAL_L1M_L1D), 0) AS DATA7,
+        COALESCE(SUM(A.MSU_VAL_L1M_L2D), 0) AS DATA8,
+        COALESCE(SUM(A.MSU_VAL_L1M_L3D), 0) AS DATA9,
+        COALESCE(SUM(A.MSU_VAL_AGG_L1M_CUR), 0) AS DATA10,
+        COALESCE(SUM(A.MSU_VAL_AGG_L2M_CUR), 0) AS DATA11,
+        COALESCE(SUM(A.MSU_VAL_AGG_L3M_CUR), 0) AS DATA12,
+        COALESCE(SUM(A.MSU_VAL_AGG_L1Y_M), 0) AS DATA13,
+        COALESCE(SUM(A.MSU_VAL_AGG_L1Y_L1M), 0) AS DATA14,
+        COALESCE(SUM(A.MSU_VAL_AGG_L1Y_L2M), 0) AS DATA15
+        FROM FUI_MONITOR_DOOR_OVERVIEW_D A
+        WHERE 1 = 1 ?
+        GROUP BY A.MSU_ID, A.MSU_NAME) A
+        RIGHT OUTER JOIN (SELECT *
+        FROM UI_PUB_INFO_MSU B
+        WHERE B.MSU_BELONG = '?') B ON A.MSU_ID = B.MSU_ID
+        ORDER BY B.SEQUENCE
+    </Stmt>
+
+    <Stmt ID="AIM1002" Desc="门户日监控总览分析" Author="jincm">
+        SELECT
+        A.MSU_ID,
+        A.MSU_DESC,
+        A.UNIT,
+        A.DIGIT
+        FROM UI_PUB_INFO_MSU A
+        WHERE A.MSU_BELONG = '?'
+        ORDER BY A.SEQUENCE
+    </Stmt>
+
+
+    <!--运营监控结束-->
+    <Stmt ID="CUSTMF001" Desc="经营盘点-客户收入构成" Author="shidf">
+        select GATHER_MONTH ,?
+        from FUI_MONITOR_CUST_FEECONST_M
+        where 1=1 ?
+        group by GATHER_MONTH
+    </Stmt>
+
+    <!--套餐专题开始-->
+    <Stmt ID="AIQ4001" Desc="经营盘点-客户收入构成" Author="shidf">
+        SELECT A.PLAN_ID , A.PLNA_NAME ,
+        SUM(A.ONL_UNUM) ,
+        SUM(A.BILL_DURA) ,
+        SUM(A.REAL_FEE),
+        SUM(A.RENT_FEE),
+        SUM(A.CALL_FEE),
+        SUM(A.BASE_FEE),
+        SUM(A.FAV_FEE),
+        SUM(A.BILL_UNUM),
+        SUM(A.HOLD_FEE),
+        SUM(A.OFFNET_UNUM),
+        SUM(A.OFFNET_INNER_UNUM),
+        SUM(A.OFFNET_OUTTER_UNUM),
+        SUM(A.ADD_OUTTER_UNUM),
+        SUM(A.ADD_INNER_UNUM)
+        FROM FUI_PLAN_VALUE_RANK_M A
+        WHERE 1=1 ?
+        GROUP BY A.PLAN_ID , A.PLNA_NAME
+        ORDER BY A.PLAN_ID , A.PLNA_NAME
+    </Stmt>
+    <!--套餐专题结束-->
+
+    <!-- 参数配置开始 -->
+    <Stmt ID="QS001" Desc="参数配置引擎参数规则提取">
+        select type_code ,
+        type_name ,
+        rule_type ,
+        code_id ,
+        code_name ,
+        code_filed ,
+        code_datasource,
+        code_condition,
+        code_order,
+        code_seq,
+        status
+        from UI_CODE_LIST
+        where status = '1'
+        order by type_code , rule_type , code_seq
+    </Stmt>
+    <!-- 参数配置结束 -->
+
+
+    <!-- 即席查询开始 -->
+    <Stmt ID="QT001" Desc="提取即席查询条件定制">
+        select B.GROUP_ID ,B.PARENT_GROUP_ID,B.GROUP_NAME
+        ,B.GROUP_DESC,B.GROUP_BELONG , B.ISSHOW,B.GROUP_TAG, B.SEQUENCE
+        from ui_adhoc_rule_hoc_group A , ui_adhoc_group_meta B where
+        a.group_id = b.group_id and a.adhoc_id = '?' and b.group_belong
+        = 'C' order by b.group_belong ,a.sequence
+    </Stmt>
+
+    <Stmt ID="QT001_1" Desc="提取即席查询条件定制">
+	 SELECT distinct A.GROUP_ID ,A.PARENT_GROUP_ID,A.GROUP_NAME
+        ,A.GROUP_DESC,A.GROUP_BELONG , A.ISSHOW,A.GROUP_TAG, A.SEQUENCE
+        FROM UI_ADHOC_GROUP_META A , (SELECT DISTINCT GROUP_ID FROM
+        UI_ADHOC_GROUP_META START WITH GROUP_ID IN(
+         select distinct A.group_id from ui_adhoc_rule_group_prop A,
+(
+ select RES_ID,RES_TYPE from UI_RULE_ADHOC_ROLE where adhoc_id='?' and res_type in('1','2','3') and role_id='?'
+ ) B where a.meta_type=b.RES_TYPE and a.meta_code=b.res_id
+
+        ) CONNECT BY PRIOR
+        PARENT_GROUP_ID = GROUP_ID ) B WHERE A.GROUP_ID = B.GROUP_ID and group_belong
+        = 'C'
+        ORDER BY group_belong,SEQUENCE
+
+    </Stmt>
+
+    <Stmt ID="QT002" Desc="提取即席查询纬度定制">
+        select B.GROUP_ID ,B.PARENT_GROUP_ID,B.GROUP_NAME
+        ,B.GROUP_DESC,B.GROUP_BELONG , B.ISSHOW,B.GROUP_TAG, B.SEQUENCE
+        from ui_adhoc_rule_hoc_group A , ui_adhoc_group_meta B where
+        a.group_id = b.group_id and a.adhoc_id = '?' and b.group_belong
+        = 'D' order by b.group_belong ,a.sequence
+    </Stmt>
+
+    <Stmt ID="QT002_1" Desc="提取即席查询纬度定制">
+		 SELECT distinct A.GROUP_ID ,A.PARENT_GROUP_ID,A.GROUP_NAME
+        ,A.GROUP_DESC,A.GROUP_BELONG , A.ISSHOW,A.GROUP_TAG, A.SEQUENCE
+        FROM UI_ADHOC_GROUP_META A , (SELECT DISTINCT GROUP_ID FROM
+        UI_ADHOC_GROUP_META START WITH GROUP_ID IN(
+         select distinct A.group_id from ui_adhoc_rule_group_prop A,
+(
+ select RES_ID,RES_TYPE from UI_RULE_ADHOC_ROLE where adhoc_id='?' and res_type in('1','2','3') and role_id='?'
+ ) B where a.meta_type=b.RES_TYPE and a.meta_code=b.res_id
+
+        ) CONNECT BY PRIOR
+        PARENT_GROUP_ID = GROUP_ID ) B WHERE A.GROUP_ID = B.GROUP_ID and group_belong
+        = 'D'
+        ORDER BY group_belong,SEQUENCE
+
+    </Stmt>
+
+    <Stmt ID="QT003" Desc="提取即席查询度量定制">
+        select B.GROUP_ID ,B.PARENT_GROUP_ID,B.GROUP_NAME
+        ,B.GROUP_DESC,B.GROUP_BELONG , B.ISSHOW,B.GROUP_TAG, B.SEQUENCE
+        from ui_adhoc_rule_hoc_group A , ui_adhoc_group_meta B where
+        a.group_id = b.group_id and a.adhoc_id = '?' and b.group_belong
+        = 'M' order by b.group_belong ,a.sequence
+    </Stmt>
+
+    <Stmt ID="QT003_1" Desc="提取即席查询度量定制">
+	     SELECT distinct A.GROUP_ID ,A.PARENT_GROUP_ID,A.GROUP_NAME
+        ,A.GROUP_DESC,A.GROUP_BELONG , A.ISSHOW,A.GROUP_TAG, A.SEQUENCE
+        FROM UI_ADHOC_GROUP_META A , (SELECT DISTINCT GROUP_ID FROM
+        UI_ADHOC_GROUP_META START WITH GROUP_ID IN(
+         select distinct A.group_id from ui_adhoc_rule_group_prop A,
+(
+ select RES_ID,RES_TYPE from UI_RULE_ADHOC_ROLE where adhoc_id='?' and res_type in('1','2','3') and role_id='?'
+ ) B where a.meta_type=b.RES_TYPE and a.meta_code=b.res_id
+
+        ) CONNECT BY PRIOR
+        PARENT_GROUP_ID = GROUP_ID ) B WHERE A.GROUP_ID = B.GROUP_ID and group_belong
+        = 'M'
+        ORDER BY group_belong,SEQUENCE
+
+    </Stmt>
+
+
+    <Stmt ID="QT004" Desc="提取即席查询分组条件信息">
+        select a.GROUP_ID ,B.CON_ID , B.CON_NAME , B.CON_TYPE ,
+        B.CON_RULE , B.CON_TAG , B.QRY_NAME , B.FILED_NAME ,
+        B.STATUS,B.validator,A.SEQUENCE,B.CON_DESC from ui_adhoc_rule_group_prop A
+        , ui_adhoc_condition_meta B WHERE A.GROUP_ID = '?' AND
+        A.META_TYPE = '1' AND A.META_CODE = B.CON_ID AND B.STATUS='1' order by A.SEQUENCE
+    </Stmt>
+
+    <Stmt ID="QT004_1" Desc="提取即席查询分组条件信息">
+	 select a.GROUP_ID ,B.CON_ID , B.CON_NAME , B.CON_TYPE ,
+        B.CON_RULE , B.CON_TAG , B.QRY_NAME , B.FILED_NAME ,
+        B.STATUS,B.validator,A.SEQUENCE,B.CON_DESC from ui_adhoc_rule_group_prop A
+        , ui_adhoc_condition_meta B WHERE A.GROUP_ID = '?' AND
+        A.META_TYPE = '1' AND A.META_CODE = B.CON_ID AND B.STATUS='1' and b.con_id in(
+        select res_id from UI_RULE_ADHOC_ROLE where res_type='1' and adhoc_id='?' and role_id='?'
+        )
+        order by A.SEQUENCE
+
+    </Stmt>
+
+    <Stmt ID="QT005" Desc="提取即席查询分组纬度信息">
+        select a.GROUP_ID ,B.Dim_Id , B.Dim_Name , B.Dim_Field_Name ,
+        B.Dim_Field_Desc , B.Dim_Desc ,B.dim_map_code,
+        B.STATUS,A.SEQUENCE ,B.DIM_RELATION_FIELD from
+        ui_adhoc_rule_group_prop A , ui_adhoc_dim_meta B WHERE
+        A.GROUP_ID = '?' AND A.META_TYPE = '2' AND A.META_CODE =
+        B.Dim_Id order by A.SEQUENCE
+    </Stmt>
+
+    <Stmt ID="QT005_1" Desc="提取即席查询分组纬度信息">
+        select a.GROUP_ID ,B.Dim_Id , B.Dim_Name , B.Dim_Field_Name ,
+        B.Dim_Field_Desc , B.Dim_Desc ,B.dim_map_code,
+        B.STATUS,A.SEQUENCE ,B.DIM_RELATION_FIELD from
+        ui_adhoc_rule_group_prop A , ui_adhoc_dim_meta B WHERE
+        A.GROUP_ID = '?' AND A.META_TYPE = '2' AND A.META_CODE =
+        B.Dim_Id and b.STATUS='1'  and b.Dim_Id in(
+        select res_id from UI_RULE_ADHOC_ROLE where res_type='2' and adhoc_id='?' and role_id='?'
+        ) order by A.SEQUENCE
+    </Stmt>
+
+    <Stmt ID="QT006" Desc="提取即席查询分组度量信息">
+        select a.GROUP_ID ,B.Msu_Id , B.Msu_Name , B.Msu_Field , B.Unit
+        , B.Digit , B.Isduraflag , B.STATUS,A.SEQUENCE,B.Msu_Desc from
+        ui_adhoc_rule_group_prop A , ui_adhoc_msu_meta B WHERE
+        A.GROUP_ID = '?' AND A.META_TYPE = '3' AND A.META_CODE =
+        B.MSU_ID order by A.SEQUENCE
+    </Stmt>
+
+    <Stmt ID="QT006_1" Desc="提取即席查询分组度量信息">
+        select a.GROUP_ID ,B.Msu_Id , B.Msu_Name , B.Msu_Field , B.Unit
+        , B.Digit , B.Isduraflag , B.STATUS,A.SEQUENCE,B.Msu_Desc from
+        ui_adhoc_rule_group_prop A , ui_adhoc_msu_meta B WHERE
+        A.GROUP_ID = '?' AND A.META_TYPE = '3' AND A.META_CODE =
+        B.MSU_ID and b.STATUS='1' and b.Msu_Id in(
+        select res_id from UI_RULE_ADHOC_ROLE where res_type='3' and adhoc_id='?' and role_id='?'
+        ) order by A.SEQUENCE
+    </Stmt>
+
+    <Stmt ID="QT007" Desc="提取即席查询默认条件信息">
+        select a.adhoc_id ,B.CON_ID , B.CON_NAME , B.CON_TYPE ,
+        B.CON_RULE , B.CON_TAG , B.QRY_NAME , B.FILED_NAME ,
+        B.STATUS,B.validator,A.SEQUENCE,B.CON_DESC from ui_adhoc_default_prop A ,
+        ui_adhoc_condition_meta B WHERE A.adhoc_id = '?' AND A.META_TYPE
+        = '1' AND A.META_CODE = B.CON_ID
+    </Stmt>
+
+    <Stmt ID="QT007_1" Desc="提取即席查询默认条件信息">
+	        select a.adhoc_id ,B.CON_ID , B.CON_NAME , B.CON_TYPE ,
+        B.CON_RULE , B.CON_TAG , B.QRY_NAME , B.FILED_NAME ,
+        B.STATUS,B.validator,A.SEQUENCE,B.CON_DESC from ui_adhoc_default_prop A ,
+        ui_adhoc_condition_meta B,UI_RULE_ADHOC_ROLE c WHERE A.adhoc_id = '?' AND C.ROLE_ID = '?' AND A.ADHOC_ID=C.ADHOC_ID AND A.META_TYPE
+        = '1' AND A.META_CODE = B.CON_ID AND C.RES_TYPE ='1' AND C.RES_ID=A.META_CODE
+
+    </Stmt>
+
+    <Stmt ID="QT008" Desc="提取即席查询默认纬度信息">
+        select a.adhoc_id ,B.Dim_Id , B.Dim_Name , B.Dim_Field_Name ,
+        B.Dim_Field_Desc , B.Dim_Desc , B.dim_map_code ,
+        B.STATUS,A.SEQUENCE ,B.DIM_RELATION_FIELD from
+        ui_adhoc_default_prop A , ui_adhoc_dim_meta B WHERE A.adhoc_id =
+        '?' AND A.META_TYPE = '2' AND A.META_CODE = B.Dim_Id
+    </Stmt>
+
+
+
+  <Stmt ID="QT008_1" Desc="提取即席查询默认纬度信息">
+        select a.adhoc_id ,B.Dim_Id , B.Dim_Name , B.Dim_Field_Name ,
+        B.Dim_Field_Desc , B.Dim_Desc , B.dim_map_code ,
+        B.STATUS,A.SEQUENCE ,B.DIM_RELATION_FIELD from
+        ui_adhoc_default_prop A , ui_adhoc_dim_meta B,UI_RULE_ADHOC_ROLE c WHERE A.adhoc_id =
+        '?'  AND C.ROLE_ID = '?' AND A.ADHOC_ID=C.ADHOC_ID AND A.META_TYPE = '2' AND C.RES_TYPE ='2'  AND C.RES_ID=A.META_CODE AND A.META_CODE = B.Dim_Id
+    </Stmt>
+
+    <Stmt ID="QT009" Desc="提取即席查询默认指标信息">
+        select a.adhoc_id ,B.Msu_Id , B.Msu_Name , B.Msu_Field , B.Unit
+        , B.Digit , B.Isduraflag , B.STATUS,A.SEQUENCE from
+        ui_adhoc_default_prop A , ui_adhoc_msu_meta B WHERE A.adhoc_id =
+        '?' AND A.META_TYPE = '3' AND A.META_CODE = B.MSU_ID
+    </Stmt>
+
+    <Stmt ID="QT009_1" Desc="提取即席查询默认指标信息">
+        select a.adhoc_id ,B.Msu_Id , B.Msu_Name , B.Msu_Field , B.Unit
+        , B.Digit , B.Isduraflag , B.STATUS,A.SEQUENCE from
+        ui_adhoc_default_prop A , ui_adhoc_msu_meta B,UI_RULE_ADHOC_ROLE c WHERE A.adhoc_id =
+        '?' AND A.META_TYPE = '3' AND A.META_CODE = B.MSU_ID  and c.adhoc_id=a.adhoc_id and res_type='3'  and role_id='?' and b.Msu_Id=c.res_id
+
+    </Stmt>
+
+
+    <Stmt ID="QT010" Desc="提取即席查询默认条件信息">
+        select B.CON_ID , B.CON_NAME , B.CON_TYPE , B.CON_RULE ,
+        B.CON_TAG , B.QRY_NAME , B.FILED_NAME , B.STATUS , B.VALIDATOR,B.CON_DESC
+        from ui_adhoc_condition_meta B WHERE B.CON_ID in (?) AND B.STATUS='1'
+    </Stmt>
+
+
+    <Stmt ID="QT010_1" Desc="提取即席查询默认条件信息">
+        select B.CON_ID , B.CON_NAME , B.CON_TYPE , B.CON_RULE ,
+        B.CON_TAG , B.QRY_NAME , B.FILED_NAME , B.STATUS , B.VALIDATOR,B.CON_DESC
+        from ui_adhoc_condition_meta B,( select A.META_CODE from ui_adhoc_rule_group_prop A,
+(
+ select RES_ID,RES_TYPE from UI_RULE_ADHOC_ROLE where adhoc_id='?' and res_type in('1') and role_id='?'
+ ) B where a.meta_type=b.RES_TYPE and a.meta_code=b.res_id) XX WHERE B.CON_ID in (?) AND B.STATUS='1' and XX.META_CODE=B.CON_ID
+    </Stmt>
+
+
+    <Stmt ID="QT011" Desc="提取即席查询默认纬度信息">
+        select B.Dim_Id , B.Dim_Name , B.Dim_Field_Name ,
+        B.Dim_Field_Desc , B.dim_map_code , B.Dim_Desc , B.STATUS
+        ,B.DIM_RELATION_FIELD, B.Dim_Desc, B.DIM_EXPAND_FLAG, B.DIM_EXPAND_GROUP
+        ,B.SEQUENCE from ui_adhoc_dim_meta B WHERE B.Dim_Id in
+        (?)
+    </Stmt>
+
+  <Stmt ID="QT011_1" Desc="提取即席查询默认纬度信息">
+        select B.Dim_Id , B.Dim_Name , B.Dim_Field_Name ,
+        B.Dim_Field_Desc , B.dim_map_code , B.Dim_Desc , B.STATUS
+        ,B.DIM_RELATION_FIELD, B.Dim_Desc, B.DIM_EXPAND_FLAG, B.DIM_EXPAND_GROUP
+        ,B.SEQUENCE from ui_adhoc_dim_meta B,( select A.META_CODE from ui_adhoc_rule_group_prop A,
+(
+ select RES_ID,RES_TYPE from UI_RULE_ADHOC_ROLE where adhoc_id='?' and res_type in('2') and role_id='?'
+ ) B where a.meta_type=b.RES_TYPE and a.meta_code=b.res_id) XX
+
+  WHERE B.Dim_Id in
+        (?) and XX.META_CODE=B.Dim_Id
+    </Stmt>
+
+    <Stmt ID="QT011A" Desc="根据条件提取即席查询默认纬度信息">
+        select B.Dim_Id , B.Dim_Name , B.Dim_Field_Name ,
+        B.Dim_Field_Desc , B.dim_map_code , B.Dim_Desc , B.STATUS
+        ,B.DIM_RELATION_FIELD, B.Dim_Desc, B.DIM_EXPAND_FLAG, B.DIM_EXPAND_GROUP
+        ,B.SEQUENCE from ui_adhoc_dim_meta B ?
+        order by sequence
+    </Stmt>
+
+    <Stmt ID="QT012" Desc="提取即席查询默认指标信息">
+        select B.Msu_Id , B.Msu_Name , B.Msu_Field , B.Unit , B.Digit ,
+        B.Isduraflag , B.STATUS, B.CAL_RULE, B.Cal_msu ,B.Msu_Desc from ui_adhoc_msu_meta B WHERE B.Msu_Id
+        in (?)
+    </Stmt>
+
+   <Stmt ID="QT012_1" Desc="提取即席查询默认指标信息">
+        select B.Msu_Id , B.Msu_Name , B.Msu_Field , B.Unit , B.Digit ,
+        B.Isduraflag , B.STATUS, B.CAL_RULE, B.Cal_msu ,B.Msu_Desc from ui_adhoc_msu_meta B,( select A.META_CODE from ui_adhoc_rule_group_prop A,
+(
+ select RES_ID,RES_TYPE from UI_RULE_ADHOC_ROLE where adhoc_id='?' and res_type in('3') and role_id='?'
+ ) B where a.meta_type=b.RES_TYPE and a.meta_code=b.res_id) XX WHERE B.Msu_Id
+        in (?) and XX.META_CODE=B.Msu_Id
+    </Stmt>
+
+
+    <Stmt ID="QT013" Desc="提取即席查询用户收藏夹列表">
+        SELECT A.FAVORITE_ID,B.FAVORITE_NAME,B.FAVORITE_DESC,B.STATUS,B.FAV_TYPE_FLAG
+        FROM UI_ADHOC_RULE_OPER_FAVORITE A , UI_ADHOC_FAVORITE_DEF B
+        WHERE A.FAVORITE_ID = B.FAVORITE_ID AND FAV_TYPE= '?' AND
+        OPER_NO = '?'
+    </Stmt>
+
+    <Stmt ID="QI014" Desc="提取即席查询用户收藏夹列表">
+        INSERT INTO UI_ADHOC_FAVORITE_DEF(FAVORITE_ID , FAVORITE_NAME ,
+        FAVORITE_DESC , STATUS,FAV_TYPE_FLAG) VALUES(?,'?','?','?',?)
+    </Stmt>
+
+    <Stmt ID="QT015" Desc="提取即席查询用户收藏夹当前最大ID">
+        SELECT MAX(FAVORITE_ID) FROM UI_ADHOC_FAVORITE_DEF
+    </Stmt>
+
+    <Stmt ID="QI016" Desc="提取即席查询用户收藏夹列表">
+        INSERT INTO ui_adhoc_rule_favorite_meta(FAVORITE_ID , META_TYPE
+        , META_CODE , SEQUENCE) VALUES(?,'?','?',?)
+    </Stmt>
+
+    <Stmt ID="QI017" Desc="提取即席查询用户收藏夹列表">
+        INSERT INTO UI_ADHOC_RULE_OPER_FAVORITE(OPER_NO,FAVORITE_ID ,
+        FAV_TYPE ) VALUES('?',?,'?')
+    </Stmt>
+
+    <Stmt ID="QT018" Desc="提取即席查询用户收藏夹列表">
+        SELECT B.FAVORITE_ID,B.FAVORITE_NAME,B.FAVORITE_DESC,B.STATUS
+        FROM UI_ADHOC_FAVORITE_DEF B WHERE B.FAVORITE_ID = ?
+    </Stmt>
+
+    <Stmt ID="QT019" Desc="提取即席查询用户收藏夹条件列表">
+        select B.CON_ID , B.CON_NAME , B.CON_TYPE , B.CON_RULE ,
+        B.CON_TAG , B.QRY_NAME , B.FILED_NAME ,
+        B.STATUS,B.VALIDATOR,A.SEQUENCE from ui_adhoc_rule_favorite_meta
+        A , ui_adhoc_condition_meta B WHERE A.FAVORITE_ID = ? AND
+        A.META_TYPE = '1' AND A.META_CODE = B.CON_ID
+    </Stmt>
+
+    <Stmt ID="QT020" Desc="提取即席查询用户收藏夹纬度列表">
+        select B.Dim_Id , B.Dim_Name , B.Dim_Field_Name ,
+        B.Dim_Field_Desc , B.Dim_Desc , B.STATUS,A.SEQUENCE from
+        ui_adhoc_rule_favorite_meta A , ui_adhoc_dim_meta B WHERE
+        A.FAVORITE_ID = '?' AND A.META_TYPE = '2' AND A.META_CODE =
+        B.Dim_Id
+    </Stmt>
+
+    <Stmt ID="QT021" Desc="提取即席查询用户收藏夹指标列表">
+        select B.Msu_Id , B.Msu_Name , B.Msu_Field , B.Unit , B.Digit ,
+        B.Isduraflag , B.STATUS,A.SEQUENCE from
+        ui_adhoc_rule_favorite_meta A , ui_adhoc_msu_meta B WHERE
+        A.FAVORITE_ID = '?' AND A.META_TYPE = '3' AND A.META_CODE =
+        B.MSU_ID
+    </Stmt>
+
+    <Stmt ID="QD022" Desc="删除收藏夹用户关系">
+        DELETE FROM UI_ADHOC_RULE_OPER_FAVORITE WHERE OPER_NO = '?' AND
+        FAVORITE_ID = '?' AND FAV_TYPE = '?'
+    </Stmt>
+
+    <Stmt ID="QD023" Desc="删除收藏夹信息关系">
+        DELETE FROM ui_adhoc_rule_favorite_meta WHERE FAVORITE_ID = '?'
+    </Stmt>
+
+    <Stmt ID="QD024" Desc="删除收藏夹信息">
+        DELETE FROM UI_ADHOC_FAVORITE_DEF WHERE FAVORITE_ID = '?'
+    </Stmt>
+
+    <Stmt ID="QT025" Desc="查询即席查询信息">
+        SELECT ADHOC_ID , ADHOC_NAME , ADHOC_DESC ,DATA_TABLE ,STATUS,IS_GROUP,IS_SPLIT,PRE_TBLNAME,ACOUNT_NUM,CON_QRYNAME,ADHOC_TYPE FROM UI_ADHOC_INFO_DEF WHERE ADHOC_ID = '?'
+    </Stmt>
+
+    <Stmt ID="QT026" Desc="查询即席查询条件信息">
+        SELECT
+        ADHOC_ID,MSU_NAME,MSU_FILED,UNIT,DIGIT,STATUS,SEQUENCE,CAL_RULE,DATA_SOURCE
+        FROM UI_ADHOC_SUM_INFO WHERE ADHOC_ID = '?'  AND STATUS = '1' ORDER BY SEQUENCE
+    </Stmt>
+
+    <Stmt ID="QT030" Desc="查询即席查询条件信息">
+        select D.con_id , d.con_name , d.con_type , d.con_rule,d.con_tag
+        , d.qry_name,d.filed_name,d.sequence,d.status,d.validator from
+        ui_adhoc_rule_hoc_group A , ui_adhoc_group_meta B ,
+        ui_adhoc_rule_group_prop C , ui_adhoc_condition_meta D where
+        a.group_id = b.group_id and b.group_id = c.group_id and
+        c.meta_type = '1' and C.Meta_Code = D.CON_ID and a.adhoc_id =
+        'Y001' and b.group_belong = 'C'
+    </Stmt>
+
+    <Stmt ID="QT031" Desc="查询即席查询属性分组信息">
+        select group_id,
+        group_name,group_desc,group_belong,isshow,group_tag from
+        ui_adhoc_group_meta WHERE group_tag = '?'
+    </Stmt>
+
+    <Stmt ID="QT032" Desc="即席查询自定义纬度默认系统纬度分档MAP标识">
+        select c.dim_map_code from ui_adhoc_rule_hoc_group a ,
+        ui_adhoc_rule_group_prop b , ui_adhoc_dim_meta c where
+        a.adhoc_id = '?' and a.group_id = b.group_id and b.meta_type =
+        '2' and b.meta_code = c.dim_id and c.dim_relation_field = '?'
+    </Stmt>
+
+    <Stmt ID="QT033" Desc="即席查询自定义纬度分档数据值">
+        select dim_relation_field,self_dim_id , self_dim_name ,
+        low_value , hign_value from ui_adhoc_rule_user_dim where
+        adhoc_id = '?' and oper_no = '?' and DIM_RELATION_FIELD = '?'
+        and status = '1' order by SEQUENCE
+    </Stmt>
+
+    <Stmt ID="QT034" Desc="即席查询自定义纬度分档数据值录入">
+        INSERT INTO
+        UI_ADHOC_RULE_USER_DIM(ADHOC_ID,OPER_NO,DIM_RELATION_FIELD,LOW_VALUE,HIGN_VALUE,SELF_DIM_ID,SELF_DIM_NAME,SEQUENCE,STATUS)
+        VALUES('?','?','?','?','?','?','?',?,'?')
+    </Stmt>
+
+    <Stmt ID="QT035" Desc="即席查询自定义纬度分档数据值删除">
+        DELETE FROM UI_ADHOC_RULE_USER_DIM WHERE ADHOC_ID = '?' AND
+        OPER_NO = '?' AND DIM_RELATION_FIELD = '?' AND LOW_VALUE = '?'
+        AND HIGN_VALUE = '?' AND SELF_DIM_ID ='?' AND SELF_DIM_NAME =
+        '?'
+    </Stmt>
+
+    <Stmt ID="QT037" Desc="即席查询自定义纬度分档数据值删除">
+        DELETE FROM UI_ADHOC_RULE_USER_DIM WHERE ADHOC_ID = '?' AND
+        OPER_NO = '?' AND DIM_RELATION_FIELD = '?' AND LOW_VALUE IS NULL
+        AND HIGN_VALUE = '?' AND SELF_DIM_ID ='?' AND SELF_DIM_NAME =
+        '?'
+    </Stmt>
+
+    <Stmt ID="QT038" Desc="即席查询自定义纬度分档数据值删除">
+        DELETE FROM UI_ADHOC_RULE_USER_DIM WHERE ADHOC_ID = '?' AND
+        OPER_NO = '?' AND DIM_RELATION_FIELD = '?' AND LOW_VALUE = '?'
+        AND HIGN_VALUE IS NULL AND SELF_DIM_ID ='?' AND SELF_DIM_NAME =
+        '?'
+    </Stmt>
+
+    <Stmt ID="QT036" Desc="即席查询清单列表">
+        SELECT ADHOC_ID ,
+        OPER_NO,MSU_FIELD,MSU_NAME,MSU_TYPE,MSU_UNIT,MSU_DIGIT,SEQUENCE,STATUS,MAP_CODE,DEFAULT_VIEW,GROUP_NAME
+        FROM UI_ADHOC_USER_LIST WHERE ADHOC_ID = '?' AND OPER_NO = '?' AND FAV_ID='-1'
+        AND STATUS = '1' ORDER BY SEQUENCE
+    </Stmt>
+
+    <Stmt ID="QT036_1" Desc="即席查询清单列表">
+        SELECT A.ADHOC_ID ,
+        OPER_NO,MSU_FIELD,MSU_NAME,MSU_TYPE,MSU_UNIT,MSU_DIGIT,SEQUENCE,STATUS,MAP_CODE,DEFAULT_VIEW,GROUP_NAME
+        FROM UI_ADHOC_USER_LIST A,UI_RULE_ADHOC_ROLE B WHERE A.ADHOC_ID = '?' AND OPER_NO = '-1' AND FAV_ID='-1'
+        AND STATUS = '1' AND A.ADHOC_ID=B.ADHOC_ID AND A.MSU_FIELD=B.RES_ID AND B.ROLE_ID='?' AND B.RES_TYPE='4' ORDER BY SEQUENCE
+
+    </Stmt>
+
+    <Stmt ID="QT036_Collect" Desc="清单收藏">
+
+		SELECT ADHOC_ID ,
+        OPER_NO,MSU_FIELD,MSU_NAME,MSU_TYPE,MSU_UNIT,MSU_DIGIT,SEQUENCE,STATUS,MAP_CODE,DEFAULT_VIEW,GROUP_NAME
+        FROM UI_ADHOC_USER_LIST WHERE FAV_ID='?'  AND ADHOC_ID = '?' AND OPER_NO = '?'
+        AND STATUS = '1' ORDER BY SEQUENCE
+    </Stmt>
+
+
+    <Stmt ID="QT039" Desc="即席查询清单列表">
+        SELECT A.ADHOC_ID , A.CON_ID ,A.FILTER_TYPE , A.FILTER_CON_ID
+        ,B.QRY_NAME,A.FILTER_CON_STR,A.SECURITY_TYPE ,B.CON_TAG FROM
+        UI_ADHOC_MULTI_CON_FILTER A , UI_ADHOC_CONDITION_META B WHERE
+        A.ADHOC_ID = '?' AND A.CON_ID = '?' AND A.FILTER_CON_ID =
+        B.CON_ID
+    </Stmt>
+
+    <Stmt ID="QT040" Desc="即席查询CHECK多选清单SQL">
+        SELECT OBJ_TYPE , QRY_SQL , FLAG , OBJ_DESC , SECURITY_RULE FROM UI_ADHOC_MULTI_CHECK_SQL_INFO WHERE OBJ_TYPE
+        = '?'
+    </Stmt>
+
+    <Stmt ID="QT041_1" Desc="即席查询菜单层次树SQL">
+  SELECT distinct A.GROUP_ID ,A.PARENT_GROUP_ID,A.GROUP_NAME
+        ,A.GROUP_DESC,A.GROUP_BELONG , A.ISSHOW,A.GROUP_TAG, A.SEQUENCE
+        FROM UI_ADHOC_GROUP_META A , (SELECT DISTINCT GROUP_ID FROM
+        UI_ADHOC_GROUP_META START WITH GROUP_ID IN( select distinct A.group_id from ui_adhoc_rule_group_prop A,
+(
+ select RES_ID,RES_TYPE from UI_RULE_ADHOC_ROLE where adhoc_id='?' and res_type in('1','2','3') and role_id='?'
+ ) B where a.meta_type=b.RES_TYPE and a.meta_code=b.res_id
+		) CONNECT BY PRIOR
+        PARENT_GROUP_ID = GROUP_ID ) B WHERE A.GROUP_ID = B.GROUP_ID
+        ORDER BY group_belong,SEQUENCE
+    </Stmt>
+
+  <Stmt ID="QT041" Desc="即席查询菜单层次树SQL">
+
+        SELECT distinct A.GROUP_ID ,A.PARENT_GROUP_ID,A.GROUP_NAME
+        ,A.GROUP_DESC,A.GROUP_BELONG , A.ISSHOW,A.GROUP_TAG, A.SEQUENCE
+        FROM UI_ADHOC_GROUP_META A , (SELECT DISTINCT GROUP_ID FROM
+        UI_ADHOC_GROUP_META START WITH GROUP_ID IN(SELECT GROUP_ID FROM
+        UI_ADHOC_RULE_HOC_GROUP WHERE ADHOC_ID = '?') CONNECT BY PRIOR
+        PARENT_GROUP_ID = GROUP_ID ) B WHERE A.GROUP_ID = B.GROUP_ID
+        ORDER BY group_belong,SEQUENCE
+
+    </Stmt>
+    <Stmt ID="QT042" Desc="即席查询菜单层次树SQL">
+        SELECT A.GROUP_ID ,A.PARENT_GROUP_ID,A.GROUP_NAME
+        ,A.GROUP_DESC,A.GROUP_BELONG , A.ISSHOW,A.GROUP_TAG, A.SEQUENCE
+        FROM UI_ADHOC_GROUP_META A START WITH A.GROUP_ID = '?' CONNECT
+        BY PRIOR A.PARENT_GROUP_ID = A.GROUP_ID ORDER BY LEVEL DESC
+    </Stmt>
+
+     <Stmt ID="QT043" Desc="即席查询CHECK多选清单SQL">
+        SELECT OBJ_TYPE , APP_TYPE , QRY_CODE , CON_CODE , CON_NAME , DATA_TYPE ,CON_TAG
+        FROM UI_ADHOC_MULTI_CHECK_CONDITION
+        WHERE OBJ_TYPE  = '?' and status='1'
+        ORDER BY SEQUENCE
+    </Stmt>
+
+    <!-- 即席查询结束 -->
+
+
+    <Stmt ID="A0002" Desc="角色列表分级树">
+        select 0 as catid, code_id, code_name, code_seq
+        from ui_code_list
+        where type_code = 'role_type'
+        and code_id in
+        (select distinct D.role_type from ui_rule_user_group B , ui_rule_group_role C,UI_INFO_ROLE D
+        where B.USER_ID = '?' AND B.GROUP_ID = C.GROUP_ID and C.role_id=D.role_id
+        UNION
+        select distinct D.role_type from ui_rule_user_ROLE A,UI_INFO_ROLE D
+        where A.USER_ID = '?' and A.role_id=D.role_id)
+    </Stmt>
+    <Stmt ID="A0003" Desc="角色分级树型列表">
+        SELECT 1 as catid, role_id, role_name,role_type, comments, status
+        FROM UI_INFO_ROLE
+        WHERE role_id in (select distinct C.role_id from ui_rule_user_group B , ui_rule_group_role C
+        where B.USER_ID = '?' AND B.GROUP_ID = C.GROUP_ID
+        UNION
+        select distinct A.role_id from ui_rule_user_ROLE A
+        where A.USER_ID = '?')
+        and role_type = '?' order by role_name
+    </Stmt>
+    <Stmt ID="A00041" Desc="用户组树型列表">
+        select 4 as catid , b.group_id,b.parent_id,b.group_name,b.status from UI_INFO_USER_GROUP b
+        where b.parent_id is  null and system_id='?'
+    </Stmt>
+    <Stmt ID="A0004" Desc="用户组树型列表">
+        select 1 as catid , b.group_id,b.group_name,b.group_type,b.status,b.parent_id from UI_RULE_USER_GROUP a,UI_INFO_USER_GROUP b
+        where a.group_id=b.parent_id and a.user_id='?'  and group_type = '?'
+    </Stmt>
+    <Stmt ID="A00043" Desc="用户组树型列表">
+        select 1 as catid , b.group_id,b.group_name,b.group_type,b.status,b.parent_id from UI_RULE_USER_GROUP a,UI_INFO_USER_GROUP b
+        where a.group_id=b.parent_id and a.user_id='?'
+    </Stmt>
+
+    <Stmt ID="A0005" Desc="用户组树型列表">
+        select 4 as catid , a.group_id,a.parent_id,a.group_name,a.status from UI_INFO_USER_GROUP a
+        where a.parent_id='?'
+    </Stmt>
+    <Stmt ID="A00042" Desc="用户组树型列表">
+        select 4 as catid , b.group_id,b.parent_id,b.group_name,b.status from UI_RULE_USER_GROUP a,UI_INFO_USER_GROUP b
+        where a.group_id=b.group_id and a.user_id='?'
+    </Stmt>
+    <Stmt ID="A1000" Desc="区域部门用户列表树--点击部门展开">
+        SELECT 3 AS catid, r.region_id AS region_id, r.region_name AS region_name,u.dept_id AS dept_id, '' AS dept_name,
+        u.user_id AS user_id, u.user_name AS user_name
+        FROM ui_INFO_REGION r, ui_info_user u
+        WHERE r.region_id= '?'
+        AND u.region_id=r.region_id
+        AND u.dept_id = '?' and u.system_id='?'
+        ORDER BY catid, region_id,dept_id, user_id
+    </Stmt>
+    <Stmt ID="A1001" Desc="区域部门用户列表树--点击区域展开">
+        SELECT 1 AS catid, region_id AS region_id, region_name AS region_name, '0' AS dept_id, '' AS dept_name, '0' AS
+        user_id, '' AS user_name
+        FROM ui_INFO_REGION
+        WHERE ?
+        UNION
+        SELECT 2 AS catid, r.region_id AS region_id, r.region_name AS region_name, d.dept_id AS dept_id, d.dept_name AS
+        dept_name, '0' AS user_id, '' AS user_name
+        FROM ui_INFO_REGION r, UI_INFO_DEPT d
+        WHERE d.region_id in (?)
+        AND d.region_id=r.region_id
+        UNION
+        SELECT 3 AS catid, r.region_id AS region_id, r.region_name AS region_name, u.dept_id AS dept_id, '' AS
+        dept_name, u.user_id AS user_id, u.user_name AS user_name
+        FROM ui_INFO_REGION r, ui_info_user u
+        WHERE u.region_id in (?)
+        AND r.region_id in (?) and u.system_id='?'
+        and r.region_id = u.region_id
+        ORDER BY catid, region_id, dept_id, user_id
+    </Stmt>
+    <Stmt ID="A1002" Desc="地域赋权">
+        SELECT 1 AS catid,
+        region_id AS region_id,
+        region_name AS region_name
+        FROM ui_INFO_REGION
+        WHERE parent_id = '?'
+    </Stmt>
+    <Stmt ID="A1003" Desc="地域赋权">
+        SELECT 1 AS catid,
+        region_id AS region_id,
+        region_name AS region_name
+        FROM ui_INFO_REGION
+        WHERE region_id in (?)
+    </Stmt>
+
+    <Stmt ID="A0006" Desc="区域用户列表树--点击区域展开">
+        select region_id,parent_id,region_name,region_type
+        from ui_INFO_REGION where parent_id is null
+        order by region_id
+    </Stmt>
+    <Stmt ID="A0007" Desc="区域用户列表树--点击区域展开">
+        select region_id,parent_id,region_name,region_type
+        from ui_INFO_REGION where parent_id ='?'
+        order by region_id
+    </Stmt>
+    <Stmt ID="Q2935" Desc="菜单下的子菜单">
+        select distinct IM.MENU_id,IM.parent_id,IM.menu_name,IM.SEQUENCE , 3 as catid
+        from (select * from UI_INFO_MENU where system_id='?') IM, UI_RULE_RES_ROLE B , (
+        select C.ROLE_ID from ui_rule_user_group B , ui_rule_group_role C
+        where B.USER_ID = '?'
+        AND B.GROUP_ID = C.GROUP_ID
+        UNION
+        select A.ROLE_ID from ui_rule_user_ROLE A
+        where A.USER_ID = '?'
+        ) C
+        WHERE B.ROLE_ID = C.ROLE_ID
+        AND B.RES_ID = IM.MENU_id
+        AND B.RES_TYPE = '1'
+        and IM.Parent_Id='?'
+        ORDER BY IM.SEQUENCE
+    </Stmt>
+
+    <Stmt ID="Q2041" Desc="查询菜单" Author="jcm">
+        select *
+        from (select 3 as catid,IM.MENU_id,IM.parent_id,IM.menu_name,B.role_id,IM.sequence
+        from (select * from ui_INFO_MENU  where system_id='?') IM,(
+        select distinct a.res_id from UI_RULE_RES_ROLE a,(
+        select C.ROLE_ID from ui_rule_user_group B , ui_rule_group_role C
+        where B.USER_ID = '?'
+        AND B.GROUP_ID = C.GROUP_ID
+        UNION
+        select A.ROLE_ID from ui_rule_user_ROLE A
+        where A.USER_ID = '?'
+        ) b where a.role_id=b.role_id
+        ) A,(select role_id, res_id
+        from UI_RULE_RES_ROLE
+        where ROLE_ID = '?' and res_type = '1') B
+        where IM.Menu_Id=A.res_id and A.res_id=B.Res_Id(+))
+        start with PARENT_ID = '0'
+        connect by prior menu_id = parent_id
+        order SIBLINGS BY sequence
+    </Stmt>
+
+    <Stmt ID="Q2936" Desc="菜单下的子菜单">
+        select distinct IM.MENU_id,IM.parent_id,IM.menu_name,IM.SEQUENCE , 3 as catid
+        from (select * from UI_INFO_MENU where system_id='?') IM , UI_RULE_RES_ROLE B , (
+        select C.ROLE_ID from ui_rule_user_group B , ui_rule_group_role C
+        where B.USER_ID = '?'
+        AND B.GROUP_ID = C.GROUP_ID
+        UNION
+        select A.ROLE_ID from ui_rule_user_ROLE A
+        where A.USER_ID = '?'
+        ) C
+        WHERE B.ROLE_ID = C.ROLE_ID
+        AND B.RES_ID = IM.MENU_id
+        AND B.RES_TYPE = '1'
+        AND IM.PARENT_ID='0'
+        ORDER BY IM.SEQUENCE
+    </Stmt>
+
+
+    <Stmt ID="Q2937" Desc="菜单下的子菜单">
+        select IM.MENU_id,IM.parent_id,IM.menu_name,3 as catid
+        from ui_INFO_MENU IM
+        where IM.Parent_Id='?'
+        order by IM.menu_id
+    </Stmt>
+
+    <Stmt ID="Q2938" Desc="菜单下的子菜单">
+        select distinct IM.MENU_id,IM.parent_id,IM.menu_name,3 as catid
+        from ui_INFO_MENU IM
+        where PARENT_ID='0'
+        order by IM.menu_id
+
+    </Stmt>
+
+
+    <Stmt ID="I2504" Desc="增加菜单日志内容">
+        insert into
+        log_info_menu(service_sn,log_seq,oper_oper_no,oper_ip,oper_time,oper_type,menu_code,parent_menu_code,isshow,menu_url,menu_title,comments,icon_url,isactive,res_char1,res_char2,res_char3,res_init1,res_init2,res_init3)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd
+        HH24:MI:SS'),'?',MENU_ID,parent_id,isshow,menu_url,MENU_NAME,menu_desc,icon_url,status,res_char1,res_char2,res_char3,res_ini1,res_ini2,res_ini3
+        from ui_info_menu where menu_id = '?'
+    </Stmt>
+
+    <!-- *******************************区域管理 ********************************-->
+    <Stmt ID="Q2306" Desc="查询区域名称">
+        SELECT REGION_NAME FROM UI_INFO_REGION WHERE REGION_ID = '?'
+    </Stmt>
+    <Stmt ID="Q2651" Desc="区域管理">
+        SELECT r.region_id, r.region_name,r.isactive
+        FROM UI_INFO_REGION r
+        WHERE r.parent_id='?'
+        ORDER BY isactive desc,region_id
+    </Stmt>
+
+    <Stmt ID="Q2651_2" Desc="区域管理">
+        SELECT r.region_id, r.region_name,r.isactive
+        FROM UI_INFO_REGION r
+        WHERE r.parent_id is null
+        ORDER BY isactive desc,region_id
+    </Stmt>
+
+    <Stmt ID="Q2652" Desc="查询区域基本信息">
+        SELECT region_id,parent_id,region_name,region_code,region_type,isactive,path_code,comments
+        FROM UI_INFO_REGION
+        WHERE region_id='?'
+    </Stmt>
+    <Stmt ID="Q2653" Desc="查询区域路径信息">
+        SELECT LEVEL,M. *
+        FROM UI_INFO_REGION M
+        START WITH M.REGION_ID = '?'
+        CONNECT BY PRIOR M.PARENT_ID = M.REGION_ID
+    </Stmt>
+    <Stmt ID="Q2654" Desc="查询区域路径信息">
+        SELECT M.region_id
+        FROM UI_INFO_REGION M
+        START WITH M.REGION_ID = '?'
+        CONNECT BY PRIOR M.PARENT_ID = M.REGION_ID
+    </Stmt>
+    <Stmt ID="Q2655" Desc="判断区域名称是否重复">
+        SELECT 1 FROM UI_INFO_REGION WHERE EXISTS (SELECT region_id FROM UI_INFO_REGION WHERE region_id != '?' AND
+        region_name= trim('?'))
+    </Stmt>
+    <Stmt ID="I2656" Desc="增加区域信息">
+        insert into UI_INFO_REGION(region_id,region_name,isactive) values('?','?',1)
+    </Stmt>
+    <Stmt ID="C2657" Desc="更新区域信息">
+        update UI_INFO_REGION set ? where region_id = '?'
+    </Stmt>
+    <Stmt ID="I2658" Desc="增加区域日志内容">
+        insert into
+        log_info_region(service_sn,log_seq,oper_oper_no,oper_ip,oper_time,oper_type,region_id,parent_id,region_name,region_code,region_type,path_code,isactive,comments)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd
+        HH24:MI:SS'),'?',region_id,parent_id,region_name,region_code,region_type,path_code,isactive,comments from
+        UI_INFO_REGION where region_id = '?'
+    </Stmt>
+    <Stmt ID="D0002" Desc="区域列表树信息">
+        SELECT r.region_id, r.region_name,'?' as oper_no
+        FROM UI_INFO_REGION r
+        WHERE r.parent_id='?'
+        ORDER BY region_id
+    </Stmt>
+
+    <Stmt ID="D0002_2" Desc="区域列表树信息">
+        SELECT r.region_id, r.region_name,'?' as oper_no
+        FROM UI_INFO_REGION r
+        WHERE r.parent_id IS NULL
+        ORDER BY region_id
+    </Stmt>
+
+    <Stmt ID="Q2667" Desc="判断某区域下是否存在区域">
+        select region_id from UI_INFO_REGION where region_id = '?'
+    </Stmt>
+    <!-- *******************************区域管理 ********************************-->
+
+    <!--部门管理-->
+    <Stmt ID="Q2019" Desc="查询部门信息" Author="jcm">
+        SELECT DEPT_ID ,parent_id,DEPT_TYPE,DEPT_NAME,LOCAL_NET,COMMENTS,FLAG,PATH_CODE,PHONE,FAX,ADDRESS,REGION_ID
+        FROM UI_INFO_DEPT a
+        WHERE DEPT_ID ='?'
+    </Stmt>
+    <Stmt ID="Q2668" Desc="判断某区域下是否存在部门">
+        select dept_id from UI_INFO_DEPT where dept_id = '?'
+    </Stmt>
+    <Stmt ID="Q2669" Desc="获取部门基本信息，用于操作员选部门时">
+        select a.dept_id,a.dept_name,a.region_id,b.region_name
+        from UI_INFO_DEPT a inner join UI_INFO_REGION b
+        on a.region_id=b.region_id
+        where a.dept_id='?' and a.dept_id in (
+        select distinct dept_id from UI_INFO_DEPT
+        start with dept_id in (
+        select dept_id from info_oper where oper_no='?')
+        connect by prior dept_id=parent_id)
+    </Stmt>
+    <Stmt ID="Q2300" Desc="判断部门名称是否重复">
+        SELECT 1 FROM UI_INFO_DEPT WHERE EXISTS (SELECT dept_id FROM UI_INFO_DEPT WHERE dept_id != '?' AND dept_name=
+        trim('?'))
+    </Stmt>
+    <Stmt ID="I2301" Desc="新增部门信息">
+        INSERT INTO UI_INFO_DEPT(DEPT_ID,DEPT_TYPE,DEPT_NAME,LOCAL_NET) VALUES('?','?','?','?')
+    </Stmt>
+    <Stmt ID="C2302" Desc="更新部门信息">
+        UPDATE UI_INFO_DEPT SET ? WHERE DEPT_ID ='?'
+    </Stmt>
+    <Stmt ID="D2303" Desc="删除部门信息">
+        DELETE FROM UI_INFO_DEPT WHERE DEPT_ID ='?'
+    </Stmt>
+    <Stmt ID="Q2304" Desc="查询部门相关用户">
+        select user_id from UI_INFO_USER WHERE DEPT_ID ='?'
+    </Stmt>
+    <Stmt ID="Q2305" Desc="查询部门列表">
+        select dept_id ,parent_id,dept_type,dept_name,local_net,comments,flag,path_code,REGION_ID,phone,fax,address from
+        UI_INFO_DEPT where REGION_ID ='?'
+    </Stmt>
+    <Stmt ID="C2307" Desc="删除部门信息(置失效)">
+        update UI_INFO_DEPT set flag = '?' WHERE DEPT_ID ='?'
+    </Stmt>
+    <Stmt ID="D2307" Desc="删除部门信息(置失效)">
+        delete from UI_INFO_DEPT WHERE DEPT_ID ='?'
+    </Stmt>
+    <Stmt ID="Q2308" Desc="区域部门用户列表树--点击区域展开">
+        select dept_id,parent_id,dept_type,dept_name,local_net,region_id,flag
+        from UI_INFO_DEPT where parent_id is null
+        order by flag,dept_name,dept_id
+    </Stmt>
+    <Stmt ID="Q2309" Desc="区域部门用户列表树--点击区域展开">
+        select a.dept_id,a.parent_id,a.dept_type,a.dept_name,a.local_net,a.region_id,b.region_name as region_name,a.flag
+        from UI_INFO_DEPT a, UI_INFO_REGION b
+        where a.region_id = b.region_id(+)
+        and a.parent_id = '?'
+        order by a.flag,a.dept_name, a.dept_id
+    </Stmt>
+    <Stmt ID="Q2310" Desc="查询区域名称">
+        select dept_name from UI_INFO_DEPT where dept_id ='?'
+    </Stmt>
+    <Stmt ID="Q2318" Desc="查询区域为id的区域信息">
+        select * from UI_INFO_DEPT where dept_id ='?'
+    </Stmt>
+    <Stmt ID="Q2311" Desc="查询区域路径信息">
+        SELECT M.DEPT_ID
+        FROM UI_INFO_DEPT M
+        START WITH M.DEPT_ID = '?'
+        CONNECT BY PRIOR M.parent_id = M.DEPT_ID
+    </Stmt>
+
+    <Stmt ID="I2312" Desc="增加部门日志内容">
+        insert into
+        log_info_dept(service_sn,log_seq,oper_oper_no,oper_ip,oper_time,oper_type,dept_no,parent_dept_no,path_code,dept_type,dept_name,local_net,comments,phone,fax,address,flag,res_init1,res_init2,res_char1,res_char2,region_id)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd
+        HH24:MI:SS'),'?',DEPT_ID,parent_id,path_code,dept_type,dept_name,local_net,comments,phone,fax,address,flag,res_init1,res_init2,res_char1,res_char2,region_id
+        from ui_info_dept where DEPT_ID = '?'
+    </Stmt>
+
+    <Stmt ID="Q2313" Desc="判断当前部门是否存在下级部门">
+        select * from UI_INFO_DEPT xx where xx.parent_id='?'
+    </Stmt>
+
+
+
+    <Stmt ID="Lg001" Desc="当前人员 菜单资源">
+        select *
+        from (select
+        distinct IM.MENU_id,IM.menu_name,IM.parent_id,IM.Menu_Url,IM.STATUS,IM.ISSHOW,IM.MENU_DESC,IM.ICON_URL,IM.Sequence,IM.OPEN_TYPE
+        from ui_INFO_MENU IM,(
+        select C.ROLE_ID from ui_rule_user_group B , ui_rule_group_role C
+        where B.USER_ID = '?'
+        AND B.GROUP_ID = C.GROUP_ID
+        UNION
+        select A.ROLE_ID from ui_rule_user_ROLE A
+        where A.USER_ID = '?'
+        ) A,UI_RULE_RES_ROLE B
+        where A.role_id=B.role_id and IM.Menu_Id=B.res_id and B.RES_TYPE = '1' and IM.status='1')
+        start with PARENT_ID = '0'
+        connect by prior menu_id = parent_id
+        order SIBLINGS BY sequence
+    </Stmt>
+
+    <Stmt ID="Lg002" Desc="当前人员 地域资源">
+         select distinct IM.region_id,IM.region_Name,parent_id,IM.Region_Lvl
+        from ui_INFO_REGION IM,(
+        select C.ROLE_ID from ui_rule_user_group B , ui_rule_group_role C
+        where B.USER_ID = '?'
+        AND B.GROUP_ID = C.GROUP_ID
+        UNION
+        select A.ROLE_ID from ui_rule_user_ROLE A
+        where A.USER_ID = '?'
+        ) A,UI_RULE_RES_ROLE B
+
+        WHERE a.role_id=b.role_id and b.RES_ID = IM.region_ID
+        AND B.RES_TYPE = '2'
+        order by region_id desc
+    </Stmt>
+
+    <Stmt ID="groupRole001" Desc="用户组与角色关系">
+        select x.role_id,x.role_name,
+        case when x.role_type ='1' then '菜单角色' when x.role_type ='2' then '地域角色' when x.role_type ='3' then '即席查询角色' end as type_name,
+        x.group_name,x.role_type,
+        case when y.role_id is not null then 'checked' else null end as ck from (
+        select a.*,b.group_name from ui_info_role a,ui_info_user_group b
+        where a.create_group in ('?') and a.create_group=b.group_id ?) x,
+        (select * from ui_rule_group_role where group_id='?') y
+        where x.role_id=y.role_id(+)
+        order by x.role_type,x.role_name
+    </Stmt>
+
+    <Stmt ID="groupRole003" Desc="用户组与角色关系">
+        select x.role_id,x.role_name,
+        case when x.role_type ='1' then '菜单角色' when x.role_type ='2' then '地域角色' when x.role_type ='3' then '即席查询角色' end as type_name,
+        x.group_name,x.role_type,
+        case when y.role_id is not null then 'checked' else null end as ck from (
+        select * from (
+		select a.role_id,a.role_name,a.role_type,b.group_name
+            from ui_info_role a , ui_info_user_group b
+            where (a.create_group in ('1') and role_type &lt;&gt;'1')
+            and a.create_group = b.group_id
+		union
+		select a.role_id,a.role_name,a.role_type,b.group_name
+             from ui_info_role a , ui_info_user_group b
+             where  a.create_group in ('?')
+             and a.create_group = b.group_id) a where 1=1 ?
+        ) x,
+        (select * from ui_rule_group_role where group_id='?') y
+        where x.role_id=y.role_id(+)
+        order by x.role_type,x.role_name
+    </Stmt>
+
+    <Stmt ID="userRole001" Desc="用户与角色关系">
+        select x.role_id,x.role_name,
+        case when x.role_type ='1' then '菜单角色' when x.role_type ='2' then '地域角色' when x.role_type ='3' then '即席查询角色' end as type_name,
+        x.group_name,
+        case when y.role_id is not null then 'checked' else null end as ck from (
+        select a.*,b.group_name from ui_info_role a,ui_info_user_group b
+        where a.create_group in ('?') and a.create_group=b.group_id) x,
+        (select * from ui_rule_user_role where user_id='?') y
+        where x.role_id=y.role_id(+)
+        order by x.role_type,x.role_name
+    </Stmt>
+    <Stmt ID="groupRole002" Desc="取所属用户组的下级">
+        select group_id from ui_info_user_group start with parent_id='?' connect by prior group_id= parent_id
+    </Stmt>
+
+    <!--部门管理结束-->
+
+    <!-- 上传总部开始 -->
+    <Stmt ID="QU001" Desc="查询上传报表信息">
+        SELECT REPORT_ID , REPORT_CODE , REPORT_NAME , REPORT_SEQUENCE ,
+        REPORT_GROUP, REPORT_TYPE , FTP_CONFIG_ID,IS_VALID ,
+        FILENAME_TYPE FROM UI_MSU_UP_REPORT_CONFIG WHERE REPORT_ID = '?'
+        AND IS_VALID = '1'
+    </Stmt>
+
+    <Stmt ID="QU002" Desc="查询上传报表首记录">
+        SELECT RECORD_CODE FROM UI_MSU_INFO_RPTRECORD WHERE REPORT_ID =
+        '?' AND STATUS = '1' ORDER BY RECORD_CODE
+    </Stmt>
+
+    <Stmt ID="QU003" Desc="获取月报最大月份">
+        SELECT MAX(MONTH_ID) FROM UI_MSU_UP_INFO_MONTH_DATA WHERE RPT_ID
+        = '?'
+    </Stmt>
+
+    <Stmt ID="QU004" Desc="获取日报最大日期">
+        SELECT MAX(DAY_ID) FROM UI_MSU_UP_INFO_DAY_DATA WHERE RPT_ID =
+        '?'
+    </Stmt>
+
+    <Stmt ID="QU005" Desc="获取月报最大月份">
+        SELECT MAX(MONTH_ID) FROM UI_MSU_UP_INFO_MONTH_DATA WHERE RPT_ID
+        = '?' AND RECORD_CODE ='?'
+    </Stmt>
+
+    <Stmt ID="QU006" Desc="获取日报最大日期">
+        SELECT MAX(DAY_ID) FROM UI_MSU_UP_INFO_DAY_DATA WHERE RPT_ID =
+        '?' AND RECORD_CODE ='?'
+    </Stmt>
+
+    <Stmt ID="QU007" Desc="获取指定报表指定记录类型的业务类型标记">
+        SELECT SVC_FLAG FROM UI_MSU_INFO_RPTRECORD WHERE REPORT_ID = '?'
+        AND RECORD_CODE = '?'
+    </Stmt>
+
+    <Stmt ID="QU008" Desc="获取指定报表指定记录类型的元数据信息">
+        SELECT REPORT_ID ,RECORD_CODE , COL_CODE , FIELD_TYPE,
+        NEW_TITLE, TITLE_DESC , REF_MAP_TYPE , REF_FIELD , REF_CON ,
+        UNIT ,DIGIT,MSU_ID , COL_SEQUENCE,FLAG FROM
+        UI_MSU_UP_REPORT_META_INFO WHERE REPORT_ID = '?' AND RECORD_CODE
+        = '?' AND FLAG = '1' ORDER BY COL_SEQUENCE
+    </Stmt>
+
+    <Stmt ID="QU009" Desc="获取指定报表指定记录类型的元数据信息">
+        SELECT REPORT_ID ,RECORD_CODE , COL_CODE , FIELD_TYPE,
+        NEW_TITLE, TITLE_DESC , REF_MAP_TYPE , REF_FIELD , REF_CON ,
+        UNIT ,DIGIT,MSU_ID , COL_SEQUENCE,FLAG FROM
+        UI_MSU_UP_REPORT_META_INFO WHERE REPORT_ID = '?' AND FLAG = '1'
+        ORDER BY COL_SEQUENCE
+    </Stmt>
+
+    <Stmt ID="I6011" Desc="上传监控-提交命令">
+        INSERT INTO UI_MSU_UP_COMMAND(COMMAND_ID,REPORT_ID,REPORT_DATE,FILE_TYPE,CREATE_TIME,UP_TIME_AFTER_CREATE)
+        VALUES((SELECT COALESCE(MAX(COMMAND_ID),0)+1 FROM UI_MSU_UP_COMMAND),'?',?,'?',?,?)
+    </Stmt>
+    <!-- 上传总部结束 -->
+    <Stmt ID="RPT001" Desc="查询报表信息">
+        SELECT A.RPT_ID,A.NAME,C.GROUP_ID,A.RPT_EXPORT_RULE
+        FROM UI_RPT_INFO_REPORT A ,UI_RPT_INFO_GROUP_LIST B,UI_RPT_INFO_GROUP_DEFINE C
+        WHERE 1=1
+        AND A.RPT_ID = B.RPT_ID(+)
+        AND B.GROUP_ID = C.GROUP_ID(+)
+        ?
+    </Stmt>
+
+    <Stmt ID="Q0027" Desc="查询所有资源" Author="jcm">
+        SELECT MENU_ID,PARENT_ID,MENU_TYPE,MENU_NAME ,MENU_URL
+        FROM UI_INFO_MENU
+        WHERE STATUS = '1'
+    </Stmt>
+
+	 <Stmt ID="Q0027_001" Desc="查询所有资源" Author="jcm">
+        SELECT MENU_ID,PARENT_ID,MENU_TYPE,MENU_NAME ,MENU_URL
+        FROM UI_INFO_MENU
+        WHERE STATUS = '1' and system_id=?
+    </Stmt>
+
+    <Stmt ID="Q0028" Desc="查询所有资源" Author="jcm">
+        SELECT RES_ID,PARENT_ID,ISRESOURCE,NAME ,URL
+        FROM UI_PUB_INFO_RESOURCE
+        WHERE STATUS = 'Y'
+    </Stmt>
+    <Stmt ID="Q0029" Desc="查询所有叶子资源" Author="jcm">
+        SELECT RES_ID,PARENT_ID,ISRESOURCE,NAME ,URL
+        FROM UI_PUB_INFO_RESOURCE
+    </Stmt>
+    <Stmt ID="Q0030" Desc="查询所有叶子资源" Author="jcm">
+        SELECT MENU_ID,PARENT_ID,MENU_TYPE,MENU_NAME ,MENU_URL
+        FROM UI_INFO_MENU
+    </Stmt>
+
+    <Stmt ID="Q0009" Desc="提取资源路径信息" Author="jcm">
+        select
+        level,res_id,name,parent_id
+        from ui_pub_info_resource
+        start with res_id
+        ='?'
+        connect by prior parent_id = res_id
+        order by level desc
+    </Stmt>
+    <Stmt ID="Q0010" Desc="提取资源路径信息" Author="jcm">
+        select
+        level,menu_id,menu_name,parent_id
+        from ui_info_menu
+        start with menu_id ='?'
+        connect by prior parent_id = menu_id
+        order by level desc
+    </Stmt>
+
+    <Stmt ID="I2115" Desc="增加角色日志" Author="jcm">
+        insert into
+        log_info_role(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,role_id,role_name,role_type,status,region_id,dept_id,sequence,comments,create_group,system_id)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd
+        HH24:MI:SS'),'?',role_id,role_name,role_type,status,region_id,dept_id,sequence,comments,create_group,system_id from
+        ui_info_role where role_id = '?'
+    </Stmt>
+    <Stmt ID="I2117" Desc="增加资源角色权限日志" Author="jcm">
+        insert into LOG_RULE_RES_ROLE(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,role_id,res_type,res_id)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd
+        HH24:MI:SS'),'?',role_id,res_type,res_id from ui_RULE_RES_ROLE where role_id = '?'
+    </Stmt>
+    <Stmt ID="I2503" Desc="增加菜单角色权限日志">
+        insert into
+        LOG_RULE_RES_ROLE(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,role_id,res_type,res_id,flag) select
+        log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd HH24:MI:SS'),'?',role_id,res_type,res_id,flag
+        from ui_RULE_RES_ROLE where role_id='?' and res_type='?' and res_id = '?'
+    </Stmt>
+    <Stmt ID="I2118" Desc="增加区域角色日志" Author="jcm">
+        insert into LOG_RULE_RES_ROLE(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,role_id,res_type,res_id)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd
+        HH24:MI:SS'),'?',role_id,res_type,res_id from ui_rule_res_role where role_id = '?' and res_id ='?' and
+        res_type='2'
+    </Stmt>
+    <Stmt ID="I2119" Desc="增加区域角色日志" Author="jcm">
+        insert into LOG_RULE_RES_ROLE(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,role_id,res_type,res_id)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd
+        HH24:MI:SS'),'?',role_id,res_type,res_id from ui_rule_res_role where role_id = '?' and res_id in (?) and
+        res_type='2'
+    </Stmt>
+    <Stmt ID="C2210" Desc=" 插入用户变更日志" Author="jcm">
+        insert into
+        LOG_INFO_USER(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,USER_ID,REGION_ID,DEPT_ID,DUTY_ID,USER_NAME,PWD,STATUS,BEGIN_DATE,END_DATE,CREATE_TIME,BIRTHDAY,MOBILE_PHONE,HOME_PHONE,OFFICE_PHONE,OFFICE_FAX,EMAIL,SEX,AGE,POSTALCODE,ADDRESS,NATION,PASSPORTNO,DIRECTOR,QUESTION,ANSWER,RES_CHAR,system_id)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd
+        HH24:MI:SS'),'?',USER_ID,REGION_ID,DEPT_ID,DUTY_ID,USER_NAME,PWD,STATUS,BEGIN_DATE,END_DATE,CREATE_TIME,BIRTHDAY,MOBILE_PHONE,HOME_PHONE,OFFICE_PHONE,OFFICE_FAX,EMAIL,SEX,AGE,POSTALCODE,ADDRESS,NATION,PASSPORTNO,DIRECTOR,QUESTION,ANSWER,RES_CHAR,system_id
+        from ui_info_user where user_id = '?'
+    </Stmt>
+    <Stmt ID="C2211" Desc=" 插入用户与角色变更日志" Author="jcm">
+        insert into LOG_RULE_USER_ROLE(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,user_id,role_id) select
+        log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd HH24:MI:SS'),'?',user_id,role_id from
+        ui_rule_user_role where user_id = '?'
+    </Stmt>
+    <Stmt ID="C2212" Desc=" 插入用户与用户组变更日志" Author="jcm">
+        insert into LOG_RULE_USER_GROUP(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,user_id,group_id) select
+        log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd HH24:MI:SS'),'?',user_id,group_id from
+        ui_rule_user_group where user_id = '?'
+    </Stmt>
+    <Stmt ID="I2120" Desc="增加用户组日志" Author="jcm">
+        insert into
+        LOG_INFO_USER_GROUP(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,group_id,group_name,parent_id,status,region_id,dept_id,sequence,group_type,system_id)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd
+        HH24:MI:SS'),'?',group_id,group_name,parent_id,status,region_id,dept_id,sequence,group_type,system_id from ui_info_user_group where
+        group_id = '?'
+    </Stmt>
+    <Stmt ID="I2121" Desc="增加用户组与角色日志" Author="jcm">
+        insert into LOG_RULE_GROUP_ROLE(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,group_id,role_id) select
+        log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd HH24:MI:SS'),'?',group_id,role_id from
+        ui_rule_group_role where group_id = '?' ?
+    </Stmt>
+    <Stmt ID="I3000" Desc="增加资源日志" Author="jcm">
+        insert into
+        LOG_RULE_RES_ROLE(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,role_id,res_type,res_id,flag) select
+        log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd HH24:MI:SS'),'?',role_id,res_type,res_id,flag
+        from ui_RULE_RES_ROLE where res_id = '?' and role_id not in ('1','2')
+    </Stmt>
+
+
+    <!-- 单表配置开始 -->
+    <Stmt ID="QT131" Desc="单表配置菜单树展现">
+        SELECT PARAM_ID , PARENT_ID
+        ,PARAM_NAME,PARAM_DESC,TABLE_NAME,LOG_TABLE_NAME,STATUS,ISLEAF,ISDIMTABLE,DEFAULT_TAG
+        FROM UI_PARAM_INFO_CONFIG
+        WHERE PARENT_ID = '?'
+        ORDER BY PARAM_ID
+    </Stmt>
+    <Stmt ID="QT132" Desc="单表配置元数据配置表">
+        SELECT PARAM_ID ,
+        COLUMN_CN_NAME,
+        COLUMN_EN_NAME,
+        COLUMN_DATA_TYPE,
+        UNIQUE_INDEX,
+        COLUMN_SHOW_TYPE,
+        COLUMN_SHOW_RULE,
+        SEQUENCE,
+        COLUMN_FORMAT,
+        STATUS,
+        COLUMN_EVENT,
+        COLUMN_DATA_DIGIT,
+        COLUMN_LENGTH
+        FROM UI_PARAM_META_CONFIG
+        WHERE PARAM_ID = '?' AND COLUMN_DISPLAYED = 'Y'
+        ORDER BY SEQUENCE
+    </Stmt>
+    <Stmt ID="QT133" Desc="单表参数配置">
+        SELECT PARAM_ID , PARENT_ID
+        ,PARAM_NAME,PARAM_DESC,TABLE_NAME,LOG_TABLE_NAME,STATUS,ISLEAF,ISDIMTABLE,DEFAULT_TAG
+        FROM UI_PARAM_INFO_CONFIG
+        WHERE PARAM_ID = '?'
+    </Stmt>
+    <!-- 单表配置结束 -->
+
+    <Stmt ID="menu001" Desc="取所属菜单的所有下级">
+        select menu_id,menu_name,parent_id,menu_url,res_char1,sequence from ui_info_menu where menu_id='?'
+        union all
+        select menu_id,menu_name,parent_id,menu_url,res_char1,sequence from ui_info_menu
+        start with PARENT_ID = '?'
+        connect by prior menu_id = parent_id
+
+    </Stmt>
+
+    <!--序列键生成号开始-->
+
+	<Stmt ID="QT1005" Desc="取得数据库表的序列号">
+		SELECT cur_id FROM UI_SID WHERE upper(table_name)=upper('?')
+	</Stmt>
+	<Stmt ID="IT1006" Desc="设置数据库表的初始序列号">
+		INSERT INTO UI_SID(table_name,cur_id) VALUES(upper('?'),1)
+	</Stmt>
+	<Stmt ID="CT1007" Desc="更新数据库表的新的序列号">
+		UPDATE UI_SID SET cur_id=?+1 WHERE upper(table_name)=upper('?')
+	</Stmt>
+	<!--序列键生成号结束-->
+	<Stmt ID="fav001" Desc="取我的收藏夹">
+		select 'N' as ISRESOURCE,favorite_id as res_id,favorite_name as res_name,'' as res_url,sequence from UI_SYS_RULE_USER_FAVORITE
+		where user_id='?'  and parent_id='0'
+		union
+		select 'Y' as ISRESOURCE,res_id,res_name,res_url,sequence from UI_SYS_RULE_FAVORITE_RESOURCE
+		where user_id='?' and favorite_id='0'
+		order by sequence
+	</Stmt>
+
+	<Stmt ID="fav002" Desc="取我的收藏夹">
+		select 'N' as ISRESOURCE,favorite_id as res_id,favorite_name as res_name,'' as res_url,sequence from UI_SYS_RULE_USER_FAVORITE
+		where user_id='?'  and parent_id='?'
+		union
+		select 'Y' as ISRESOURCE,res_id,res_name,res_url,sequence from UI_SYS_RULE_FAVORITE_RESOURCE
+		where user_id='?' and favorite_id='?'
+		order by sequence
+	</Stmt>
+	<Stmt ID="fav003" Desc="取收藏夹信息">
+		select favorite_id,favorite_name,parent_id,favorite_desc,'' as res_url,sequence from UI_SYS_RULE_USER_FAVORITE where user_id='?' and favorite_id='?'
+	</Stmt>
+	<Stmt ID="fav004" Desc="取收藏夹资源信息">
+		select res_id,res_name,favorite_id,'' as favorite_desc,res_url,sequence from  UI_SYS_RULE_FAVORITE_RESOURCE where user_id='?' and res_id='?'
+	</Stmt>
+	<Stmt ID="fav005" Desc="更新收藏夹信息">
+		update UI_SYS_RULE_USER_FAVORITE set favorite_name='?',parent_id='?'  where user_id='?' and favorite_id='?'
+	</Stmt>
+	<Stmt ID="fav006" Desc="取收藏夹资源信息">
+		update UI_SYS_RULE_FAVORITE_RESOURCE set res_name='?',favorite_id='?' where user_id='?' and res_id='?'
+	</Stmt>
+	<Stmt ID="fav007" Desc="新增收藏夹信息">
+		insert into UI_SYS_RULE_USER_FAVORITE(user_id,favorite_id,parent_id,favorite_name,sequence) values('?','?','?','?',?)
+	</Stmt>
+	<Stmt ID="fav008" Desc="新增收藏夹资源信息">
+		insert into UI_SYS_RULE_FAVORITE_RESOURCE(user_id,res_id,res_url,favorite_id,res_name,sequence) values('?','?','?','?','?',?)
+	</Stmt>
+	<Stmt ID="fav009" Desc="删除收藏夹资源信息">
+		delete from UI_SYS_RULE_FAVORITE_RESOURCE where user_id='?' and favorite_id in (?)
+	</Stmt>
+	<Stmt ID="fav010" Desc="删除收藏夹信息">
+		delete from UI_SYS_RULE_USER_FAVORITE where user_id='?' and favorite_id in (?)
+	</Stmt>
+
+	<Stmt ID="fav011" Desc="删除收藏夹资源信息">
+		delete from UI_SYS_RULE_FAVORITE_RESOURCE where user_id='?' and res_id='?'
+	</Stmt>
+	<Stmt ID="fav012" Desc="取我的收藏夹">
+		select favorite_id,favorite_name,parent_id,sequence from UI_SYS_RULE_USER_FAVORITE
+		where user_id='?'  and parent_id='0'
+	</Stmt>
+	<Stmt ID="fav013" Desc="取我的收藏夹">
+		select favorite_id,favorite_name,parent_id,sequence from UI_SYS_RULE_USER_FAVORITE
+		where user_id='?'  and parent_id='?'
+	</Stmt>
+	<Stmt ID="fav014" Desc="取我的收藏夹">
+		select res_id,parent_id,res_name,res_url,sequence from (
+		select favorite_id as res_id,favorite_name as res_name,'' as res_url,parent_id,sequence from UI_SYS_RULE_USER_FAVORITE
+		where user_id='?'
+		union
+		select res_id,res_name,res_url,favorite_id as parent_id,sequence from UI_SYS_RULE_FAVORITE_RESOURCE
+		where user_id='?' )
+				  start with PARENT_ID = '0'
+				connect by prior res_id = parent_id
+				 order SIBLINGS BY  sequence
+	</Stmt>
+	<Stmt ID="fav015" Desc="取我的收藏夹">
+		 select res_id from  UI_SYS_RULE_FAVORITE_RESOURCE where user_id='?'
+		 and res_url like '%fav_id=?%' and res_url like '%adhoc_root=?%'
+	</Stmt>
+
+	<Stmt ID="fav016_del" Desc="删除清单字段">
+		delete from UI_ADHOC_USER_LIST b where  b.fav_id='?' and b.ADHOC_ID = '?'   AND b.OPER_NO = '?'
+
+	</Stmt>
+
+    <Stmt ID="logFav001" Desc="增加收藏夹日志" Author="jcm">
+        insert into
+        LOG_SYS_RULE_USER_FAVORITE(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,user_id,favorite_id,parent_id,favorite_name,favorite_desc,sequence,status)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd
+        HH24:MI:SS'),'?',user_id,favorite_id,parent_id,favorite_name,favorite_desc,sequence,status from
+        UI_SYS_RULE_USER_FAVORITE where user_id = '?' and favorite_id='?'
+    </Stmt>
+    <Stmt ID="logFav002" Desc="增加收藏夹资源日志" Author="jcm">
+        insert into
+        LOG_SYS_RULE_FAVORITE_RESOURCE(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,user_id,res_id,res_type,res_url,favorite_id,sequence,res_name)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd
+        HH24:MI:SS'),'?',user_id,res_id,res_type,res_url,favorite_id,sequence,res_name from
+        UI_SYS_RULE_FAVORITE_RESOURCE where user_id = '?' and res_id='?'
+    </Stmt>
+    <Stmt ID="logFav003" Desc="增加收藏夹资源日志" Author="jcm">
+        insert into
+        LOG_SYS_RULE_FAVORITE_RESOURCE(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,user_id,res_id,res_type,res_url,favorite_id,sequence,res_name)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd
+        HH24:MI:SS'),'?',user_id,res_id,res_type,res_url,favorite_id,sequence,res_name from
+        UI_SYS_RULE_FAVORITE_RESOURCE where user_id = '?' and favorite_id in (?)
+    </Stmt>
+
+     <Stmt ID="logFav004" Desc="删除收藏夹日志" Author="jcm">
+     	insert into LOG_SYS_RULE_USER_FAVORITE(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,user_id,favorite_id,parent_id,favorite_name,favorite_desc,sequence,status)    select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd HH24:MI:SS'),'?',user_id,favorite_id,parent_id,favorite_name,favorite_desc,sequence,status from UI_SYS_RULE_USER_FAVORITE where user_id = '?' and favorite_id in (?)
+    </Stmt>
+
+    <Stmt ID="gl001" Desc="总账报表描述" Author="xh">
+     	select top_comments,bottom_comments  FROM UI_RPT_INFO_COMMENT where rpt_id='?'
+    </Stmt>
+    <Stmt ID="gl002" Desc="总账数据生成时间" Author="xh">
+     	select to_char(rpt_data_date,'YYYY-MM-DD') FROM UI_RPT_INFO_DATA_DATE where rpt_id='?' and rpt_date='?'
+    </Stmt>
+
+    <Stmt ID="ar001" Desc="即席查询权限" Author="xh">
+     	select substr(menu_url,44,6) as menu_id,menu_name from (
+	        select C.ROLE_ID from ui_rule_user_group B , ui_rule_group_role C
+	        where B.USER_ID = '?'
+	        AND B.GROUP_ID = C.GROUP_ID
+	        UNION
+	        select A.ROLE_ID from ui_rule_user_ROLE A
+	        where A.USER_ID = '?') a,
+        ui_INFO_MENU b,ui_rule_res_role c
+  		where a.role_id=c.role_id and b.Menu_Id=c.res_id
+    	and menu_url like '%adhoc_root%' order by menu_id
+    </Stmt>
+
+    <Stmt ID="ar002" Desc="即席查询权限" Author="xh">
+		select x.adhoc_name,x.group_id,x.con_id,x.con_name,case when y.res_id is not null then 'checked' end as ck from (
+		select a.adhoc_name||'-条件-'||e.group_name as adhoc_name,c.group_id,d.con_id,d.con_name,c.sequence,a.adhoc_id from ui_adhoc_info_def a,ui_adhoc_rule_hoc_group b,ui_adhoc_rule_group_prop c,ui_adhoc_condition_meta d,ui_adhoc_group_meta e
+		where a.adhoc_id='?' and a.adhoc_id=b.adhoc_id and b.group_id=c.group_id and c.meta_code=d.con_id and b.group_id=e.group_id  and e.group_belong='C'
+		)x,(select * from ui_rule_adhoc_role where role_id='?' and adhoc_id='?' and res_type='1')y
+		where y.res_id(+)=x.con_id and x.group_id=y.group_id(+)
+		order by x.group_id,x.sequence
+    </Stmt>
+    <Stmt ID="ar003" Desc="即席查询权限" Author="xh">
+		select x.adhoc_name,x.group_id,x.dim_id,x.dim_name,case when y.res_id is not null then 'checked' end as ck from (
+		select a.adhoc_name||'-维度-'||e.group_name as adhoc_name,c.group_id,d.dim_id,d.dim_name,c.sequence from ui_adhoc_info_def a,ui_adhoc_rule_hoc_group b,ui_adhoc_rule_group_prop c,ui_adhoc_dim_meta d,ui_adhoc_group_meta e
+		where a.adhoc_id='?' and a.adhoc_id=b.adhoc_id and b.group_id=c.group_id and c.meta_code=d.dim_id and b.group_id=e.group_id and e.group_belong='D'
+		)x,(select * from ui_rule_adhoc_role where role_id='?' and adhoc_id='?' and res_type='2')y
+		where y.res_id(+)=x.dim_id and x.group_id=y.group_id(+)
+		order by x.group_id,x.sequence
+    </Stmt>
+    <Stmt ID="ar004" Desc="即席查询权限" Author="xh">
+		select x.adhoc_name,x.group_id,x.msu_id,x.msu_name,case when y.res_id is not null then 'checked' end as ck from (
+		select a.adhoc_name||'-指标-'||e.group_name as adhoc_name,c.group_id,d.msu_id,d.msu_name,c.sequence from ui_adhoc_info_def a,ui_adhoc_rule_hoc_group b,ui_adhoc_rule_group_prop c,ui_adhoc_msu_meta d,ui_adhoc_group_meta e
+		where a.adhoc_id='?' and a.adhoc_id=b.adhoc_id and b.group_id=c.group_id and c.meta_code=d.msu_id and b.group_id=e.group_id and e.group_belong='M'
+		)x,(select * from ui_rule_adhoc_role where role_id='?' and adhoc_id='?' and res_type='3')y
+		where y.res_id(+)=x.msu_id and x.group_id=y.group_id(+)
+		order by x.group_id,x.sequence
+    </Stmt>
+
+    <Stmt ID="ar005" Desc="保存即席查询权限" Author="xh">
+		insert into ui_rule_adhoc_role values ('?','?','?','?','?')
+    </Stmt>
+    <Stmt ID="ar006" Desc="删除即席查询权限" Author="xh">
+		delete from ui_rule_adhoc_role where role_id='?' and adhoc_id='?'
+    </Stmt>
+    <Stmt ID="ar007" Desc="增加即席查询权限日志" Author="xh">
+        insert into
+        LOG_RULE_ADHOC_ROLE(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,role_id,adhoc_id,group_id,res_id,res_type)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd
+        HH24:MI:SS'),'?',role_id,adhoc_id,group_id,res_id,res_type from
+        ui_rule_adhoc_role where role_id = '?' and adhoc_id='?'
+    </Stmt>
+     <Stmt ID="ar008" Desc="人员即席查询权限id">
+        select distinct a.role_id from (
+        select C.ROLE_ID from ui_rule_user_group B , ui_rule_group_role C
+        where B.USER_ID = '?'
+        AND B.GROUP_ID = C.GROUP_ID
+        UNION
+        select A.ROLE_ID from ui_rule_user_ROLE A
+        where A.USER_ID = '?'
+        ) A,ui_rule_adhoc_role B
+        WHERE a.role_id=b.role_id
+    </Stmt>
+    <Stmt ID="ar009" Desc="即席查询权限" Author="xh">
+	    select x.adhoc_name,x.group_id,x.msu_field,x.msu_name,case when y.res_id is not null then 'checked' end as ck from (
+	    	select a.adhoc_name||'-用户清单' as adhoc_name,'yhqdGroup' as group_id,b.msu_field,b.msu_name,b.sequence
+	           from ui_adhoc_info_def a,UI_ADHOC_USER_LIST b
+			       where a.adhoc_id='?' and a.adhoc_id=b.adhoc_id and b.OPER_NO = '?' AND b.FAV_ID='-1' AND b.STATUS = '1'
+			)x,(select * from ui_rule_adhoc_role where role_id='?' and adhoc_id='?' and res_type='4')y
+		where y.res_id(+)=x.msu_field
+		order by x.sequence
+    </Stmt>
+
+    <Stmt ID="region001" Desc="区域" Author="xh">
+		select ? from new_dim.d_dept where  ?
+    </Stmt>
+
+    <Stmt ID="I_ADHOC_LOG_01" Desc="插入清单查询日志">
+        insert into
+        ui_adhoc_user_qry_log(service_sn,log_seq,oper_oper_no,oper_ip,oper_time,QRY_SQL) values(SEQ_ADHOC_QRY_LOG.nextval, '?' , '?' , '?' , to_date('?','yyyy-mm-dd hh24:mi:ss'),'?')
+    </Stmt>
+
+    <Stmt ID="ah001" Desc="手工调整">
+		select a.op_time
+		,a.cust_name
+		,a.acc_nbr
+		,a.acct_name
+		,b.prepay_name
+		,c.c_pstn_flag_name
+		,d.name
+		,e.offer_name
+		,f.prod_name
+		,j.cust_group_name
+		,g.industry_type_name
+		,a.user_id
+		,a.cust_id
+		,acct_id
+		,acct_code
+		,a.prepay_flag
+		,a.c_pstn_flag
+		,a.main_prod_id
+		,a.main_pp_id
+		,a.offer_id
+		,a.bi_u_group_id
+		,a.ent_industry_type_id
+		from new_dw.dw_u_user_360_view_m a
+		left join
+		new_dim.d_prepay_flag b
+		on a.prepay_flag=b.prepay_flag
+		left join
+		new_dim.d_c_pstn_flag c
+		on a.c_pstn_flag=c.c_pstn_flag
+		left join
+		new_dim.d_price_plan d
+		on a.main_pp_id=d.price_plan_cd
+		left join
+		new_dim.d_offer e
+		on a.offer_id=e.offer_id
+		left join
+		new_dim.d_prod f
+		on a.main_prod_id=f.prod_id
+		left join
+		new_dim.d_industry_type g
+		on a.ent_industry_type_id=g.industry_type_id
+		left join
+		new_dim.d_cust_group j
+		on a.bi_u_group_id=j.cust_group_id
+		where a.op_time=? and ?
+    </Stmt>
+
+ 	<Stmt ID="ah002" Desc="手工调整">
+		insert into new_dw.dw_a_adjusthand_m
+		(OP_TIME ,USER_ID ,CUST_ID ,CUST_NAME ,ACCT_ID ,ACCT_NAME ,ACCT_CODE ,ACC_NBR ,PREPAY_FLAG ,C_PSTN_FLAG ,MAIN_PROD_ID ,MAIN_PP_ID ,
+		OFFER_ID ,BI_U_GROUP_ID ,ENT_INDUSTRY_TYPE_ID ,CREATE_TIME ,UPDATE_TIME ,STAFF_ID ,ADJUST_FEE ,ACCT_ITEM_TYPE_ID ,BILLING_CYCLE_ID ,FINA_ITEM_TYPE_ID)
+		values(?,?,?,'?',?,'?','?','?',?,?,?,?,?,?,'?',to_char(sysdate,'yyyy-mm-dd'),to_char(sysdate,'yyyy-mm-dd'),'?',?,?,?,?)
+ 	</Stmt>
+
+ 	<Stmt ID="ah003" Desc="手工调整">
+		select billing_cycle_id from new_dim.d_billing_cycle where billing_cycle_month=?
+ 	</Stmt>
+
+ 	<Stmt ID="ah004" Desc="手工调整">
+		select user_id||','||acct_item_type_id||';'||adjust_fee
+		from new_dw.dw_a_adjusthand_m where op_time=? and acc_nbr='?'  and staff_id='?'
+ 	</Stmt>
+
+ 	<Stmt ID="ah005" Desc="手工调整">
+		delete from new_dw.dw_a_adjusthand_m
+		where op_time=? and user_id='?'  and ? and staff_id='?'
+ 	</Stmt>
+
+ 	<Stmt ID="ah006" Desc="手工调整">
+		select a.op_time
+		,a.cust_name
+		,a.acc_nbr
+		,a.acct_name
+		,b.prepay_name
+		,c.c_pstn_flag_name
+		,d.name
+		,e.offer_name
+		,f.prod_name
+		,j.cust_group_name
+		,g.industry_type_name
+		,a.user_id
+		,a.cust_id
+		,acct_id
+		,acct_code
+		,a.prepay_flag
+		,a.c_pstn_flag
+		,a.main_prod_id
+		,a.main_pp_id
+		,a.offer_id
+		,a.bi_u_group_id
+		,a.ent_industry_type_id
+		from
+	    (select * from new_dw.dw_u_user_360_view_m a
+	    where  a.acct_id=(select acct_id from ? aa where 1=1 ? )) a
+		left join
+		new_dim.d_prepay_flag b
+		on a.prepay_flag=b.prepay_flag
+		left join
+		new_dim.d_c_pstn_flag c
+		on a.c_pstn_flag=c.c_pstn_flag
+		left join
+		new_dim.d_price_plan d
+		on a.main_pp_id=d.price_plan_cd
+		left join
+		new_dim.d_offer e
+		on a.offer_id=e.offer_id
+		left join
+		new_dim.d_prod f
+		on a.main_prod_id=f.prod_id
+		left join
+		new_dim.d_industry_type g
+		on a.ent_industry_type_id=g.industry_type_id
+		left join
+		new_dim.d_cust_group j
+		on a.bi_u_group_id=j.cust_group_id
+		where a.op_time=?
+ 	</Stmt>
+
+ 	<Stmt ID="ah007" Desc="手工调整">
+		select user_id||','||acct_item_type_id||';'||adjust_fee from new_dw.dw_a_adjusthand_m
+		where op_time=?  and staff_id='?'  ?
+ 	</Stmt>
+
+ 	<Stmt ID="ah008" Desc="手工调整">
+	    select a.op_time,
+	           a.cust_name,
+	           a.acc_nbr,
+	           a.acct_name,
+	           h.acct_item_type_name,
+	           b.prepay_name,
+	           c.c_pstn_flag_name,
+	           d.name,
+	           e.offer_name,
+	           f.prod_name,
+	           j.cust_group_name,
+	           g.industry_type_name,
+			   a.inc_fee,
+			   a.adjust_fee
+	      from new_dw.dw_a_fina_view_m a
+	      left join new_dim.d_acct_item_type h on a.acct_item_type_id = h.acct_item_type_id
+	      left join new_dim.d_prepay_flag b on a.prepay_flag = b.prepay_flag
+	      left join new_dim.d_c_pstn_flag c on a.c_pstn_flag = c.c_pstn_flag
+	      left join new_dim.d_price_plan d on a.main_pp_id = d.price_plan_cd
+	      left join new_dim.d_offer e on a.offer_id = e.offer_id
+	      left join new_dim.d_prod f on a.main_prod_id = f.prod_id
+	      left join new_dim.d_industry_type g on a.ent_industry_type_id = g.industry_type_id
+	      left join new_dim.d_cust_group j on a.bi_u_group_id = j.cust_group_id
+	     where ?  and rownum &lt; 5001
+ 	</Stmt>
+
+ 	<Stmt ID="ahAcct001" Desc="手工调整">
+		select distinct acct_item_type_id?,acct_item_type_name? from new_dim.d_acct_item_type where acct_item_type_id?
+ 	</Stmt>
+
+ 	<Stmt ID="ahAcct002" Desc="手工调整">
+		select a.acct_item_type_name2,a.acct_item_type_name3,a.acct_item_type_name4,a.acct_item_type_name,b.adjust_fee
+		,a.acct_item_type_id2,a.acct_item_type_id3,a.acct_item_type_id4,a.acct_item_type_id
+		 from new_dim.d_acct_item_type a
+		left join  (select * from new_dw.dw_a_adjusthand_m where op_time=? and staff_id='?') b
+		on a.acct_item_type_id=b.acct_item_type_id
+		where a.acct_item_type_id=?
+ 	</Stmt>
+ 	<Stmt ID="ahAcct003" Desc="手工调整">
+		select distinct fina_item_type_id?,fina_item_type_name? from new_dim.d_fina_item_type where fina_item_type_id?
+ 	</Stmt>
+
+ 	<Stmt ID="ahAcct004" Desc="手工调整">
+		select a.fina_item_type_name1,a.fina_item_type_name2,a.fina_item_type_name3,a.fina_item_type_name4,a.fina_item_type_name5,a.fina_item_type_name6,a.fina_item_type_name,b.adjust_fee
+		,a.fina_item_type_id1,a.fina_item_type_id2,a.fina_item_type_id3,a.fina_item_type_id4,a.fina_item_type_id5,a.fina_item_type_id6,a.fina_item_type_id,b.ent_industry_type_id
+		 from new_dim.d_fina_item_type a
+		left join  (select * from new_dw.dw_a_adjusthand_m where op_time=? and staff_id='?' and ent_industry_type_id='?') b
+		on a.fina_item_type_id=b.fina_item_type_id
+		where a.fina_item_type_id=?
+ 	</Stmt>
+
+ 	<Stmt ID="logAh001" Desc="手工调整">
+        insert into
+        log_dw_a_adjusthand_m(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,OP_TIME ,USER_ID ,CUST_ID ,CUST_NAME ,ACCT_ID ,ACCT_NAME ,ACCT_CODE ,ACC_NBR ,PREPAY_FLAG ,C_PSTN_FLAG ,MAIN_PROD_ID ,MAIN_PP_ID ,
+		OFFER_ID ,BI_U_GROUP_ID ,ENT_INDUSTRY_TYPE_ID ,CREATE_TIME ,UPDATE_TIME ,STAFF_ID ,ADJUST_FEE ,ACCT_ITEM_TYPE_ID ,BILLING_CYCLE_ID ,FINA_ITEM_TYPE_ID)
+        select log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-ddHH24:MI:SS')
+        ,'?',OP_TIME ,USER_ID ,CUST_ID ,CUST_NAME ,ACCT_ID ,ACCT_NAME ,ACCT_CODE ,ACC_NBR ,PREPAY_FLAG ,C_PSTN_FLAG ,MAIN_PROD_ID ,MAIN_PP_ID ,
+		OFFER_ID ,BI_U_GROUP_ID ,ENT_INDUSTRY_TYPE_ID ,CREATE_TIME ,UPDATE_TIME ,STAFF_ID ,ADJUST_FEE ,ACCT_ITEM_TYPE_ID ,BILLING_CYCLE_ID ,FINA_ITEM_TYPE_ID from
+        new_dw.dw_a_adjusthand_m where op_time=? and staff_id='?' and user_id='?' and ?
+ 	</Stmt>
+
+
+
+ 	<Stmt ID="OPP1001" Desc="竞争对手参数评估配置">
+       SELECT PARAM_TYPE , PARAM_ID ,PARAM_NAME ,PARAM_DESC ,PARAM_RULE ,PARAM_WEIGHT , PARAM_STATUS
+       FROM D_OPP_PARAM_CONFIG
+ 	</Stmt>
+
+ 	<Stmt ID="OPP1002" Desc="竞争对手参数评估配置">
+       SELECT PARAM_TYPE , PARAM_ID , LVL_ID , LVL_NAME ,START_VAL , END_VAL
+ 	   FROM D_OPP_PARAM_LVL
+       WHERE PARAM_ID = '?'
+ 	</Stmt>
+
+ 	<Stmt ID="OPP1003" Desc="竞争对手参数评估配置(新增)">
+       INSERT INTO D_OPP_PARAM_CONFIG(PARAM_ID ,PARAM_NAME ,PARAM_TYPE ,PARAM_RULE ,PARAM_WEIGHT , PARAM_STATUS,PARAM_DESC)
+       VALUES ('?' , '?' ,'?' ,'?' , '?' , ? ,'?')
+ 	</Stmt>
+
+ 	<Stmt ID="OPP1004" Desc="竞争对手参数评估配置（修改）">
+       UPDATE D_OPP_PARAM_CONFIG SET ? WHERE 1=1 ?
+ 	</Stmt>
+
+ 	<Stmt ID="OPP1005" Desc="竞争对手参数评估配置（删除）">
+       DELETE FROM D_OPP_PARAM_LVL WHERE 1=1 ?
+ 	</Stmt>
+
+ 	<Stmt ID="OPP1006" Desc="竞争对手参数评估配置（删除）">
+       DELETE FROM D_OPP_PARAM_CONFIG WHERE 1=1 ?
+ 	</Stmt>
+
+ 	<Stmt ID="OPP1007" Desc="竞争对手参数评估配置">
+       SELECT PARAM_TYPE , PARAM_ID ,PARAM_NAME ,PARAM_DESC ,PARAM_RULE ,PARAM_WEIGHT , PARAM_STATUS
+       FROM D_OPP_PARAM_CONFIG WHERE PARAM_ID = '?'
+ 	</Stmt>
+
+ 	<Stmt ID="OPP1008" Desc="竞争对手参数评估配置(新增)">
+       INSERT INTO D_OPP_PARAM_LVL(PARAM_ID ,PARAM_TYPE ,LVL_ID ,LVL_NAME , START_VAL,END_VAL)
+       VALUES ('?' , '?' ,? ,'?' , ? ,?)
+ 	</Stmt>
+
+ 	<Stmt ID="OPP1009" Desc="竞争对手参数评估配置（修改）">
+       UPDATE D_OPP_PARAM_LVL SET ? WHERE 1=1 ?
+ 	</Stmt>
+
+ 	<Stmt ID="OPP1010" Desc="竞争对手参数评估配置">
+      SELECT PARAM_TYPE , PARAM_ID ,PARAM_NAME ,PARAM_DESC ,PARAM_RULE ,PARAM_WEIGHT , PARAM_STATUS
+       FROM D_OPP_PARAM_CONFIG
+       WHERE PARAM_TYPE = '?'
+ 	</Stmt>
+
+ 	<Stmt ID="OPP1101" Desc="竞争对手稳定性评估">
+ 	SELECT B.OPP_ACC_NBR num1,
+ 	'?'  num2,
+ 	COALESCE(NUM1 ,0) num3,
+ 	COALESCE(NUM2 ,0) num4,
+ 	COALESCE(NUM3 ,0) num5,
+ 	COALESCE(NUM4 ,0) num6,
+ 	COALESCE(NUM5 ,0) num7,
+ 	COALESCE(NUM6 ,0) num8,
+ 	COALESCE(NUM7 ,0) num9,
+ 	COALESCE(NUM8 ,0) num10,
+ 	COALESCE(NUM9 ,0) num11
+ 	FROM  (
+ 	SELECT A.OPP_ACC_NBR  ,
+	SUM(A.NUM1) AS NUM1,
+	SUM(A.NUM2) AS NUM2,
+	SUM(A.NUM3) AS NUM3,
+	SUM(A.NUM4) AS NUM4,
+	SUM(A.NUM5) AS NUM5,
+	SUM(A.NUM6) AS NUM6,
+	SUM(A.NUM7) AS NUM7,
+	SUM(A.NUM8) AS NUM8,
+	SUM(A.NUM1+A.NUM2+A.NUM3+A.NUM4+A.NUM5+A.NUM6+A.NUM7+A.NUM8) AS NUM9
+	FROM
+	(SELECT OPP_ACC_NBR ,
+		CALL_TIMES_GLXS*?  AS NUM1,
+		CALLING_TIMES_GLXS*?  AS NUM2,
+		CALLED_TIMES_GLXS*?  AS NUM3,
+		CALL_DURA_GLXS*?  AS NUM4,
+		CALLING_DURA_GLXS*?  AS NUM5,
+		CALLED_DURA_GLXS*?  AS NUM6,
+		RELA_NET_GLXS*?  AS NUM7,
+		AVERAGE_CALL_DURA_GLXS*?  AS NUM8
+	FROM fui_opp_stability_user_m
+	WHERE OPP_CARRIER_ID = '?' AND OP_TIME = ?) A
+	WHERE 1=1
+	GROUP BY A.OPP_ACC_NBR
+	HAVING SUM(A.NUM1+A.NUM2+A.NUM3+A.NUM4+A.NUM5+A.NUM6+A.NUM7+A.NUM8) &lt;=?
+	order by NUM9
+) B
+where rownum &lt; ?
+
+ 	</Stmt>
+
+ 	<Stmt ID="OPP1102" Desc="竞争对手价值评估">
+ 	SELECT B.OPP_ACC_NBR num1,
+ 	'?' num2,
+ 	COALESCE(NUM1 ,0) num3,
+ 	COALESCE(NUM2 ,0) num4,
+ 	COALESCE(NUM3 ,0) num5,
+ 	COALESCE(NUM4 ,0) num6,
+ 	COALESCE(NUM5 ,0) num7,
+ 	COALESCE(NUM6 ,0) num8,
+ 	COALESCE(NUM7 ,0) num9,
+ 	COALESCE(NUM8 ,0) num10,
+ 	COALESCE(NUM9 ,0) num11
+ 	FROM  (
+ 	SELECT A.OPP_ACC_NBR  ,
+	SUM(A.NUM1) AS NUM1,
+	SUM(A.NUM2) AS NUM2,
+	SUM(A.NUM3) AS NUM3,
+	SUM(A.NUM4) AS NUM4,
+	SUM(A.NUM5) AS NUM5,
+	SUM(A.NUM6) AS NUM6,
+	SUM(A.NUM7) AS NUM7,
+	SUM(A.NUM8) AS NUM8,
+	SUM(A.NUM1+A.NUM2+A.NUM3+A.NUM4+A.NUM5+A.NUM6+A.NUM7+A.NUM8) AS NUM9
+	FROM
+	(SELECT OPP_ACC_NBR ,
+		CALL_TIMES_LVL_ID*?  AS NUM1,
+		CALL_DURA_LVL_ID*?  AS NUM2,
+		CALL_EVARAGE_DURA_LVL_ID*?  AS NUM3,
+		CALLING_CALLED_LVL_ID*?  AS NUM4,
+		RELA_NET_CUST_AMT_LVL_ID*?  AS NUM5,
+		STABILITY_LVL_ID*?  AS NUM6,
+		HIGH_CUST_AMT_LVL_ID*?  AS NUM7,
+		HIGH_VALUE_CUST_AMT_LVL_ID*?  AS NUM8
+	FROM fui_opp_high_value_user_m
+	WHERE OPP_CARRIER_ID = '?' AND OP_TIME = ?) A
+	WHERE 1=1
+	GROUP BY A.OPP_ACC_NBR
+	HAVING SUM(A.NUM1+A.NUM2+A.NUM3+A.NUM4+A.NUM5+A.NUM6+A.NUM7+A.NUM8) &gt;=?
+	order by NUM9 desc
+) B
+where rownum &lt; ?
+
+ 	</Stmt>
+
+
+ 	<!-- 分析型报表配置管理 -->
+	<Stmt ID="ANSRPT001_I" Desc="添加" Author="zhxiaojing">
+		insert into UI_SUBJECT_COMMON_TABLE_DEF (TABLE_ID, TABLE_NAME, TABLE_DESC, DATA_TABLE, DATA_WHERE, HAS_EXPAND, HAS_PAGING, TIME_FIELD,
+		FIELD_TYPE, TIME_LEVEL, ROW_CLICKED_CHART_CHANGE, RLT_CHART_ID, HAS_HEAD, SUM_DISPLAY,
+		 DIM_ASCOL, CUSTOM_MSU, THROW_OLD, HAS_EXPANDALL, CHART_CHANGE_JS, TABLE_TYPE)
+		 values ('?', '?', '?', '?', '?', '?', '?', '?', ?, ?, '?', '?', '?', '?', '?', '?', '?', '?', '?', '?')
+	</Stmt>
+
+	<Stmt ID="ANSRPT002_I" Desc="添加报表表头信息(new)" Author="zhxiaojing">
+		INSERT INTO ui_subject_common_rtphead(table_ID,table_HEADER,row_span) VALUES('?','?',?)
+	</Stmt>
+	<Stmt ID="ANSRPT002_U" Desc="修改报表表头信息(new)" Author="zhxiaojing">
+		UPDATE ui_subject_common_rtphead SET table_HEADER='?',row_span=? WHERE table_ID='?'
+	</Stmt>
+
+	<Stmt ID="ANSRPT003_I" Desc="UI_SUBJECT_COMMON_DIMHIERARCHY" Author="zhxiaojing">
+		insert into UI_SUBJECT_COMMON_DIMHIERARCHY (TABLE_ID, COL_ID, LEV_ID, LEV_NAME, LEV_MEMO, SRC_IDFLD, IDFLD_TYPE,
+		SRC_NAMEFLD, DESC_ASTITLE, HAS_LINK, LINK_URL, LINK_TARGET)
+		values ('?', ?, ?, '?', '?', '?', ?, '?', '?', '?', '?', '?')
+	</Stmt>
+
+	<Stmt ID="ANSRPT004_I" Desc="ui_subject_common_table_coldef" Author="zhxiaojing">
+		insert into UI_SUBJECT_COMMON_TABLE_COLDEF (TABLE_ID, COL_ID, COL_NAME, COL_DESC, COL_SEQUENCE, IS_MEASURE, DIM_ASWHERE, DEFAULT_DISPLAY, IS_EXPAND_COL, DEFAULT_DRILLED,
+		INIT_LEVEL, DIM_ASCOL, CODE_FIELD, DESC_FIELD, IS_RATIO, DATA_TYPE, DIGIT_LENGTH, HAS_COMRATIO, HAS_LINK, LINK_URL,
+		 LINK_TARGET, HAS_LAST, LAST_DISPLAY, RISE_ARROW_COLOR, HAS_LAST_LINK, LAST_URL, LAST_TARGET, HAS_LOOP, LOOP_DISPLAY, HAS_LOOP_LINK,
+		  LOOP_URL, LOOP_TARGET, IS_COL_CLICK_CHART_CHANGE, COL_RLT_CHART_ID, IS_CELL_CLICK_CHART_CHANGE, CELL_RLT_CHART_ID, STATUS, DESC_ASTITLE, LAST_VAR_DISPLAY,
+		 LOOP_VAR_DISPLAY, TOTAL_DISPLAYED)
+		 values ('?', ?, '?', '?', ?, '?', '?', '?', '?', '?', ?, '?', '?', '?', '?', ?, ?, '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?',
+		 '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?')
+	</Stmt>
+
+	<Stmt ID="ANSRPT005_I" Desc="UI_PUB_INFO_CONDITION" Author="zhxiaojing">
+		insert into UI_PUB_INFO_CONDITION (RES_ID, RES_TYPE, QRY_TYPE, QRY_CODE, CON_CODE, DATA_TYPE, CON_TAG, SEQUENCE, STATUS)
+		values ('?', ?, ?, '?', '?', ?, '?', ?, '?')
+	</Stmt>
+
+	<Stmt ID="ANSRPT006_I" Desc="UI_PUB_INFO_CHART_DEF" Author="zhxiaojing">
+		insert into UI_PUB_INFO_CHART_DEF (CHART_ID, CHART_BELONG, CHART_TYPE, CHART_INDEX, CHART_ATTRIBUTE, SQL_MAIN, SQL_WHERE, SQL_ORDER, ISUSECD, CATEGORY_INDEX,
+		 SERIES_INDEX, SERIES_LENGTH, SERIES_CUT, SERIES_CUT_LEN, VALUE_INDEX, CATEGORY_DESC, CATEGORY_DESC_INDEX, CHART_DISTYPE)
+		 values ('?', '?', ?, ?, '?', '?', '?', '?', ?, ?, ?, ?, '?', ?, ?, '?', '?', ?)
+	</Stmt>
+
+
+ 	<Stmt ID="OPP1103" Desc="竞争对手价值评估">
+SELECT B.OPP_ACC_NBR num1,
+	   '?' num2,
+       COALESCE(NUM1, 0) num3,
+       COALESCE(NUM2, 0) num4,
+       COALESCE(NUM3, 0) num5,
+       COALESCE(NUM4, 0) num6,
+       COALESCE(NUM5, 0) num7,
+       COALESCE(NUM6, 0) num8,
+       COALESCE(NUM7, 0) num9,
+       COALESCE(NUM8, 0) num10,
+       COALESCE(NUM9, 0) num11,
+       COALESCE(NUM10, 0) num12
+  FROM (SELECT A.OPP_ACC_NBR,
+               SUM(A.NUM1) AS NUM1,
+               SUM(A.NUM2) AS NUM2,
+               SUM(A.NUM3) AS NUM3,
+               SUM(A.NUM4) AS NUM4,
+               SUM(A.NUM5) AS NUM5,
+               SUM(A.NUM6) AS NUM6,
+               SUM(A.NUM7) AS NUM7,
+               SUM(A.NUM8) AS NUM8,
+               SUM(A.NUM9) AS NUM9,
+               SUM(A.NUM1 + A.NUM2 - A.NUM3 + A.NUM4 + A.NUM5 + A.NUM6 +
+                   A.NUM7 + A.NUM8+A.NUM9) AS NUM10
+          FROM (SELECT OPP_ACC_NBR,
+                       high_value_cust_amt_lvl_id * ? AS NUM1,
+                       high_cust_amt_lvl_id * ? AS NUM2,
+                       stability_lvl_id * ? AS NUM3,
+                       opp_user_value_eval_val  AS NUM4,
+                       busi_use_tag * ? AS NUM5,
+                       cservice_tag * ? AS NUM6,
+                       rela_net_cust_amt_lvl_id * ? AS NUM7,
+                       call_times_lvl_id * ? AS NUM8,
+                       call_evarage_dura_lvl_id * ? AS NUM9
+                  FROM FUI_OPP_BUSI_SPHERE_M
+                 WHERE OPP_CARRIER_ID = '?' AND OP_TIME = ?) A
+         WHERE 1 = 1 AND NUM3 &lt;=? AND NUM4 &gt;=?
+         GROUP BY A.OPP_ACC_NBR
+         order by NUM10 desc) B
+where rownum &lt; ?
+
+ 	</Stmt>
+
+
+ 	<Stmt ID="OPP1104" Desc="竞争对手反策反评估">
+ 	SELECT B.ACC_NBR num1,
+ 	COALESCE(NUM1 ,0) num2,
+ 	COALESCE(NUM2 ,0) num3,
+ 	COALESCE(NUM3 ,0) num4,
+ 	COALESCE(NUM4 ,0) num5,
+ 	COALESCE(NUM5 ,0) num6,
+ 	COALESCE(NUM6 ,0) num7,
+ 	COALESCE(NUM7 ,0) num8
+ 	FROM  (
+ 	SELECT A.ACC_NBR  ,
+	SUM(A.NUM1) AS NUM1,
+	SUM(A.NUM2) AS NUM2,
+	SUM(A.NUM3) AS NUM3,
+	SUM(A.NUM4) AS NUM4,
+	SUM(A.NUM5) AS NUM5,
+	SUM(A.NUM6) AS NUM6,
+	SUM(A.NUM1+A.NUM2-A.NUM3+A.NUM4+A.NUM5+A.NUM6) AS NUM7
+	FROM
+	(SELECT ACC_NBR ,
+		HIGH_VALUE_CUST_FLAG*?  AS NUM1,
+		RELA_NET_CUST_AMT_LVL_ID*?  AS NUM2,
+		OPP_STABILITY_CUST_AMT_LVL_ID*?  AS NUM3,
+		OPP_HIGH_VALUE_CUST_AMT_LVL_ID*?  AS NUM4,
+		BUSI_USE_TAG*?  AS NUM5,
+		CSERVICE_TAG*?  AS NUM6
+	FROM FUI_OPP_CT_ANTICF_CUST_M
+	WHERE OP_TIME = ? ) A
+	WHERE 1=1 AND A.NUM3 &lt;=? AND A.NUM4 &gt;= ?
+	GROUP BY ACC_NBR
+	order by NUM7 desc
+) B
+where rownum &lt; ?
+
+ 	</Stmt>
+ 	<Stmt ID="meta001" Desc="元数据管理平台">
+		select 2 AS catid,layer_id,'' as layer_name, domain_id,domain_name,'' as table_id,'' as table_name
+		from UI_META_INFO_DOMAIN where layer_id='?'
+		union
+		select 3 AS catid,layer_id,'' as layer_name,'' as domain_id,'' as domain_name, table_id,table_name
+		from UI_META_INFO_TABLE_DEF where layer_id='?' and domain_id is null
+ 	</Stmt>
+
+ 	<Stmt ID="meta002" Desc="元数据管理平台">
+		select 3 AS catid, table_id,table_name from UI_META_INFO_TABLE_DEF where parent_layer_id='?' and domain_id='?'
+ 	</Stmt>
+ 	<Stmt ID="meta010" Desc="元数据管理平台">
+		insert into UI_META_INFO_TABLE_DEF
+		(table_id ,table_type_id,flow_id ,table_name,table_desc,data_cycle,layer_id,domain_id,sys_id,job_id,last_data_date ,tablespace_id ,is_source_flag ,app_type,app_script,app_table_ids)
+		values ('?','?','?','?','?','?','?','?','?','?',to_date('?','yyyymmdd'),'?','?','?','?','?')
+	</Stmt>
+ 	<Stmt ID="meta011" Desc="元数据管理平台">
+		insert into UI_META_INFO_TABLE_FIELD
+		(table_id,field_id,field_name,filed_desc,filed_type,filed_en_code,data_type,data_length,data_precision,field_rule,field_rule_desc,filed_column_id,field_unit)
+		values ('?','?','?','?','?','?','?',?,?,'?','?',?,'?')
+	</Stmt>
+ 	<Stmt ID="meta020" Desc="元数据管理平台">
+		insert into UI_META_INFO_ETL_JOB
+		(job_id,job_name,job_desc,job_rule,flow_id,status,in_table_id,out_table_id, job_cron)
+		values ('?','?','?','?','?','?','?','?','?')
+	</Stmt>
+ 	<Stmt ID="meta030" Desc="元数据管理平台">
+		insert into UI_META_INFO_DIMENSIONS
+		(dim_id,dim_name,dim_desc,dim_type_id,dim_unit,code_id_field,id_field_type,code_desc_field,dim_rule,dim_map_code,dim_lvl,is_same_dim,sequence,status,dim_chain_id,dim_table_id)
+		values ('?','?','?','?','?','?',?,'?','?','?',?,'?',?,'?','?','?')
+	</Stmt>
+ 	<Stmt ID="meta031" Desc="元数据管理平台">
+		 select '1' as lvl,layer_id as id,layer_name as name,'' as parent_id,'' as chk,'' as is_table from UI_META_INFO_LAYER a
+		 union
+		 select '2' as lvl,domain_id as id,domain_name as name,layer_id as parent_id,'' as chk,'' as is_table from UI_META_INFO_DOMAIN
+		 union
+		 select '2' as lvl,a.table_id as id,a.table_name as name,a.layer_id as parent_id,
+		 case when b.table_id is not null then 'checked' end as chk,a.table_id as is_table from UI_META_INFO_TABLE_DEF a,
+		 (select * from UI_META_RULE_TABLE_DIMONSION where dim_id='?') b
+		  where a.domain_id is null and a.table_id=b.table_id(+)
+		 union
+		 select '3' as lvl,a.table_id as id,a.table_name as name,a.domain_id as parent_id,
+		 case when b.table_id is not null then 'checked' end as chk,a.table_id as is_table from UI_META_INFO_TABLE_DEF a,
+		 (select * from UI_META_RULE_TABLE_DIMONSION where dim_id='?') b
+		 where domain_id is not null and a.table_id=b.table_id(+)
+	</Stmt>
+ 	<Stmt ID="meta040" Desc="元数据管理平台">
+		insert into UI_META_INFO_MEASURE
+		(msu_id,msu_type_id,msu_code,parent_id,msu_name,msu_desc,msu_field,msu_unit,msu_digit,msu_rule,msu_rule_desc,msu_app_rule,msu_app_rule_desc,is_calmsu,is_timemsu,is_deri)
+		values ('?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?')
+	</Stmt>
+ 	<Stmt ID="meta041" Desc="元数据管理平台">
+		 select '1' as lvl,layer_id as id,layer_name as name,'' as parent_id,'' as chk,'' as is_table from UI_META_INFO_LAYER a
+		 union
+		 select '2' as lvl,domain_id as id,domain_name as name,layer_id as parent_id,'' as chk,'' as is_table from UI_META_INFO_DOMAIN
+		 union
+		 select '2' as lvl,a.table_id as id,a.table_name as name,a.layer_id as parent_id,
+		 case when b.table_id is not null then 'checked' end as chk,a.table_id as is_table from UI_META_INFO_TABLE_DEF a,
+		 (select * from UI_META_RULE_TABLE_MEASURE where msu_id='?') b
+		  where a.domain_id is null and a.table_id=b.table_id(+)
+		 union
+		 select '3' as lvl,a.table_id as id,a.table_name as name,a.domain_id as parent_id,
+		 case when b.table_id is not null then 'checked' end as chk,a.table_id as is_table from UI_META_INFO_TABLE_DEF a,
+		 (select * from UI_META_RULE_TABLE_MEASURE where msu_id='?') b
+		 where domain_id is not null and a.table_id=b.table_id(+)
+	</Stmt>
+
+
+
+    <!-- 系统管理和登陆信息开始 -->
+    <Stmt ID="Lg001_System" Desc="当前人员拥有的系统">
+        select distinct SYSTEM_ID
+        from (select
+        distinct IM.MENU_id,IM.menu_name,IM.parent_id,IM.Menu_Url,IM.STATUS,IM.ISSHOW,IM.MENU_DESC,IM.ICON_URL,IM.Sequence,IM.OPEN_TYPE,IM.SYSTEM_ID
+        from ui_INFO_MENU IM,(
+        select C.ROLE_ID from ui_rule_user_group B , ui_rule_group_role C
+        where B.USER_ID = '?'
+        AND B.GROUP_ID = C.GROUP_ID
+        UNION
+        select A.ROLE_ID from ui_rule_user_ROLE A
+        where A.USER_ID = '?'
+        ) A,UI_RULE_RES_ROLE B
+        where A.role_id=B.role_id and IM.Menu_Id=B.res_id and B.RES_TYPE = '1' and IM.status='1')
+        start with PARENT_ID = '0'
+        connect by prior menu_id = parent_id
+    </Stmt>
+    <Stmt ID="Lg001_001" Desc="当前人员 菜单资源">
+        select *
+        from (select
+        distinct IM.MENU_id,IM.menu_name,IM.parent_id,IM.Menu_Url,IM.STATUS,IM.ISSHOW,IM.MENU_DESC,IM.ICON_URL,IM.Sequence,IM.OPEN_TYPE
+        from ui_INFO_MENU IM,(
+        select C.ROLE_ID from ui_rule_user_group B , ui_rule_group_role C
+        where B.USER_ID = '?'
+        AND B.GROUP_ID = C.GROUP_ID
+        UNION
+        select A.ROLE_ID from ui_rule_user_ROLE A
+        where A.USER_ID = '?'
+        ) A,UI_RULE_RES_ROLE B
+        where A.role_id=B.role_id and IM.Menu_Id=B.res_id and B.RES_TYPE = '1' and IM.status='1' and IM.SYSTEM_ID=?)
+        start with PARENT_ID = '0'
+        connect by prior menu_id = parent_id
+        order SIBLINGS BY sequence
+    </Stmt>
+ 	<Stmt ID="system001" Desc="经分系统管理">
+		insert into UI_INFO_SUB_SYSTEM
+		(system_id,system_name,system_desc,system_url,status,sequence)
+		values ('?','?','?','?','?','?')
+	</Stmt>
+ 	<Stmt ID="system002" Desc="经分系统管理">
+		select distinct system_id,system_name,lo_user,sequence from (
+		select c.system_id,c.system_name,b.user_id as lo_user,c.sequence from ui_sso_user a,ui_info_user b,ui_info_sub_system c
+		 where a.bi_user(+)=b.user_id and b.system_id=c.system_id and b.user_id in (?)
+		 union
+		 select c.system_id,c.system_name,a.lo_user,c.sequence  from ui_sso_user a,ui_info_user b,ui_info_sub_system c
+		 where a.lo_user(+)=b.user_id and b.system_id=c.system_id and b.user_id in (?)
+		 )  where lo_user is not null order by sequence
+	</Stmt>
+ 	<Stmt ID="system003" Desc="经分系统管理">
+        select a.ROLE_ID,a.ROLE_NAME,a.ROLE_TYPE,a.STATUS from UI_INFO_ROLE a,
+       ( select C.ROLE_ID from ui_rule_user_group B , ui_rule_group_role C
+        where B.USER_ID = '?'
+        AND B.GROUP_ID = C.GROUP_ID
+        UNION
+        select A.ROLE_ID from ui_rule_user_ROLE A
+        where A.USER_ID = '?'
+        ) b
+          WHERE a.role_id=b.role_id and a.role_type='1'
+	</Stmt>
+ 	<Stmt ID="roleGroup001" Desc="角色和用户组">
+		 select distinct x.group_id,x.group_name,
+		 case when group_type='1' then '发展' when group_type='2' then '楼宇' end,
+		 case when y.group_id is not null then 'checked' else null end as ck,x.group_type
+		  from
+		(select * from ui_info_user_group where parent_id='?' and system_id='?' ?) x,
+		(select * from ui_rule_group_role where role_id='?') y
+		where x.group_id=y.group_id(+)
+		order by x.group_type
+	</Stmt>
+    <Stmt ID="roleGroup003" Desc="增加角色和用户组日志"  >
+        insert into LOG_RULE_GROUP_ROLE(service_sn,log_seq,oper_id,oper_ip,oper_time,oper_type,group_id,role_id) select
+        log_seq_sn.nextval, '?' , '?' , '?' , to_char(sysdate,'yyyy-mm-dd HH24:MI:SS'),'?',group_id,role_id from
+        ui_rule_group_role where role_id = '?' ?
+    </Stmt>
+    <!-- 系统登陆结束 -->
+
+    <!-- 首页全国地图 -->
+    <Stmt ID="chinaMap001" Desc="首页全国地图数据配置1"  >
+	select b.day_id,b.msu_id,b.msu_name,a.city_id,a.city_desc,a.region_id,a.region_desc,
+		   nvl(b.curValue,0),nvl(b.sameValue,0),nvl(b.tb,0),nvl(b.lastValue,0),nvl(b.hb,0)
+	from d_city a left join
+		(select t.day_id,
+				t.msu_id,
+				t.msu_name,
+				t.city_id,
+				t.city_name,
+				sum(t.cur_value) curValue,
+				sum(t.same_value) sameValue,
+				round((sum(t.cur_value)-sum(t.same_value))/(case when sum(t.same_value)=0 then null else sum(t.same_value) end),4)*100 tb,
+				sum(t.last_value) lastValue,
+				round((sum(t.cur_value)-sum(t.last_value))/(case when sum(t.last_value)=0 then null else sum(t.last_value) end),4)*100 hb
+		from ui_leader_kpi_info_data_d t
+	where and t.day_id = '?'
+		and t.msu_id = '?'
+		and t.city_id = '?'
+	group by t.day_id, t.msu_id, t.msu_name, t.city_id, t.city_name) b
+		on a.city_id=b.city_id
+	where a.metropolis_id='000000'
+    </Stmt>
+    <Stmt ID="chinaMap002" Desc="首页全国地图数据配置2"  >
+	select b.day_id,b.msu_id,b.msu_name,a.city_id,a.city_desc,a.region_id,a.region_desc,
+		   nvl(b.curValue,0),nvl(b.sameValue,0),nvl(b.tb,0),nvl(b.lastValue,0),nvl(b.hb,0)
+	from d_city a left join
+		(select t.day_id,
+				t.msu_id,
+				t.msu_name,
+				t.city_id,
+				t.city_name,
+				sum(t.cur_value) curValue,
+				sum(t.same_value) sameValue,
+				round((sum(t.cur_value)-sum(t.same_value))/(case when sum(t.same_value)=0 then null else sum(t.same_value) end),4)*100 tb,
+				sum(t.last_value) lastValue,
+				round((sum(t.cur_value)-sum(t.last_value))/(case when sum(t.last_value)=0 then null else sum(t.last_value) end),4)*100 hb
+		from ui_leader_kpi_info_data_d t
+	where t.day_id = '?'
+		and t.msu_id = '?'
+	group by t.day_id, t.msu_id, t.msu_name, t.city_id, t.city_name) b
+		on a.city_id=b.city_id
+	where a.metropolis_id='000000'
+    </Stmt>
+    <!-- 首页全国地图结束 -->
+    
+    <!-- 效能评估项目  自有渠道   开始-->
+    <Stmt ID="LoadDist" Desc="加载省份对应地市">
+    SELECT city_code,city_name FROM dim_pub_city where province_code ='?' and city_code != '000' order by sort_id
+    </Stmt>
+    
+    <Stmt ID="LoadProv" Desc="加载区域省份">
+    SELECT t.province_code,t.province_name FROM ST_DIM_AREA_PROVINCE t where t.geo_flag='?'
+    </Stmt>
+    
+    <Stmt ID="SortToProv" Desc="加载区域省份">
+    SELECT province_code FROM  ST_DIM_AREA_PROVINCE where sort_id='?'
+    </Stmt>
+    
+    <Stmt ID="ExportTabData" Desc="数据导出--export_id">
+    SELECT t.table_header_1||nvl(t.table_header_2,''),t.sql_code_1 FROM export_table_head_def t where t.status='Y' and t.export_id='?'
+    </Stmt>
+    <Stmt ID="LoadChannelName" Desc="加载渠道名称">
+    SELECT t.CHNL_NAME FROM DIM_CHL_CHANNEL t where t.CHNL_NAME like '%?%'
+    </Stmt>    
+    <!-- 效能评估项目  自有渠道   结束-->
+</sql-mapping>

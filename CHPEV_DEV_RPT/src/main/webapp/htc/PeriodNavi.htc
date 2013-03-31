@@ -1,0 +1,123 @@
+<PUBLIC:COMPONENT tagName="MonthNavi">
+<public:attach event="onmouseover" onevent="f_OnMouseover()" />
+<public:attach event="onmouseout" onevent="f_OnMouseout()" />
+<public:attach event="onmousedown" onevent="f_OnMousedown()" />
+<public:attach event="onmouseup" onevent="f_OnMouseup()" />
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="init()" />
+<SCRIPT language="JavaScript">
+var oConfig = null;
+var CY,CM,CP;
+
+function CConfig(){
+	this._year 	= element.DefaultYear;
+	this._month 	= element.DefaultMonth;
+	this._period	= element.DefaultPeriod;
+	this._click	= element.PeriodClick;
+}
+
+function init(){
+	oConfig = new CConfig();
+	CY = oConfig._year/1;
+	CM = oConfig._month/1;
+	CP = oConfig._period/1;
+	
+	draw(CY,CM,CP);
+}
+
+//前翻导航按钮修改年份
+function fnNavi_Prev(){
+
+	CY = CY-1;
+	draw(CY,CM,CP);
+}
+
+//后翻导航按钮修改年份
+function fnNavi_Next(){
+
+	CY = CY + 1;
+	draw(CY,CM,CP);
+}
+
+//显示导航条
+function draw(CY,CM,CP){
+	var s = '';
+	s += '<STYLE> .Navi{font-family:Webdings;cursor:hand}</STYLE>';
+	s += '<TABLE><TR><TD id="NaviPrevContainer"></TD><TD>'+CY+'年</TD>';
+	s += '<TD id = "NaviNextContainer"></TD><TD>';
+	var start = 1;
+	
+	var monthStr = '<TABLE cellspacing="0" cellpadding="0" ><TR>';
+	for(var i=0;i<12;i++){
+		mValue = start/1+i;
+		var paraValue = '';
+		paraValue += new String(CY);
+		if(mValue<10)
+			paraValue +='0';
+		paraValue += new String(mValue);
+		monthStr += '<TD style="padding-left:2;padding-right:2">';
+		if(mValue/1==oConfig._month/1)
+			monthStr += '<DIV style="border-left:1px solid buttonshadow;border-top:1px solid buttonshadow;border-right:1px solid buttonhighlight;border-bottom:1px solid buttonshadow;">';
+		else
+			monthStr += '<DIV style="cursor:hand" onclick="'+oConfig._click+'('+paraValue+''+oConfig._period+')">'
+		monthStr += (mValue)+"月</DIV></TD>";
+	}
+	monthStr += '</TR></TABLE></TD>';
+	s += monthStr;
+	start = 1;
+	
+	var periodStr = '<TD><TABLE cellspacing="0" cellpadding="0" ><TR>';
+	for(var i=0;i<3;i++){
+		pValue = start/1+i;
+		var paraValue = '';
+		paraValue += new String(CY);
+		if(CM<10)
+			paraValue +='0';
+		paraValue += new String(CM);
+		paraValue += new String(pValue);
+		periodStr += '<TD style="padding-left:2;padding-right:2">';
+		if(pValue/1==oConfig._period/1)
+			periodStr += '<DIV style="border-left:1px solid buttonshadow;border-top:1px solid buttonshadow;border-right:1px solid buttonhighlight;border-bottom:1px solid buttonshadow;">';
+		else
+			periodStr += '<DIV style="cursor:hand" onclick="'+oConfig._click+'('+paraValue+')">'
+		if(i==0)
+			periodStr += "上旬</DIV></TD>";
+		else if(i==1)
+			periodStr += "中旬</DIV></TD>";
+		else
+			periodStr += "下旬</DIV></TD>";
+	}
+	periodStr += '</TR></TABLE>';
+	s += periodStr;
+
+	
+	s += '</TD></TR></TABLE>';
+	element.innerHTML = "";
+	element.insertAdjacentHTML("beforeEnd",s);
+	
+	//插入前导航
+	var ele = document.createElement("DIV");
+	ele.style.fontFamily = "Webdings";
+	ele.style.cursor = "hand";
+	ele.innerHTML = "3";
+	ele.onclick = fnNavi_Prev;
+	NaviPrevContainer.appendChild(ele);
+	
+	////插入后导航
+	var ele = document.createElement("DIV");
+	ele.style.fontFamily = "Webdings";
+	ele.style.cursor = "hand";
+	ele.innerHTML = "4";
+	ele.onclick = fnNavi_Next;
+	NaviNextContainer.appendChild(ele);
+}
+
+function f_OnMouseover(){
+}
+function f_OnMouseout(){
+}
+function f_OnMousedown(){
+}
+function f_OnMouseup(){
+}
+</SCRIPT>
+</PUBLIC:COMPONENT>

@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Dojo Tree Widget Test (dynamic node creation)</title>
+    <script type="text/javascript">
+        var djConfig = {isDebug: true, debugAtAllCosts: true};
+    </script>
+    <script type="text/javascript" src="../js/dojo.js"></script>
+    <!--<script type="text/javascript" src="json.js"></script>-->
+    <script type="text/javascript">
+        dojo.require("dojo.widget.*");
+        dojo.require("dojo.widget.TreeV3");
+        dojo.require("dojo.widget.TreeNodeV3");
+        dojo.require("dojo.widget.TreeBasicControllerV3");
+        dojo.require("dojo.json");
+        dojo.require("dojo.widget.Checkbox");
+        dojo.hostenv.writeIncludes();
+
+        function outputValues() {
+            var str = "";
+            for (var i = 0; i < document.all.length; i++) {
+                var e = document.all[i];
+                if (e.type == "checkbox") {
+                    str += "submit: name=" + e.name + " id=" + e.id + " value=" + e.value + " disabled=" + e.disabled + " checked=" + e.checked + "<br>";
+                }
+            }
+            dojo.byId("result").innerHTML = str;
+            return false;
+        }
+
+        function helloCallback(type, data, evt) {
+            if (type == 'error') {
+                alert('从服务器端读数据错!');
+            } else {
+                //alert(data);
+                dojo.addOnLoad(function() {
+                    var controller = dojo.widget.createWidget("TreeBasicControllerV3");
+                    //var treeNodes=data.parseJSON();
+                    var treeNodes = [
+                        {
+                            title: "<input type='checkbox' class='TreeIcon' />Node 1" ,
+                            children: [
+                                {title: "<input type=\"checkbox\" name=\"cb2\" id=\"cb2\" dojoType=\"Checkbox\"/>Node 1.1" },
+                                {title: "<input type='checkbox' class='TreeIcon'/>Node 1.2"}
+                            ]
+                        },
+                        {title: "<input type='checkbox' class='TreeIcon'/>Node 2"}
+                    ];
+                    //var treeNodes = eval("(" + data + ")");//将传回来的字符串转化为json对象
+                    //var tree = dojo.widget.createWidget("TreeV3", {listeners: [controller.widgetId]});
+                    var tree = dojo.widget.byId('tree');//取得我们静态创建的树
+                    /**
+                     lazy initialization is in effect only root-level widgets will be created
+                     */
+                    tree.setChildren(treeNodes);
+                });
+            }
+        }
+
+        dojo.addOnLoad(function () {
+            /*dojo.io.bind({
+             url: 'treeoracle.jsp',
+             handler: helloCallback
+             // formNode: dojo.byId('form1')
+             });*/
+            helloCallback();
+        });
+    </script>
+</head>
+<body>
+<h4>动态创建树，并加载checkbox进行验证</h4>
+
+<div dojoType="TreeBasicControllerV3" widgetId="controller"></div>
+<div dojoType="TreeV3" listeners="controller" widgetId="tree"></div>
+<input type="button" value="动态查看结果" onClick="outputValues();">
+
+<div id="result"></div>
+</body>
+</html>
+

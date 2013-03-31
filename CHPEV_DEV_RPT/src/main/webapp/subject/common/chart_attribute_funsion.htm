@@ -1,0 +1,181 @@
+<html>
+
+<meta http-equiv="Content-Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../../css/other/newmain.css">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>属性说明</title>
+</head>
+
+<body>
+
+<table style="width: 99%; margin-top: 5px" align="center" border="1">
+	<tr>
+		<td class="submenu_l1_act">FusionChart属性说明</td>
+		<td class="submenu_l1_act">备注</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">palette:设置图形模板</td>
+		<td class="submenu_l1">取值:>0</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">title:设置图形的标题</td>
+		<td class="submenu_l1"></td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">width:设置图形的宽度</td>
+		<td class="submenu_l1"></td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">height:设置图形的高度</td>
+		<td class="submenu_l1"></td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">bgColor:图形背景色</td>
+		<td class="submenu_l1">取值16进制，如ffffff(去掉#字符)</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">bgAlpha:背景透明度</td>
+		<td class="submenu_l1">取值0-100</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">bgAngle:渐变色的角度</td>
+		<td class="submenu_l1">取值0-360</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">lablink:设置js链接</td>
+		<td class="submenu_l1">取值js函数名称</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">useRoundEdges:柱状图显示玻璃效果</td>
+		<td class="submenu_l1">取值0/1</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">maxColWidth:设置柱状图宽度</td>
+		<td class="submenu_l1">取值number(In Pixels)</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">includeszero:设置线性图是否显示0值点</td>
+		<td class="submenu_l1">取值true,false</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1_act">X轴相关属性</td>
+		<td class="submenu_l1_act">备注</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">showLabels:是否显示X轴描述</td>
+		<td class="submenu_l1">取值0/1</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">labelDisplay:X轴描述的表现形式</td>
+		<td class="submenu_l1">取值WRAP, STAGGER, ROTATE or NONE</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">rotateLabels(rotateNames):X轴描述纵向显示</td>
+		<td class="submenu_l1">取值0/1</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">slantLabels:X轴字体倾斜</td>
+		<td class="submenu_l1">取值0/1，注：配合rotateLabels:1可以使X轴45度角倾斜显示</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">labelStep:X轴标签值跳跃幅度</td>
+		<td class="submenu_l1">取值>=1</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1_act">Y轴相关属性</td>
+		<td class="submenu_l1_act">备注</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">yAxisMinValue:设置Y轴的最小值</td>
+		<td class="submenu_l1"></td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">PYAxisName:设置左侧(primary)Y轴名称</td>
+		<td class="submenu_l1"></td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">SYAxisName:设置右侧(secondary)Y轴名称</td>
+		<td class="submenu_l1"></td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">rotateYAxisName:设置Y轴名称横纵向显示</td>
+		<td class="submenu_l1">取值0/1</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1_act">数值相关属性</td>
+		<td class="submenu_l1_act">备注</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">showValues:是否显示数值</td>
+		<td class="submenu_l1">取值0/1</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">rotateValues:数值显示纵向</td>
+		<td class="submenu_l1">取值0/1</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">numberPrefix:数值的前缀</td>
+		<td class="submenu_l1">如：￥</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">formatNumber:是否格式化数值为千分位分隔</td>
+		<td class="submenu_l1">取值0/1</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">formatNumberScale:是否格式化数值为K(thousands)和M(millions)形式</td>
+		<td class="submenu_l1">取值0/1</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">showSum:是否显示合计值</td>
+		<td class="submenu_l1">取值0/1，针对堆栈图</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">decimals:数字格式的数字，四舍五入的位数</td>
+		<td class="submenu_l1">取值0-10</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">forceDecimals:是否小数位补0</td>
+		<td class="submenu_l1">取值0/1</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">showPercentValues:是否显示百分比数值</td>
+		<td class="submenu_l1">取值0/1，针对饼图</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1">synchroaxis:是否显示null值为0</td>
+		<td class="submenu_l1">取值true/false</td>
+	</tr>
+	<tr>
+		<td class="submenu_l1"></td>
+		<td class="submenu_l1"></td>
+	</tr>
+	<tr>
+		<td class="submenu_l1"></td>
+		<td class="submenu_l1"></td>
+	</tr>
+	<tr>
+		<td class="submenu_l1"></td>
+		<td class="submenu_l1"></td>
+	</tr>
+	<tr>
+		<td class="submenu_l1"></td>
+		<td class="submenu_l1"></td>
+	</tr>
+	<tr>
+		<td class="submenu_l1"></td>
+		<td class="submenu_l1"></td>
+	</tr>
+	<tr>
+		<td class="submenu_l1"></td>
+		<td class="submenu_l1"></td>
+	</tr>
+	<tr>
+		<td class="submenu_l1"></td>
+		<td class="submenu_l1"></td>
+	</tr>
+</table>
+
+</body>
+</html>

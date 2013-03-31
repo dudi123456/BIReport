@@ -1,0 +1,380 @@
+﻿/*Tab式信息展示区*/
+
+.body-tabarea {
+    background-image: url(../../images/common/tab/body_tabarea_bg.gif);
+    height: 25px;
+    background-position: bottom;
+    background-repeat: repeat-x;
+}
+
+.body-tabarea-content-Body {
+    background-image: url(../../images/common/tab/body_tabarea_content_bg.gif);
+    background-repeat: repeat-x;
+    background-position: top;
+    border-bottom-width: 1px;
+    border-bottom-color: #0099CC;
+    background-color: #E0F1FC;
+    text-align: center;
+}
+
+.body-tabarea-content {
+    text-align: center;
+}
+
+.body-tabarea-button-left {
+    background-image: url(../../images/common/tab/body_tabarea_button_left.gif);
+    height: 25px;
+    width: 5px;
+}
+
+.body-tabarea-button {
+    background-image: url(../../images/common/tab/body_tabarea_button_bg.gif);
+    padding-top: 3px;
+    color: #000000;
+    filter: DropShadow(Color = black, OffX = 1, OffY = 1, Positive = true);
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.body-tabarea-button-right {
+    background-image: url(../../images/common/tab/body_tabarea_button_right.gif);
+    height: 25px;
+    width: 5px;
+}
+
+.body-tabarea-button-left-on {
+    background-image: url(../../images/common/tab/body_tabarea_button_left_on.gif);
+    height: 25px;
+    width: 5px;
+}
+
+.body-tabarea-button-on {
+    background-image: url(../../images/common/tab/body_tabarea_button_bg_on.gif);
+    padding-top: 3px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.body-tabarea-button-right-on {
+    background-image: url(../../images/common/tab/body_tabarea_button_right_on.gif);
+    height: 25px;
+    width: 5px;
+}
+
+.body-tabarea-baseinfo {
+    color: #FF7800;
+    padding-left: 4px;
+}
+
+.body-tabarea-button-link {
+    color: #555555;
+}
+
+A.body-tabarea-button-link:link {
+    color: #555555;
+    TEXT-DECORATION: none
+	
+}
+
+A.body-tabarea-button-link:visited {
+    color: #555555;
+    TEXT-DECORATION: none
+}
+
+A.body-tabarea-button-link:active {
+    color: #D62725;
+    EXT-DECORATION: underline
+}
+
+A.body-tabarea-button-link:hover {
+    color: #D62725;
+    TEXT-DECORATION: underline
+}
+
+.body-tabarea-button-on-link {
+    font-weight: bold;
+    color: #555555;
+}
+
+A.body-tabarea-button-on-link:link {
+    font-weight: bold;
+    color: #CC0000;
+    TEXT-DECORATION: none
+}
+
+A.body-tabarea-button-on-link:visited {
+    font-weight: bold;
+    color: #555555;
+    TEXT-DECORATION: none
+}
+
+A.body-tabarea-button-on-link:active {
+    font-weight: bold;
+    color: #D62725;
+    TEXT-DECORATION: underline
+}
+
+A.body-tabarea-button-on-link:hover {
+    font-weight: bold;
+    color: #D62725;
+    TEXT-DECORATION: underline
+}
+
+.input-select {
+    border: 1px solid #7F9DB9;
+    margin: 1px;
+    width: 100%;
+}
+.tab-boldtitle {
+	font-size: 16px;
+	font-weight:bold;
+	text-align: center;
+	letter-spacing: normal;
+	color: #000000;
+	font-family: "微软雅黑", Times New Roman, serif;
+	background: url(../../images/unicom/bg_title.png)  repeat-x  left top;
+	height:39px;
+	line-height:39px;
+}
+.tab-bg {
+    background-color: #ECE9D8
+}
+/*.tab-title{
+    background-color: #EFECDE;
+    height: 16px;
+    padding-right: 5px;
+    padding-left: 5px;
+    vertical-align: middle;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-bottom-width: 1px;
+    border-bottom-style: double;
+    border-bottom-color: #B7B5AB;
+    border-right-color: #B7B5AB;
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: #FFFFFF;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: #FFFFFF;
+}*/
+.tab-td {
+    border-right: 1px solid #999999;
+    background-color: #FFFFFF;
+    height: 20px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #999999;
+}
+
+.tab-td2 {
+	padding:6px 3px;
+	border-bottom:1px solid #c6c6c6;
+	border-right:1px solid #c6c6c6;
+}
+
+.tab-side {
+    border-top: 1px solid #91A7B4;
+    border-right: 2px inset #CED8DD;
+    border-bottom: 2px inset #CED8DD;
+    border-left: 1px solid #91A7B4;
+}
+
+.tab-font {
+    font-weight: bold;
+    color: #666666;
+}
+
+.welcome-xtgl-bg {
+    background-repeat: no-repeat;
+    background-position: right bottom;
+}
+
+.table-side {
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-color: #DDDDDD;
+    border-right-color: #FFFFFF;
+    border-bottom-color: #FFFFFF;
+    border-left-color: #DDDDDD;
+    background-color: #F6F6F6;
+
+}
+
+.button-image {
+    background-image: url(../biimages/derive_get.gif);
+    height: 22px;
+    width: 110px;
+    border: none;
+    background-color: transparent;
+    margin: 0px;
+}
+
+.tab-left {
+    border-bottom: 2px inset #CED8DD;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType = 0 StartColorStr = #ffffff, EndColorStr = #E9E9E9);
+}
+
+.favorite-tab {
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-color: #777777;
+    border-right-color: #FFFFFF;
+    border-bottom-color: #FFFFFF;
+    border-left-color: #777777;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType = 0 StartColorStr = #253954, EndColorStr = #4CA3D9);
+}
+
+.table-bg {
+    background-color: #999999
+}
+
+.tab-side2 {
+    border-right: 3px inset #E6E6E6;
+    border-bottom: 3px inset #E6E6E6;
+}
+
+.fig-black {
+    font-size: 13px;
+    text-transform: uppercase;
+    padding-right: 4px;
+    padding-left: 5px;
+    color: #000000;
+}
+
+.fig-red {
+    color: red;
+    font-size: 13px;
+    text-transform: uppercase;
+    padding-right: 4px;
+    padding-left: 5px;
+}
+
+.fig-ash {
+    color: #666666;
+    font-size: 13px;
+    text-transform: uppercase;
+    padding-right: 5px;
+}
+
+.fig-yellow {
+    color: #FCA426;
+    font-size: 13px;
+    text-transform: uppercase;
+    padding-right: 5px;
+}
+
+.auditing-bg {
+    background-image: url(../biimages/auditing_bg.gif);
+    background-repeat: repeat-x;
+    background-position: bottom;
+    text-align: center;
+    padding-right: 8px;
+    padding-left: 8px;
+    padding-bottom: 1px;
+    vertical-align: bottom;
+}
+
+.tab-title {
+    height: 18px;
+    padding-right: 5px;
+    padding-left: 5px;
+    vertical-align: middle;
+    padding-top: 3px;
+    padding-bottom: 1px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType = 0 StartColorStr = #F7F7F7, EndColorStr = #e5e5e5);
+}
+
+.tab-title3 {
+    height: 26px;
+	line-height:26px;
+	padding:0 3px;
+	border-bottom:1px solid #e5e5e5;
+	border-right:1px solid #e5e5e5;
+	background-color:#f9f9f9;
+	color:Gray;
+	font-weight:normal
+}
+
+.tab-title2 {
+    height: 18px;
+    padding-right: 5px;
+    padding-left: 5px;
+    vertical-align: middle;
+    padding-top: 3px;
+    padding-bottom: 1px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType = 0 StartColorStr = #ffffff, EndColorStr = #D6D8E4);
+}
+
+/*显示预警颜色*/
+.tabbg-red {
+    height: 20px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 3px;
+    padding-bottom: 1px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType = 0 StartColorStr = #FFC892, EndColorStr = #FF9B69);
+}
+
+.tabbg-green {
+    height: 20px;
+    padding-right: 5px;
+    padding-left: 5px;
+    vertical-align: middle;
+    padding-top: 3px;
+    padding-bottom: 1px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType = 0 StartColorStr = #DAFFD0, EndColorStr = #96F088);
+}
+
+.tab-row-bg {
+    height: 20px;
+    padding-right: 5px;
+    padding-left: 5px;
+    vertical-align: middle;
+    padding-top: 3px;
+    padding-bottom: 1px;
+    background-color: #EFECDE;
+}
+
+.table-line-bg {
+    background-color: #000000;
+}
+
+.data-font {
+    font-weight: bold;
+    letter-spacing: 0.3em;
+    padding-top: 4px;
+}
+
+/*手机短信颜色*/
+.note-side {
+    border: 1px solid #FFFFFF;
+    background-image: url(../biimages/note_bg.gif);
+    background-repeat: repeat-x;
+    background-color: #FEFEFE;
+}
+
+.font-white {
+    font-size: 12px;
+    color: #FFFFFF;
+}
+
+.leftbg-tree {
+    background-color: #FAFAFA;
+    padding: 5px 2px 2px;
+
+}

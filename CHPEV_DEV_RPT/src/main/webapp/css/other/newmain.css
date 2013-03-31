@@ -1,0 +1,2131 @@
+/*公用样式************************************************************/
+body {
+	margin: 0;
+	/*
+	scrollbar-face-color: #F9F9F9;
+	scrollbar-highlight-color: #DBDDDC;
+	scrollbar-3dlight-color: #F9F9F9;
+	scrollbar-darkshadow-color: #DBDDDC;
+	scrollbar-shadow-color: #F4F4F4;
+	scrollbar-arrow-color: #BDBDBD;
+	scrollbar-track-color: #EAEAEA;
+	*/
+	font-size: 12px;
+	color: #7f7e7e;
+	line-height: 150%;
+	font-family: Tahoma, Arial, sans-serif;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+td {
+	font-size: 12px;
+}
+
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+select {
+	height: 19px;
+	font-size: 12px;
+	width: 100px;
+	border: 1px #CBCBD5 solid;
+}
+
+.yeartxt {
+	border: 0;
+	background-color: #FFF7CE;
+	width: 35px;
+	background-image: none;
+	height: 17px;
+	text-align: center;
+}
+
+#normalField3 {
+	background-color: transparent;
+	font-size: 12px;
+	BORDER-BOTTOM: 1px solid #BDBDBD;
+	BORDER-LEFT: 1px solid #F0F0F0;
+	BORDER-RIGHT: 1px solid #F0F0F0;
+	BORDER-TOP: 1px solid #F0F0F0;
+	background-color: #F0F0F0;
+	color: #000;
+	width: 30px;
+	padding-top: 4px;
+	margin-bottom: 3px;
+}
+
+img {
+	border: 0;
+	vertical-align: middle;
+}
+
+label {
+	margin: 0 15px 0 0;
+	cursor: pointer;
+}
+
+input {
+	zoom: expression(function(ele) {( ele.className ) ? ele.className += " "
+		+ ele.type : ele.className = ele.type;
+	ele
+	.style.zoom
+	=
+	"1";
+}
+
+(
+this
+));
+}
+input.text {
+	font-size: 12px;
+	color: #000000;
+	background: url('txt.jpg') repeat-x top;
+	background-color: white;
+	border: 1px #CBCBD5 solid;
+	padding-top: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+	height: 20px;
+	margin: 0 8px 0 2px;
+}
+
+input.radio {
+	margin: 0px;
+}
+
+input.checkbox {
+	margin: 0px;
+}
+
+input.button {
+/*
+	font-size: 12px;
+	color: #000000;
+	background: url('../biimages/button.jpg') repeat-x top left;
+	background-color: white;
+	border: 1px #CBCBD5 solid;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 5px;
+	padding-right: 5px;
+*/
+}
+
+input.submit {
+/*
+	font-size: 12px;
+	color: #000;
+	width: 65px;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 25px;
+	text-align: left;
+	border: 1px #BBBBBB solid;
+	background: url('../biimages/button_submit.jpg') left top;
+	margin-right: 8px;
+}
+*/
+input.reset {
+	font-size: 12px;
+	color: #000;
+	width: 65px;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 25px;
+	text-align: left;
+	border: 1px #BBBBBB solid;
+	background: url('../biimages/button_reset.jpg') left top;
+	margin-right: 8px;
+}
+
+#button_submit {
+/*
+	font-size: 12px;
+	color: #000;
+	width: 65px;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 25px;
+	text-align: left;
+	border: 1px #BBBBBB solid;
+	background: url('../biimages/button_submit.jpg') left top;
+	margin-right: 8px;
+*/	
+}
+
+#button_reset {
+	font-size: 12px;
+	color: #000;
+	width: 65px;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 25px;
+	text-align: left;
+	border: 1px #BBBBBB solid;
+	background: url('../biimages/button_reset.jpg') left top;
+	margin-right: 8px;
+}
+
+#button_outputExcel {
+	font-size: 12px;
+	color: #000;
+	width: 100px;
+	height: 20px;
+	padding-top: 1px;
+	padding-left: 30px;
+	text-align: left;
+	border: 1px #BBBBBB solid;
+	background: url('../biimages/button_outputExcel.jpg') left top;
+	margin-right: 8px;
+}
+
+#button_outputExcelMin {
+	font-size: 12px;
+	color: #000;
+	width: 65px;
+	height: 20px;
+	padding-top: 1px;
+	padding-left: 25px;
+	text-align: left;
+	border: 1px #BBBBBB solid;
+	background: url('../biimages/button_outputExcel.jpg') left top;
+	margin-right: 8px;
+}
+
+#button_return {
+	font-size: 12px;
+	color: #000;
+	width: 65px;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 25px;
+	text-align: left;
+	background: url('../biimages/botton_return.jpg') left top;
+	border: 1px #BBBBBB solid;
+	margin-right: 8px;
+}
+
+#button_search {
+	font-size: 12px;
+	color: #000;
+	width: 65px;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 25px;
+	text-align: left;
+	border: 1px #BBBBBB solid;
+	background: url('../biimages/button_search.jpg') left top;
+	margin-right: 8px;
+	cursor: pointer;
+}
+
+#button_addtc {
+	font-size: 12px;
+	color: #000;
+	width: 90px;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 25px;
+	text-align: left;
+	border: 1px #BBBBBB solid;
+	background: url('../biimages/button_tcadd.jpg') left top;
+	margin-right: 8px;
+	cursor: pointer;
+}
+
+#button_deltc {
+	font-size: 12px;
+	color: #000;
+	width: 90px;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 25px;
+	text-align: left;
+	border: 1px #BBBBBB solid;
+	background: url('../biimages/button_tcdel.jpg') left top;
+	margin-right: 8px;
+	cursor: pointer;
+}
+
+#button_fx {
+	font-size: 12px;
+	color: #000;
+	width: 90px;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 25px;
+	text-align: left;
+	border: 1px #BBBBBB solid;
+	background: url('../biimages/button_fx.jpg') left top;
+	margin-right: 8px;
+	cursor: pointer;
+}
+
+.tabline {
+	background: url('../biimages/top_bg.jpg') repeat-x top;
+	height: 5px;
+}
+
+.resizeline {
+	background: url('../biimages/resizeline.jpg') left top repeat-y;
+	width: 5px;
+}
+
+.tab_main {
+	height: 19px;
+	background: url('../biimages/tab.jpg') no-repeat bottom;
+	text-align: center;
+	padding-top: 4px;
+	width: 77px;
+}
+
+.tab_main a {
+	text-decoration: none;
+}  /* 链接无下划线,有为underline */
+.tab_main a:link {
+	font-size: 12px;
+	color: #273951;
+}  /* 未访问的链接 */
+.tab_main a:visited {
+	font-size: 12px;
+	color: #273951;
+}  /* 已访问的链接 */
+.tab_main a:hover {
+	font-size: 12px;
+	COLOR: #273951;
+}  /* 鼠标在链接上 */
+.tab_main a:active {
+	font-size: 12px;
+	color: #273951;
+}  /* 点击激活链接 */
+.tab_main_act {
+	height: 19px;
+	background: url('../biimages/tab_act.jpg') no-repeat bottom;
+	text-align: center;
+	padding-top: 5px;
+	width: 77px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.tab_main_act a {
+	text-decoration: none;
+}  /* 链接无下划线,有为underline */
+.tab_main_act a:link {
+	font-size: 12px;
+	color: #ffffff;
+}  /* 未访问的链接 */
+.tab_main_act a:visited {
+	font-size: 12px;
+	color: #ffffff;
+}  /* 已访问的链接 */
+.tab_main_act a:hover {
+	font-size: 12px;
+	COLOR: #ffffff;
+}  /* 鼠标在链接上 */
+.tab_main_act a:active {
+	font-size: 12px;
+	color: #ffffff;
+}  /* 点击激活链接 */
+.tab {
+	height: 22px;
+	padding-top: 1px;
+	background: url('../biimages/tab1.jpg') no-repeat bottom;
+	text-align: center;
+	width: 100px;
+}
+
+.tab a {
+	text-decoration: none;
+}  /* 链接无下划线,有为underline */
+.tab a:link {
+	font-size: 12px;
+	color: #273951;
+}  /* 未访问的链接 */
+.tab a:visited {
+	font-size: 12px;
+	color: #273951;
+}  /* 已访问的链接 */
+.tab a:hover {
+	font-size: 12px;
+	COLOR: #273951;
+}  /* 鼠标在链接上 */
+.tab a:active {
+	font-size: 12px;
+	color: #273951;
+}  /* 点击激活链接 */
+.tab_act {
+	height: 22px;
+	background: url('../biimages/tab_act1.jpg') no-repeat bottom;
+	text-align: center;
+	padding-top: 1px;
+	width: 100px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.tab_act a {
+	text-decoration: none;
+}  /* 链接无下划线,有为underline */
+.tab_act a:link {
+	font-size: 12px;
+	color: #ffffff;
+}  /* 未访问的链接 */
+.tab_act a:visited {
+	font-size: 12px;
+	color: #ffffff;
+}  /* 已访问的链接 */
+.tab_act a:hover {
+	font-size: 12px;
+	COLOR: #ffffff;
+}  /* 鼠标在链接上 */
+.tab_act a:active {
+	font-size: 12px;
+	color: #ffffff;
+}  /* 点击激活链接 */
+a.tab_short {
+	text-decoration: none;
+	height: 30px;
+	line-height:25px;
+	padding-top: 3px;
+	background: url(../../images/unicom/tab_2.gif) no-repeat top left;
+	text-align: center;
+	width: 88px;
+	color: #898989;
+	font-weight: bold;
+	margin-right: 2px;
+}  /* 链接无下划线,有为underline */
+a.tab_short:link {
+	font-size: 12px;
+	color: #898989;
+	line-height:25px;
+	padding-top: 3px;
+}  /* 未访问的链接 */
+a.tab_short:visited {
+	font-size: 12px;
+	color: #898989;
+		line-height:25px;
+	padding-top: 3px;
+}  /* 已访问的链接 */
+a.tab_short:hover {
+	font-size: 12px;
+	color: #898989;
+		line-height:25px;
+	padding-top: 3px;
+}  /* 鼠标在链接上 */
+a.tab_short:active {
+	font-size: 12px;
+	color: #898989;
+		line-height:25px;
+	padding-top: 3px;
+}  /* 点击激活链接 */
+a.tab_act_short {
+	text-decoration: none;
+	height: 30px;
+	line-height:25px;
+	padding-top:3px;
+	background: url(../../images/unicom/tab_1.gif) no-repeat bottom left;
+	text-align: center;
+	width: 88px;
+	color: #000;
+	font-weight: bold;
+	margin-right: 2px;
+}  /* 链接无下划线,有为underline */
+a.tab_act_short:link {
+	font-size: 12px;
+	color: #000;
+	font-weight: bold;
+	line-height:25px;
+}  /* 未访问的链接 */
+a.tab_act_short:visited {
+	font-size: 12px;
+	color: #000;
+	font-weight: bold;
+	line-height:25px;
+}  /* 已访问的链接 */
+a.tab_act_short:hover {
+	font-size: 12px;
+	color: #000;
+	font-weight: bold;
+	line-height:25px;
+}  /* 鼠标在链接上 */
+a.tab_act_short:active {
+	font-size: 12px;
+	line-height:25px;
+	color: #000;
+	font-weight: bold;
+}  /* 点击激活链接 */
+a.tab_long {
+	text-decoration: none;
+	height: 21px;
+	background: url('../biimages/tab_new.jpg') no-repeat top left;
+	text-align: center;
+	width: 90px;
+	color: #000000;
+	padding-top: 4px;
+	margin-left: 2px;
+}  /* 链接无下划线,有为underline */
+a.tab_long:link {
+	font-size: 12px;
+	color: #000000;
+}  /* 未访问的链接 */
+a.tab_long:visited {
+	font-size: 12px;
+	color: #000000;
+}  /* 已访问的链接 */
+a.tab_long:hover {
+	font-size: 12px;
+	COLOR: #000000;
+	background: url('../biimages/tab_new.jpg') no-repeat bottom left;
+	background-position: 0px -21px;
+}  /* 鼠标在链接上 */
+a.tab_long:active {
+	font-size: 12px;
+	color: #000000;
+}  /* 点击激活链接 */
+a.tab_act_long {
+	text-decoration: none;
+	height: 21px;
+	background: url('../biimages/tab_new.jpg') no-repeat bottom left;
+	text-align: center;
+	width: 90px;
+	color: #ffffff;
+	padding-top: 4px;
+	margin-left: 2px;
+	font-weight: bold;
+}  /* 链接无下划线,有为underline */
+a.tab_act_long:link {
+	font-size: 12px;
+	color: #ffffff;
+}  /* 未访问的链接 */
+a.tab_act_long:visited {
+	font-size: 12px;
+	color: #ffffff;
+}  /* 已访问的链接 */
+a.tab_act_long:hover {
+	font-size: 12px;
+	COLOR: #ffffff;
+}  /* 鼠标在链接上 */
+a.tab_act_long:active {
+	font-size: 12px;
+	color: #ffffff;
+}  /* 点击激活链接 */
+.tab2 {
+	height: 22px;
+	background: url('../biimages/tab2.jpg') no-repeat bottom;
+	text-align: center;
+	width: 70px;
+}
+
+.tab2 a {
+	text-decoration: none;
+}  /* 链接无下划线,有为underline */
+.tab2 a:link {
+	font-size: 12px;
+	color: #666666;
+}  /* 未访问的链接 */
+.tab2 a:visited {
+	font-size: 12px;
+	color: #666666;
+}  /* 已访问的链接 */
+.tab2 a:hover {
+	font-size: 12px;
+	COLOR: #666666;
+}  /* 鼠标在链接上 */
+.tab2 a:active {
+	font-size: 12px;
+	color: #666666;
+}  /* 点击激活链接 */
+.tab_act2 {
+	height: 22px;
+	background: url('../biimages/tab_act2.jpg') no-repeat bottom;
+	text-align: center;
+	width: 70px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.tab_act2 a {
+	text-decoration: none;
+}  /* 链接无下划线,有为underline */
+.tab_act2 a:link {
+	font-size: 12px;
+	color: #ffffff;
+}  /* 未访问的链接 */
+.tab_act2 a:visited {
+	font-size: 12px;
+	color: #ffffff;
+}  /* 已访问的链接 */
+.tab_act2 a:hover {
+	font-size: 12px;
+	COLOR: #ffffff;
+}  /* 鼠标在链接上 */
+.tab_act2 a:active {
+	font-size: 12px;
+	color: #ffffff;
+}  /* 点击激活链接 */
+.tab2_line {
+	background-color: #f88b04;
+	height: 2px;
+}
+
+.tools {
+	background: url('../biimages/toolbg.jpg') repeat_x left;
+	background-color: #e2eef6;
+	height: 27px;
+}
+
+.toolbg {
+	background-image: url('../biimages/toolbg2.jpg');
+	background-repeat: repeat-x;
+	background-position: bottom;
+	background-color: #f9f9f9;
+	height: 30px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.title3 {
+	background: url('../biimages/titlebg2.jpg') no-repeat;
+	width: 82px;
+	height: 26px;
+	text-align: center;
+	padding-right: 2px;
+	color: #564400;
+	padding-top: 6px;
+	margin-right: 3px;
+}
+
+.tab_line {
+	background-color: #f88b04;
+	height: 2px;
+}
+
+.menubg {
+	background: url('../biimages/menubg.jpg') repeat-x top;
+	width: 100%;
+	height: 26px;
+	margin-bottom: 5px;
+}
+
+.menuline {
+	background: url('../biimages/menuline.gif') no-repeat;
+	width: 2px;
+	height: 16px;
+	margin: 0 10px 0 10px;
+}
+
+.padleft {
+	padding: 0 0 0 10px;
+}
+
+.padright {
+	padding: 0 10px 0 0;
+}
+
+.titlebg {
+	background: url('../biimages/titlebg.jpg') repeat-x bottom;
+	height: 30px;
+	margin: 0 10px 0 10px;
+}
+
+.titlebg2 {
+	background: url('../biimages/titlebg3.jpg') no-repeat left bottom;
+	padding-top: 3px;
+	width: 151px;
+	height: 23px;
+	padding-left: 5px;
+	pdding-bottom: 10px;
+}
+
+.titlebg3 {
+	background: url('../biimages/titlebg3.jpg') no-repeat left bottom;
+	padding-top: 3px;
+	width: 151px;
+	height: 23px;
+	pdding-bottom: 10px;
+}
+.titlebg2_line {
+	height: 23px;
+	background: url('../biimages/titlebg3_line.jpg') repeat-x left bottom;
+	padding-left: 5px;
+	pdding-bottom: 10px;
+}
+
+.title1 {
+	background: url('../biimages/sign_title2.gif') no-repeat;
+	padding-left: 16px;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+}
+
+.title2 {
+	background: url('../biimages/sign_title1.gif') no-repeat;
+	padding-left: 15px;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+}
+
+.colorline {
+	background: url('../biimages/titlecolorline.jpg') no-repeat left top;
+	padding-top: 2px;
+}
+
+.shadow {
+	background: url('../biimages/shadow.jpg') no-repeat top left;
+	padding-left: 12px;
+}
+
+.submenutitle {
+	background: url('../biimages/menutitle_bg.jpg');
+	height: 40px;
+	font-weight: bold;
+	color: #fff;
+	padding: 7px 0 0 27px;
+}
+
+.submenu_l1 {
+	background: url('../biimages/sign_submenu_l1.gif') no-repeat top left;
+	height: 25px;
+	vertical-align: middle;
+	padding-left: 25px;
+	padding-top: 3px;
+	border-bottom: 1px #e8e8e8 solid;
+}
+
+.submenu_l1 a {
+	text-decoration: none;
+}  /* 链接无下划线,有为underline */
+.submenu_l1 a:link {
+	font-size: 12px;
+	color: #000000;
+}  /* 未访问的链接 */
+.submenu_l1 a:visited {
+	font-size: 12px;
+	color: #000000;
+}  /* 已访问的链接 */
+.submenu_l1 a:hover {
+	font-size: 12px;
+	COLOR: #EF5B01;
+}  /* 鼠标在链接上 */
+.submenu_l1 a:active {
+	font-size: 12px;
+	color: #EF5B01;
+}  /* 点击激活链接 */
+.submenu_l1_act {
+	background: url('../biimages/sign_submenu_l1.gif') no-repeat top left;
+	height: 25px;
+	vertical-align: middle;
+	font-weight: bold;
+	padding-left: 25px;
+	padding-top: 3px;
+	background-color: #E8F3F9;
+	border-bottom: 1px #e8e8e8 solid;
+}
+
+.numgreen {
+	color: #00ac18;
+}
+
+.numred {
+	color: #d70000;
+}
+
+a.numgreen_hidden {
+	text-decoration: none;
+	background: url('../biimages/sign_hidden.gif') no-repeat;
+	padding-left: 12px;
+}  /* 链接无下划线,有为underline */
+a.numgreen_hidden:link {
+	font-size: 12px;
+	color: #00ac18;
+}  /* 未访问的链接 */
+a.numgreen_hidden:visited {
+	font-size: 12px;
+	color: #00ac18;
+}  /* 已访问的链接 */
+a.numgreen_hidden:hover {
+	font-size: 12px;
+	COLOR: #00ac18;
+}  /* 鼠标在链接上 */
+a.numgreen_hidden:active {
+	font-size: 12px;
+	color: #00ac18;
+}  /* 点击激活链接 */
+a.numgreen_show {
+	text-decoration: none;
+	background: url('../biimages/sign_show.gif') no-repeat;
+	padding-left: 12px;
+	COLOR: #00ac18;
+	font-weight: bold;
+}  /* 链接无下划线,有为underline */
+a.numgreen_show:link {
+	font-size: 12px;
+	color: #00ac18;
+}  /* 未访问的链接 */
+a.numgreen_show:visited {
+	font-size: 12px;
+	color: #00ac18;
+}  /* 已访问的链接 */
+a.numgreen_show:hover {
+	font-size: 12px;
+	COLOR: #00ac18;
+}  /* 鼠标在链接上 */
+a.numgreen_show:active {
+	font-size: 12px;
+	color: #00ac18;
+}  /* 点击激活链接 */
+a.numgreenurl {
+	text-decoration: none;
+	padding-left: 12px;
+}  /* 链接无下划线,有为underline */
+a.numgreenurl:link {
+	font-size: 12px;
+	color: #00ac18;
+}  /* 未访问的链接 */
+a.numgreenurl:visited {
+	font-size: 12px;
+	color: #00ac18;
+}  /* 已访问的链接 */
+a.numgreenurl:hover {
+	font-size: 12px;
+	COLOR: #00ac18;
+}  /* 鼠标在链接上 */
+a.numgreenurl:active {
+	font-size: 12px;
+	color: #00ac18;
+}  /* 点击激活链接 */
+a.numredurl {
+	text-decoration: none;
+	padding-left: 12px;
+}  /* 链接无下划线,有为underline */
+a.numredurl:link {
+	font-size: 12px;
+	color: #d70000;
+}  /* 未访问的链接 */
+a.numredurl:visited {
+	font-size: 12px;
+	color: #d70000;
+}  /* 已访问的链接 */
+a.numredurl:hover {
+	font-size: 12px;
+	COLOR: #d70000;
+}  /* 鼠标在链接上 */
+a.numredurl:active {
+	font-size: 12px;
+	color: #d70000;
+}  /* 点击激活链接 */
+a.numurl {
+	text-decoration: none;
+	padding-left: 12px;
+}  /* 链接无下划线,有为underline */
+a.numurl:link {
+	font-size: 12px;
+	color: #330000;
+}  /* 未访问的链接 */
+a.numurl:visited {
+	font-size: 12px;
+	color: #330000;
+}  /* 已访问的链接 */
+a.numurl:hover {
+	font-size: 12px;
+	COLOR: #330000;
+}  /* 鼠标在链接上 */
+a.numurl:active {
+	font-size: 12px;
+	color: #330000;
+}  /* 点击激活链接 */
+a.numred_hidden {
+	text-decoration: none;
+	background: url('../biimages/sign_hidden.gif') no-repeat;
+	padding-left: 12px;
+}  /* 链接无下划线,有为underline */
+a.numred_hidden:link {
+	font-size: 12px;
+	color: #d70000;
+}  /* 未访问的链接 */
+a.numred_hidden:visited {
+	font-size: 12px;
+	color: #d70000;
+}  /* 已访问的链接 */
+a.numred_hidden:hover {
+	font-size: 12px;
+	COLOR: #d70000;
+}  /* 鼠标在链接上 */
+a.numred_hidden:active {
+	font-size: 12px;
+	color: #d70000;
+}  /* 点击激活链接 */
+a.numred_show {
+	text-decoration: none;
+	background: url('../biimages/sign_show.gif') no-repeat;
+	padding-left: 12px;
+	COLOR: #d70000;
+	font-weight: bold;
+}  /* 链接无下划线,有为underline */
+a.numred_show:link {
+	font-size: 12px;
+	color: #d70000;
+}  /* 未访问的链接 */
+a.numred_show:visited {
+	font-size: 12px;
+	color: #d70000;
+}  /* 已访问的链接 */
+a.numred_show:hover {
+	font-size: 12px;
+	COLOR: #d70000;
+}  /* 鼠标在链接上 */
+a.numred_show:active {
+	font-size: 12px;
+	color: #d70000;
+}  /* 点击激活链接 */
+a.txt_hidden {
+	text-decoration: none;
+	background: url('../biimages/sign_hidden.gif') no-repeat;
+	padding-left: 12px;
+}  /* 链接无下划线,有为underline */
+a.txt_hidden:link {
+	font-size: 12px;
+	color: #273951;
+}  /* 未访问的链接 */
+a.txt_hidden:visited {
+	font-size: 12px;
+	color: #273951;
+}  /* 已访问的链接 */
+a.txt_hidden:hover {
+	font-size: 12px;
+	COLOR: #41a8d8;
+}  /* 鼠标在链接上 */
+a.txt_hidden:active {
+	font-size: 12px;
+	color: #41a8d8;
+}  /* 点击激活链接 */
+a.txt_show {
+	text-decoration: none;
+	background: url('../biimages/sign_show.gif') no-repeat;
+	padding-left: 12px;
+	COLOR: #41a8d8;
+	font-weight: bold;
+}  /* 链接无下划线,有为underline */
+a.txt_show:link {
+	font-size: 12px;
+	color: #41a8d8;
+}  /* 未访问的链接 */
+a.txt_show:visited {
+	font-size: 12px;
+	color: #41a8d8;
+}  /* 已访问的链接 */
+a.txt_show:hover {
+	font-size: 12px;
+	COLOR: #41a8d8;
+}  /* 鼠标在链接上 */
+a.txt_show:active {
+	font-size: 12px;
+	color: #41a8d8;
+}  /* 点击激活链接 */
+.row_show {
+	background: expression(this.rowIndex % 2 == 0 ?   "#ECFAFF" : "#ECFAFF")
+}
+
+.row_hidden {
+	background: expression(this.rowIndex % 2 == 0 ?   "#fff" : "#fff")
+}
+
+.submenu_l1_act a {
+	text-decoration: none;
+}  /* 链接无下划线,有为underline */
+.submenu_l1_act a:link {
+	font-size: 12px;
+	color: #000000;
+}  /* 未访问的链接 */
+.submenu_l1_act a:visited {
+	font-size: 12px;
+	color: #000000;
+}  /* 已访问的链接 */
+.submenu_l1_act a:hover {
+	font-size: 12px;
+	COLOR: #000000;
+}  /* 鼠标在链接上 */
+.submenu_l1_act a:active {
+	font-size: 12px;
+	color: #000000;
+}  /* 点击激活链接 */
+.submenu_menutitle {
+	background: url('../biimages/sign_submenu_1.gif') no-repeat top left;
+	height: 25px;
+	vertical-align: middle;
+	padding-left: 28px;
+	padding-top: 3px;
+	background-color: #FFFFFF;
+	border-bottom: 1px #e8e8e8 solid;
+}
+
+.submenu_l2 {
+	background: url('../biimages/sign_submenu_l2.gif') no-repeat top left;
+	height: 25px;
+	vertical-align: middle;
+	padding-left: 40px;
+	padding-top: 3px;
+	background-color: #F5F5F5;
+	border-bottom: 1px #e8e8e8 solid;
+}
+
+.submenu_l2 a {
+	text-decoration: none;
+}  /* 链接无下划线,有为underline */
+.submenu_l2 a:link {
+	font-size: 12px;
+	color: #273951;
+}  /* 未访问的链接 */
+.submenu_l2 a:visited {
+	font-size: 12px;
+	color: #273951;
+}  /* 已访问的链接 */
+.submenu_l2 a:hover {
+	font-size: 12px;
+	COLOR: #41a8d8;
+}  /* 鼠标在链接上 */
+.submenu_l2 a:active {
+	font-size: 12px;
+	color: #41a8d8;
+}  /* 点击激活链接 */
+.submenu_l2_act {
+	background: url('../biimages/sign_submenu_l2.gif') no-repeat top left;
+	height: 25px;
+	vertical-align: middle;
+	font-weight: bold;
+	padding-left: 40px;
+	padding-top: 3px;
+	background-color: #E8F3F9;
+	border-bottom: 1px #e8e8e8 solid;
+}
+
+.submenu_l2_act a {
+	text-decoration: none;
+}  /* 链接无下划线,有为underline */
+.submenu_l2_act a:link {
+	font-size: 12px;
+	color: #000000;
+}  /* 未访问的链接 */
+.submenu_l2_act a:visited {
+	font-size: 12px;
+	color: #000000;
+}  /* 已访问的链接 */
+.submenu_l2_act a:hover {
+	font-size: 12px;
+	COLOR: #000000;
+}  /* 鼠标在链接上 */
+.submenu_l2_act a:active {
+	font-size: 12px;
+	color: #000000;
+}  /* 点击激活链接 */
+.tooltitle {
+	background: url('../biimages/sign_title2.gif') no-repeat left;
+	font-weight: bold;
+	margin-left: 15px;
+	padding-left: 15px;
+	padding-right: 5px;
+	padding-top: 3px;
+}
+
+.tooltxt {
+	background: url('../biimages/tool_line.jpg') no-repeat left;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+}
+
+.celtitleC {
+	border: 1px #fff solid;
+	color: white;
+	height: 25px;
+}
+
+.celtitleTab td {
+	padding: 2px 8px 0 8px;
+}
+
+.celtitleTab { /*background-color:#5494b5;*/
+	color: white;
+	height: 25px;
+	text-align: right;
+}
+
+.celtitleTab td {
+	padding: 2px 8px 0 8px;
+}
+
+}
+.FixedTitleColumn {
+	position: relative;
+	left: expression(this.parentElement.offsetParent.scrollLeft);
+}
+
+.FixedDataColumn {
+	position: relative;
+	left: expression(this.parentElement.offsetParent.parentElement.scrollLeft)
+		;
+}
+
+.FixedTitleRow {
+	position: relative;
+	top: expression(this.offsetParent.scrollTop);
+	z-index: 10;
+}
+
+/*.celtitle{color:#404040;height:25px;text-align:right; border:1px aqua solid;} */
+	/*.celtitle td{background-color:#F0F0F0;padding:2px 8px 0 8px;}
+
+.celtitle{color:#404040;height:24px;text-align:right;background-color:d1e3ed;} 
+.celtitle td{background:url('../biimages/titlebg7.jpg') repeat-x;padding:2px 8px 0 8px;color:#ffffff;
+}*/
+.celtitle {
+	color: #404040;
+	height: 24px;
+	text-align: right;
+	background-color: #CFCFCF;
+}
+
+.celtitle td {
+	padding: 2px 8px 0 8px;
+}
+
+/*.celdata {text-align:right;height:22px;background-color:#fff;cursor:pointer;} */
+	/*.celdata {text-align:right;height:22px;background-color:#fff;cursor:pointer;}*/
+	/*.celdata td{padding:0 8px 0 8px;}*/
+.celdata {
+	text-align: right;
+	height: 23px;
+	background: expression(this.rowIndex % 2 == 0 ?   "#fff" : "#f9f9f9")
+}
+
+.celdata td {
+	padding: 0 8px 0 8px;
+	color: #4F6B72;
+}
+
+.celdata_default {
+	text-align: right;
+	height: 23px;
+	background: expression(this.rowIndex % 2 == 0 ?   "#fff" : "#fff")
+}
+
+.celdata_default td {
+	padding: 0 8px 0 8px;
+	color: #4F6B72;
+}
+
+.mouseM {
+	text-align: right;
+	height: 23px;
+	background: expression(this.rowIndex % 2 == 0 ?   "#fefece" : "#fefece")
+		;
+}
+
+.mouseM td {
+	padding: 0 8px 0 8px;
+}
+
+a.sel {
+	text-decoration: none;
+	background: url('../biimages/sign_sel.gif') no-repeat right;
+	padding-right: 8px;
+	padding-left: 2px;
+}  /* 链接无下划线,有为underline */
+a.sel:link {
+	font-size: 12px;
+	color: #273951;
+	background: url('../biimages/sign_sel.gif') no-repeat right;
+}  /* 未访问的链接 */
+a.sel:visited {
+	font-size: 12px;
+	color: #273951;
+	background: url('../biimages/sign_sel.gif') no-repeat right;
+}  /* 已访问的链接 */
+a.sel:hover {
+	font-size: 12px;
+	COLOR: #41a8d8;
+	background: url('../biimages/sign_sela.gif') no-repeat right;
+}  /* 鼠标在链接上 */
+a.sel:active {
+	font-size: 12px;
+	color: #41a8d8;
+	background: url('../biimages/sign_sela.gif') no-repeat right;
+}  /* 点击激活链接 */
+.datalist td {
+	text-align: right;
+	padding: 0 5px 0 5px;
+	height: 22px;
+}
+
+.datalist td.celitle {
+	background-color: #F2F2F2;
+	font-weight: bold;
+	text-align: center;
+	line-height: 12px;
+	padding: 2px;
+	height: 22px;
+}
+
+.datalist td.leftdata {
+	padding: 0 5px 0 5px;
+	text-align: left;
+	height: 22px;
+	font-weight: bold;
+}
+
+.datalist td.rightdata {
+	padding: 0 5px 0 5px;
+	text-align: right;
+	height: 22px;
+}
+
+.datalist td.centerdata {
+	padding: 0 5px 0 5px;
+	text-align: center;
+	height: 22px;
+}
+
+.list_shadow {
+	background: url('../biimages/list_shadow.jpg') repeat-x;
+	height: 5px;
+	width: 100%;
+}
+
+.shadow2 {
+	background: url('../biimages/shadow2.jpg') no-repeat left top;
+	padding-left: 5px;
+	border-left: 1px #e8e8e8 solid;
+}
+
+.row_colorline {
+	background: url('../biimages/line_color.jpg') no-repeat right;
+	background-color: #005EBE;
+	height: 3px;
+}
+
+.row_clew {
+	background-color: #FDFEDE;
+	height: 22px;
+	padding: 5px;
+	border-bottom: 1px #e8e8e8 solid;
+	line-height: 150%;
+}
+
+.row_linexx {
+	background: url('../biimages/line_xx.jpg') repeat-x bottom;
+	padding: 10px 10px 10px 20px;
+}
+
+.sign_clew {
+	margin-left: 5px;
+	background: url('../biimages/sign_clew.jpg') no-repeat;
+	padding-left: 18px;
+}
+
+.popwidow {
+	background-color: #fff7bd;
+	border: 1px #ffd75a solid;
+}
+
+.poptitle {
+	background-color: #ffd75a;
+	border: 1px #ffd75a solid;
+	text-align: center;
+	height: 25px;
+}
+
+.condition td {
+	padding: 0 3px 0 3px;
+	height: 25px;
+}
+
+.conselect {
+	background-color: #d6e6f4;
+}
+
+a.dataurl {
+	text-decoration: underline;
+	background: url('../biimages/sign_data.gif') no-repeat left;
+	padding-left: 8px;
+	margin-left: 15px
+}  /* 链接无下划线,有为underline */
+a.dataurl:link {
+	font-size: 12px;
+	color: #273951;
+}  /* 未访问的链接 */
+a.dataurl:visited {
+	font-size: 12px;
+	color: #273951;
+}  /* 已访问的链接 */
+a.dataurl:hover {
+	font-size: 12px;
+	COLOR: #41a8d8;
+}  /* 鼠标在链接上 */
+a.dataurl:active {
+	font-size: 12px;
+	color: #41a8d8;
+}  /* 点击激活链接 */
+a.2menu {
+	text-decoration: underline;
+	background: url('../../images/common/home/sign_1.gif') no-repeat;
+	padding-left: 7px;
+}  /* 链接无下划线,有为underline */
+a.2menu:link {
+	font-size: 12px;
+	color: #273951;
+	background: url('../../images/common/home/sign_1.gif') no-repeat;
+	padding-left: 7px;
+}  /* 未访问的链接 */
+a.2menu:visited {
+	font-size: 12px;
+	color: #273951;
+	background: url('../../images/common/home/sign_1.gif') no-repeat;
+	padding-left: 7px;
+}  /* 已访问的链接 */
+a.2menu:hover {
+	font-size: 12px;
+	COLOR: #41a8d8;
+	background: url('../biimages/sign_1a.gif') no-repeat;
+	padding-left: 7px;
+}  /* 鼠标在链接上 */
+a.2menu:active {
+	font-size: 12px;
+	color: #41a8d8;
+	background: url('../biimages/sign_1a.gif') no-repeat;
+	padding-left: 7px;
+}  /* 点击激活链接 */
+a.3menu {
+	text-decoration: underline;
+	background: url('../biimages/sign_1.gif') no-repeat;
+	padding-left: 7px;
+	margin-right: 10px
+}  /* 链接无下划线,有为underline */
+a.3menu:link {
+	font-size: 13px;
+	color: #273951;
+	background: url('../../images/common/home/sign_1.gif') no-repeat;
+	padding-left: 7px;
+}  /* 未访问的链接 */
+a.3menu:visited {
+	font-size: 13px;
+	color: #273951;
+	background: url('../../images/common/home/sign_1.gif') no-repeat;
+	padding-left: 7px;
+}  /* 已访问的链接 */
+a.3menu:hover {
+	font-size: 13px;
+	COLOR: #41a8d8;
+	background: url('../biimages/sign_1a.gif') no-repeat;
+	padding-left: 7px;
+}  /* 鼠标在链接上 */
+a.2m3menuenu:active {
+	font-size: 13px;
+	color: #41a8d8;
+	background: url('../biimages/sign_1a.gif') no-repeat;
+	padding-left: 7px;
+}  /* 点击激活链接 */
+a.download {
+	text-decoration: underline;
+	background: url('../biimages/download.gif') no-repeat;
+	padding-left: 20px;
+}  /* 链接无下划线,有为underline */
+a.download:link {
+	font-size: 12px;
+	color: #273951;
+	background: url('../biimages/download.gif') no-repeat;
+	padding-left: 20px;
+}  /* 未访问的链接 */
+a.download:visited {
+	font-size: 12px;
+	color: #273951;
+	background: url('../biimages/download.gif') no-repeat;
+	padding-left: 20px;
+}  /* 已访问的链接 */
+a.download:hover {
+	font-size: 12px;
+	COLOR: #41a8d8;
+	background: url('../biimages/download.gif') no-repeat;
+	padding-left: 20px;
+}  /* 鼠标在链接上 */
+a.download:active {
+	font-size: 12px;
+	color: #41a8d8;
+	background: url('../biimages/download.gif') no-repeat;
+	padding-left: 20px;
+}  /* 点击激活链接 */
+a.title4 {
+	text-decoration: none;
+}  /* 链接无下划线,有为underline */
+a.title4:link {
+	font-size: 12px;
+	color: #106287;
+	font-weight: bold;
+}  /* 未访问的链接 */
+a.title4:visited {
+	font-size: 12px;
+	color: #106287;
+	font-weight: bold;
+}  /* 已访问的链接 */
+a.title4:hover {
+	font-size: 12px;
+	COLOR: #439bc8;
+	font-weight: bold;
+}  /* 鼠标在链接上 */
+a.title4:active {
+	font-size: 12px;
+	color: #439bc8;
+	font-weight: bold;
+}  /* 点击激活链接 */
+a .{
+	text-decoration: underline;
+	padding: 0 2px 0 2px
+}  /* 链接无下划线,有为underline */
+a.line:link {
+	font-size: 12px;
+	color: #273951;
+}  /* 未访问的链接 */
+a.line:visited {
+	font-size: 12px;
+	color: #273951;
+}  /* 已访问的链接 */
+a.line:hover {
+	font-size: 12px;
+	COLOR: #41a8d8;
+}  /* 鼠标在链接上 */
+a.line:active {
+	font-size: 12px;
+	color: #41a8d8;
+}  /* 点击激活链接 */
+.newlist a {
+	text-decoration: none;
+	background: url('../../images/common/home/sign_1.gif') no-repeat;
+	padding-left: 7px;
+	margin-left: 7px
+}  /* 链接无下划线,有为underline */
+.newlist a:link {
+	font-size: 12px;
+	color: #273951;
+	background: url('../../images/common/home/sign_1.gif') no-repeat;
+	padding-left: 7px;
+}  /* 未访问的链接 */
+.newlist a:visited {
+	font-size: 12px;
+	color: #273951;
+	background: url('../../images/common/home/sign_1.gif') no-repeat;
+	padding-left: 7px;
+}  /* 已访问的链接 */
+.newlist a:hover {
+	font-size: 12px;
+	COLOR: #41a8d8;
+	background: url('../../images/common/home/sign_1a.gif') no-repeat;
+	padding-left: 7px;
+}  /* 鼠标在链接上 */
+.newlist a:active {
+	font-size: 12px;
+	color: #41a8d8;
+	background: url('../../images/common/home/sign_1a.gif') no-repeat;
+	padding-left: 7px;
+}  /* 点击激活链接 */
+a {
+	text-decoration: none;
+}  /* 链接无下划线,有为underline */
+a:link {
+	font-size: 12px;
+	color: #273951;
+}  /* 未访问的链接 */
+a:visited {
+	font-size: 12px;
+	color: #273951;
+}  /* 已访问的链接 */
+a:hover {
+	font-size: 12px;
+	COLOR: #41a8d8;
+}  /* 鼠标在链接上 */
+a:active {
+	font-size: 12px;
+	color: #41a8d8;
+}  /* 点击激活链接 */
+.kuang {
+	padding: 0 0 120px 120px;
+	background: url('../biimages/kuangbg.jpg') no-repeat left bottom;
+}
+
+.kuangContent {
+	background: url('../biimages/titlebg1.jpg') no-repeat left top;
+	padding: 1px 1px 1px 1px;
+	border: 1px #caddeb solid;
+}
+
+.kuangContent2 {
+	border: 1px #caddeb solid;
+}
+
+.kuangContentpadding {
+	padding: 6px;
+}
+
+.paddingline {
+	padding: 5px;
+}
+
+.statPic {
+	margin: 0 0 15px 15px;
+}
+
+.titletext {
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.newTitle {
+	font-size: 15px;
+	font-weight: bold;
+	line-height: 150%;
+}
+
+.newContent {
+	background: url('../../images/common/home/txtbg.gif');
+	line-height: 25px;
+}
+
+.line_x {
+	background: url('../biimages/line.jpg') repeat-x left bottom;
+	height: 30px;
+}
+
+.line5x {
+	background: url('../biimages/line.jpg') repeat-x left center;
+	height: 5px;
+}
+
+.out {
+	display: block;
+	background: #ebebeb;
+	position: relative;
+	margin: 1px 2;
+}
+
+.in2 {
+	position: relative;
+	padding: 1px;
+	margin: 1px;
+}
+
+.in {
+	text-align: center;
+	background: #fff;
+	position: relative;
+	font-weight: normal;
+}
+
+.ltin {
+	left: -2px;
+}
+
+.tpin {
+	top: -2px;
+}
+
+.rtin {
+	left: -2px;
+}
+
+* {
+	padding: 0;
+	margin: 0
+}
+
+.dropdown {
+	float: left;
+	padding-right: 5px
+}
+
+.dropdown dt {
+	width: 188px;
+	border: 2px solid #9ac1c9;
+	padding: 8px;
+	font-weight: bold;
+	cursor: pointer;
+	background: url(images/header.gif)
+}
+
+.dropdown dt:hover {
+	background: url(images/header_over.gif)
+}
+
+.dropdown dd {
+	position: absolute;
+	overflow: hidden;
+	width: 208px;
+	display: none;
+	background: #fff;
+	z-index: 200;
+	opacity: 0
+}
+
+.dropdown ul {
+	width: 204px;
+	border: 2px solid #9ac1c9;
+	list-style: none;
+	border-top: none
+}
+
+.dropdown li {
+	display: inline
+}
+
+.dropdown a:visited {
+	display: block;
+	padding: 5px;
+	color: #333;
+	text-decoration: none;
+	background: #eaf0f2;
+	width: 194px
+}
+
+.dropdown a:active {
+	display: block;
+	padding: 5px;
+	color: #333;
+	text-decoration: none;
+	background: #eaf0f2;
+	width: 194px
+}
+
+.dropdown a {
+	display: block;
+	padding: 5px;
+	color: #333;
+	text-decoration: none;
+	background: #eaf0f2;
+	width: 194px
+}
+
+.dropdown a:hover {
+	background: #d9e1e4;
+	color: #000
+}
+
+.dropdown .underline {
+	border-bottom: 1px solid #b9d6dc
+}
+
+.dropdown .underline {
+	border-bottom: 1px solid #b9d6dc
+}
+
+.d9_sel_desc {
+	BORDER-RIGHT: medium none;
+	BORDER-TOP: medium none;
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 8.5pt;
+	BORDER-LEFT: medium none;
+	CURSOR: hand;
+	COLOR: #444444;
+	BORDER-BOTTOM: medium none;
+	HEIGHT: 15px
+}
+
+.d9_pop {
+	BORDER-RIGHT: #ffd75a 1px solid;
+	PADDING-RIGHT: 3px;
+	BORDER-TOP: #ffd75a 1px solid;
+	PADDING-LEFT: 3px;
+	Z-INDEX: 10;
+	PADDING-BOTTOM: 3px;
+	OVERFLOW: hidden;
+	BORDER-LEFT: #ffd75a 1px solid;
+	PADDING-TOP: 3px;
+	BORDER-BOTTOM: #ffd75a 1px solid;
+	BACKGROUND-COLOR: #fff7bd
+}
+
+.d9_title {
+	PADDING-RIGHT: 10px;
+	PADDING-LEFT: 10px;
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 9pt;
+	COLOR: #000000;
+	BORDER-BOTTOM: #eaeaea 1px solid;
+	HEIGHT: 25px;
+	BACKGROUND-COLOR: #ffd75a
+}
+
+.d9_pop_table {
+	BACKGROUND-COLOR: #ffd75a
+}
+
+.d9_pop_td_sel {
+	PADDING-RIGHT: 4px;
+	PADDING-LEFT: 4px;
+	FONT-SIZE: 9pt;
+	PADDING-BOTTOM: 4px;
+	CURSOR: hand;
+	PADDING-TOP: 4px;
+	BACKGROUND-COLOR: #cddeee;
+	TEXT-ALIGN: center;
+	TEXT-DECORATION: underline
+}
+
+.d9_pop_td {
+	PADDING-RIGHT: 4px;
+	PADDING-LEFT: 4px;
+	FONT-SIZE: 9pt;
+	PADDING-BOTTOM: 4px;
+	CURSOR: hand;
+	PADDING-TOP: 4px;
+	BACKGROUND-COLOR: #fff7ce;
+	TEXT-ALIGN: center
+}
+
+.titlenav {
+	background: url('../biimages/sign_chart_bar.jpg') no-repeat left;
+	padding-top: 2px;
+	padding-left: 18px;
+}
+
+.button_ok {
+	font-size: 12px;
+	color: #000;
+	width: 65px;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 25px;
+	text-align: left;
+	border: 1px #BBBBBB solid;
+	background: url('../biimages/button_ok.jpg') left top;
+}
+
+.button_outputExcel {
+	font-size: 12px;
+	color: #000;
+	width: 100px;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 30px;
+	text-align: left;
+	border: 1px #BBBBBB solid;
+	background: url('../biimages/button_outputExcel.jpg') left top;
+}
+
+.button_outputExcelMin {
+	font-size: 12px;
+	color: #000;
+	width: 65px;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 25px;
+	text-align: left;
+	border: 1px #BBBBBB solid;
+	background: url('../biimages/button_outputExcel.jpg') left top;
+}
+
+.button_return {
+	font-size: 12px;
+	color: #000;
+	width: 65px;
+	height: 20px;
+	padding-top: 2px;
+	padding-left: 25px;
+	text-align: left;
+	background: url('../biimages/botton_return.jpg') left top;
+	border: 1px #BBBBBB solid;
+}
+
+.contentBg {
+	background: url('../biimages/contentBg.jpg') repeat-x top;
+}
+
+.contentBg1 {
+	background: url('../biimages/contentBg1.jpg') repeat-x top;
+}
+
+.contentBg td {
+	padding: 7px;
+}
+
+.sign_clew {
+	margin-left: 5px;
+	background: url('../biimages/sign_clew.gif') no-repeat;
+	padding-left: 18px;
+}
+
+.sign_zb {
+	margin-left: 5px;
+	background: url('../biimages/building_edit.gif') no-repeat left top;
+	padding-left: 18px;
+	font-weight: bold;
+}
+
+.sign_title {
+	margin-left: 5px;
+	background: url('../biimages/sign_title.jpg') no-repeat left top;
+	padding-left: 21px;
+	padding-top: 2px;
+	font-weight: bold;
+}
+
+.sign_jt {
+	margin-left: 18px;
+	background: url('../biimages/web_icon_003.gif') no-repeat;
+	padding-left: 18px;
+	font-weight: bold;
+}
+
+a.sort_default {
+	text-decoration: none;
+	background: url('../biimages/bullet_blue.gif') right no-repeat;
+	padding-right: 14px;
+}  /* 链接无下划线,有为underline */
+a.sort_default:link {
+	font-size: 12px;
+}  /* 未访问的链接 */
+a.sort_default:visited {
+	font-size: 12px;
+}  /* 已访问的链接 */
+a.sort_default:hover {
+	font-size: 12px;
+}  /* 鼠标在链接上 */
+a.sort_default:active {
+	font-size: 12px;
+}  /* 点击激活链接 */
+a.sort_this {
+	text-decoration: none;
+	background: url('../biimages/bullet_arrow_down.gif') right no-repeat;
+	padding-right: 14px;
+	font-weight: bold;
+}  /* 链接无下划线,有为underline */
+a.sort_this:link {
+	
+}  /* 未访问的链接 */
+a.sort_this:visited {
+	
+}  /* 已访问的链接 */
+a.sort_this:hover {
+	
+}  /* 鼠标在链接上 */
+a.sort_this:active {
+	
+}  /* 点击激活链接 */
+.celtitleC {
+	border: 1px #fff solid;
+	color: white;
+	height: 25px;
+}
+
+.celtitleTab td {
+	padding: 2px 8px 0 8px;
+}
+
+.celtitleTab { /*background-color:#5494b5;*/
+	color: white;
+	height: 25px;
+	text-align: right;
+}
+
+.celtitleTab td {
+	padding: 2px 8px 0 8px;
+}
+
+#hiddenTable td {
+	border: 0px;
+	border-style: solid;
+	border-color: #CFCFCF;
+	border-collapse: 0px;
+	border-spacing: 0px;
+}
+
+.datalist td.FixedColumn {
+	position: relative;
+	left: expression(this.parentElement.offsetParent.parentElement.scrollLeft)
+		;
+	border-bottom: 0px;
+	background-color: #fafafa;
+}
+
+.datalist tr.FixedTitleRow {
+	position: relative;
+	top: expression(this.parentElement.parentElement.parentElement.scrollTop)
+		;
+	z-index: 10;
+}
+
+.datalist tr.FixedTitleRow td {
+	background: #f0f0f0;
+	padding: 2px 8px 0 8px;
+	position: relative;
+	border-bottom: 0px;
+	border-right: 0px;
+	font-weight: bold;
+	text-align: center;
+	font-weight: bold;
+}
+
+.datalist td.Fixeddouble {
+	position: relative;
+	LEFT: expression(this.parentElement.offsetParent.scrollLeft);
+	z-index: 20;
+}
+
+.datalist td.Fixedleftline {
+	border-left: 0px;
+}
+
+#FixRow {
+	LEFT: expression(this.parentElement.offsetParent.scrollLeft);
+	POSITION: relative;
+	z-index: 20;
+	border-right: 1px #D8D8E4 solid;
+}
+
+.datalist {
+	
+}
+
+.datalist td {
+	text-align: right;
+	padding: 0 5px 0 5px;
+	height: 24px;
+	border: 1px;
+	border-style: solid;
+	border-color: #d8d8e4;
+	border-collapse: 0px;
+	border-spacing: 0px;
+}
+
+.datalist tr.celtitle1 td {
+	background-color: #F0F0F0;
+	font-weight: bold;
+	text-align: center;
+	padding: 5px;
+}
+
+.datalist tr.celtitle td {
+	background: url('../biimages/titlebg7.jpg') repeat-x bottom;
+	background-color: #88C0F3;
+	font-weight: normal;
+	color: #fff;
+	text-align: center;
+	padding: 5px;
+}
+
+.datalist td.leftdata {
+	text-align: left;
+}
+
+.datalist td.rightdata {
+	text-align: right;
+}
+
+.datalist td.centerdata {
+	text-align: center;
+}
+
+/*.celdata {text-align:right;height:23px;background:expression(this.rowIndex%2==0 ? "#fff":"#F7F7F7")} */
+.celdata {
+	text-align: right;
+	height: 23px;
+	background: expression(this.rowIndex % 2 == 0 ?   "#fff" : "#F2F2FF")
+}
+
+.celdata td {
+	padding: 0 5px 0 5px;
+}
+
+.celdata_default {
+	text-align: right;
+	height: 23px;
+	background: expression(this.rowIndex % 2 == 0 ?   "#fff" : "#fff")
+}
+
+.celdata_default td {
+	padding: 0 5px 0 5px;
+}
+
+.mouseM {
+	text-align: right;
+	height: 23px;
+	background: expression(this.rowIndex % 2 == 0 ?   "#FFF9A9" : "#FFF9A9")
+		;
+}
+
+.mouseM td {
+	padding: 0 5px 0 5px;
+}
+
+a.sel {
+	text-decoration: none;
+	background: url('../biimages/sign_sel.gif') no-repeat right;
+	padding-right: 8px;
+	padding-left: 2px;
+}  /* 链接无下划线,有为underline */
+a.sel:link {
+	font-size: 12px;
+	color: #000000;
+	background: url('../biimages/sign_sel.gif') no-repeat right;
+}  /* 未访问的链接 */
+a.sel:visited {
+	font-size: 12px;
+	color: #000000;
+	background: url('../biimages/sign_sel.gif') no-repeat right;
+}  /* 已访问的链接 */
+a.sel:hover {
+	font-size: 12px;
+	COLOR: #EF5B01;
+	background: url('../biimages/sign_sela.gif') no-repeat right;
+}  /* 鼠标在链接上 */
+a.sel:active {
+	font-size: 12px;
+	color: #EF5B01;
+	background: url('../biimages/sign_sela.gif') no-repeat right;
+}  /* 点击激活链接 */
+.list_shadow {
+	background: url('../biimages/list_shadow.jpg') repeat-x;
+	height: 5px;
+	width: 100%;
+}
+
+.shadow2 {
+	background: url('../biimages/shadow2.jpg') no-repeat left top;
+	padding-left: 5px;
+	border-left: 1px #e8e8e8 solid;
+}
+
+.row_colorline {
+	background: url('../biimages/line_color.jpg') no-repeat right;
+	background-color: #005EBE;
+	height: 3px;
+}
+
+/*
+.row_clew{
+	background:url('../biimages/title1.jpg') repeat-x;	
+	height:32px;
+}
+*/
+.title {
+	background: url('../biimages/title.jpg') repeat-x;
+	height: 30px;
+}
+
+.sign_title {
+	margin-left: 5px;
+	background: url('../biimages/sign_title.jpg') no-repeat left top;
+	padding-left: 21px;
+	padding-top: 2px;
+	font-weight: bold;
+}
+
+.row_linexx1 {
+	background: url('../biimages/line_xx1.jpg') repeat-x bottom;
+	padding: 0 10px 0 10px;
+}
+
+.contentBg {
+	background: url('../biimages/contentBg.jpg') repeat-x top;
+}
+
+.contentBg td {
+	padding: 5px;
+}
+
+.celdata_default {
+	text-align: right;
+	height: 23px;
+	background: expression(this.rowIndex % 2 == 0 ?   "#fff" : "#fff")
+}
+
+.celdata_default td {
+	padding: 0 5px 0 5px;
+}
+
+.datalist td.leftdata {
+	text-align: left;
+}
+
+.datalist td.rightdata {
+	text-align: right;
+}
+
+.datalist td.centerdata {
+	text-align: center;
+}
+/*add*/
+.tab_bg_add{
+	background: url(../../images/unicom/tab_bg_add.gif) repeat-x bottom ;
+	border:0px;
+}
+.result_title{
+	background: url(../../images/unicom/result_title.gif) repeat-x;
+	height:31px;
+	color:#a31515;
+	font-weight:bold;
+	text-indent:10px;
+	line-height:29px;
+	border-top:1px solid #ebebeb;
+	margin-bottom:1px;
+}
+
+.tdrow{
+  font-family:Arial;
+  font-size:13px;
+  font-weight:normal;
+  font-style:normal;
+  text-decoration:none;
+  color:#7f7e7e;
+  border-bottom: 1px solid  #cccccc;
+  border-right: 1px solid  #cccccc;
+  padding:5px;
+}
+
+.tdrow1{
+  font-family:Arial;
+  font-size:13px;
+  font-weight:bold;
+  font-style:normal;
+  text-decoration:none;
+  color:#7f7e7e;
+  background-color:#EDEDED;
+  border-top: 1px solid #cccccc;;
+  border-bottom: 1px solid #cccccc;;
+  border-right: 1px solid #cccccc;
+  padding:5px;
+  text-align:center;
+}
+
+.tdrow2{
+  font-family:Arial;
+  font-size:13px;
+  font-weight:normal;
+  font-style:normal;
+  text-decoration:none;
+  color:#7f7e7e;
+  border-bottom: 1px solid  #cccccc;
+  border-right: 1px solid #cccccc;
+  border-left: 1px solid #cccccc;
+  padding:5px;
+}
+.tdrow3{
+  font-family:Arial;
+  font-size:13px;
+  font-weight:bold;
+  font-style:normal;
+  text-decoration:none;
+  color:#7f7e7e;
+  text-align:center;
+  background-color:#EDEDED;
+  border-top: 1px solid #cccccc;;
+  border-bottom: 1px solid #cccccc;;
+  border-right: 1px solid #cccccc;
+  border-left: 1px solid #cccccc;
+  padding:5px;
+}

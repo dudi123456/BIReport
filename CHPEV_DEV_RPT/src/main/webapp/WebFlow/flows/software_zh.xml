@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="GBK"?>
+<WebFlow>
+	<FlowConfig>
+		<BaseProperties flowId="software_zh" flowText="软件开发一般流程" />
+		<VMLProperties stepTextColor="blue" stepStrokeColor="blue"
+			stepShadowColor="#b3b3b3" stepFocusedStrokeColor="yellow"
+			isStepShadow="T" actionStrokeColor="blue" actionTextColor=""
+			actionFocusedStrokeColor="yellow" sStepTextColor="red"
+			sStepStrokeColor="red" stepColor1="white" stepColor2="white"
+			isStep3D="false" step3DDepth="20" />
+		<FlowProperties flowMode="" startTime="" endTime=""
+			ifMonitor="" runMode="" noteMode="" activeForm="" autoExe="" />
+	</FlowConfig>
+	<Steps>
+		<Step>
+			<BaseProperties id="request" text="需求定义" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="466px" y="488px"
+				textWeight="" strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="sysana" text="系统分析" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="872px" y="298px"
+				textWeight="" strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="highdesign" text="架构设计" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="1289px" y="436px"
+				textWeight="" strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="lowdesign" text="详细设计" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="1363px" y="841px"
+				textWeight="" strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="code" text="模块编写" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="438px" y="913px"
+				textWeight="" strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="test" text="单元测试与集成测试" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="887px" y="742px"
+				textWeight="" strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="usertry" text="用户试用" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="715px" y="1251px"
+				textWeight="" strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="userhelp" text="用户培训" stepType="NormalStep" />
+			<VMLProperties width="200" height="200" x="1203px" y="1184px"
+				textWeight="" strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="end" text="结 束" stepType="EndStep" />
+			<VMLProperties width="180" height="180" x="1606px" y="1546px"
+				textWeight="" strokeWeight="" zIndex="40" />
+			<FlowProperties />
+		</Step>
+		<Step>
+			<BaseProperties id="begin" text="开 始" stepType="BeginStep" />
+			<VMLProperties width="180" height="180" x="155px" y="142px"
+				textWeight="" strokeWeight="" zIndex="40" />
+			<FlowProperties />
+		</Step>
+	</Steps>
+	<Actions>
+		<Action>
+			<BaseProperties id="action0" text="开始到需求" actionType="PolyLine"
+				from="begin" to="request" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="39" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action1" text="需求到分析" actionType="PolyLine"
+				from="request" to="sysana" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="39" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action2" text="分析到架构" actionType="PolyLine"
+				from="sysana" to="highdesign" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="39" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action3" text="架构到详细" actionType="PolyLine"
+				from="highdesign" to="lowdesign" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action4" text="详细到编写" actionType="PolyLine"
+				from="lowdesign" to="code" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action5" text="编写到测试" actionType="PolyLine"
+				from="code" to="test" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="39" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action6" text="测试到试用" actionType="PolyLine"
+				from="test" to="usertry" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action7" text="试用到培训" actionType="PolyLine"
+				from="usertry" to="userhelp" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="39" />
+			<FlowProperties />
+		</Action>
+		<Action>
+			<BaseProperties id="action8" text="培训到结束" actionType="PolyLine"
+				from="userhelp" to="end" />
+			<VMLProperties startArrow="" endArrow="Classic"
+				strokeWeight="" isFocused="" zIndex="40" />
+			<FlowProperties />
+		</Action>
+	</Actions>
+</WebFlow>

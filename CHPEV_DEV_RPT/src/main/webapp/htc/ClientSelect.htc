@@ -1,0 +1,101 @@
+<PUBLIC:COMPONENT tagName = "ClientSelect">
+<PUBLIC:ATTACH EVENT = "oncontentready" ONEVENT = "init()"/>
+<SCRIPT language = "JavaScript">
+
+var oConfig = null;
+oConfig = new config();
+var gs = new String();
+var optionBOX = null;
+
+function config(){
+	this._xml = element.DefaultXML;
+	this._name = element.DefaultOptName;	
+	this._curCounty = element.DefaultCurCounty;
+}
+
+function init(){
+	draw();
+}
+	
+//根据所给XML的内容画出一个下拉列表
+function draw(){
+	var xmlDoc = new ActiveXObject("Msxml.DOMDocument");
+	xmlDoc.async = false;
+	xmlDoc.loadXML(oConfig._xml);
+	var s = '';
+	if(xmlDoc != null){
+		var root = xmlDoc.documentElement;
+		var list = root.childNodes;		
+		
+		s += '<SELECT id=';
+		s += oConfig._name;
+		s += ' name=';
+		s += oConfig._name;
+		s += '>';	
+		
+		for(var i = 0 ; i < list.length; i++){
+			var item = list.item(i);
+			
+			if(oConfig._curCounty == item.childNodes.item(0).text){
+				s += '<option value = ';
+				s += item.childNodes.item(0).text;
+				s += ' selected>';
+				s += item.childNodes.item(1).text;
+				s += '</option>';	
+			}
+			else{
+				s += '<option value = ';
+				s += item.childNodes.item(0).text;
+				s += '>';
+				s += item.childNodes.item(1).text;
+				s += '</option>';					
+			}
+		}
+		
+		s += '</SELECT>';
+		
+		element.insertAdjacentHTML("beforeEnd",s);		
+	}
+	
+}
+
+
+/*
+function init(){
+
+		gs += '<SELECT id=';
+		gs += oConfig._name;
+		gs += ' name=';
+		gs += oConfig._name;
+		gs += '></SELECT>';
+		element.insertAdjacentHTML("beforeEnd",gs);
+		draw();
+}
+	
+//根据所给数组的内容画出一个下拉列表
+function draw(){
+
+	var xmlDoc= new ActiveXObject("Msxml.DOMDocument");
+	xmlDoc.async = false;
+	xmlDoc.loadXML(oConfig._xml);	
+	
+	//remove all option item;	
+	
+	if(xmlDoc != null)
+	{
+		var root = xmlDoc.documentElement;
+		var list = root.childNodes;
+		for(var i = 0 ; i < list.length; i++)
+		{
+			var item = list.item(i);
+			var ele = document.createElement("OPTION");
+			ele.value = item.childNodes.item(1).text;
+			ele.innerText  = item.childNodes.item(0).text;
+			element.childNodes(0).appendChild(ele);	
+		}	
+	}		
+}
+*/
+
+</SCRIPT>
+</PUBLIC:COMPONENT>

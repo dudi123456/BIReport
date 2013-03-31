@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+  <form-beans>
+       <form-bean name="progCheckCodeDefForm" type="com.asiabi.dataquality.grp.form.ProgCheckCodeDefForm"></form-bean>
+       <form-bean name="checkThresholdDefForm" type="com.asiabi.dataquality.grp.form.CheckThresholdDefForm"></form-bean>
+       
+  </form-beans>
+ <global-forwards type="org.apache.struts.action.ActionForward">
+
+ </global-forwards>
+
+<action-mappings type="org.apache.struts.action.ActionMapping">
+	<!-- prog_check_def begin-->
+	<action path="/progcheckcodedef/init" parameter="INIT"  type="com.asiabi.dataquality.grp.action.ProgCheckCodeDefAction"
+              scope="request" name="progCheckCodeDefForm" validate="false">
+	 	 	<forward name="success" path="/dataquality/jsp/grp/progcheckcodedef/init.jsp"/>
+	</action>
+	<action path="/progcheckcodedef/list" parameter="LIST"  type="com.asiabi.dataquality.grp.action.ProgCheckCodeDefAction"
+              scope="request" name="progCheckCodeDefForm" validate="false">
+	 	 	<forward name="success" path="/dataquality/jsp/grp/progcheckcodedef/list.jsp"/>
+	</action>
+	<action path="/progcheckcodedef/add" parameter="ADD" type="com.asiabi.dataquality.grp.action.ProgCheckCodeDefAction"
+	    scope="request" name="progCheckCodeDefForm" validate="false">
+	    <forward name="success" path="/dataquality/jsp/grp/progcheckcodedef/add.jsp"/>
+	</action>
+	<action path="/progcheckcodedef/detail" parameter="DETAIL" type="com.asiabi.dataquality.grp.action.ProgCheckCodeDefAction"
+	    scope="request" name="progCheckCodeDefForm" validate="false">
+	    <forward name="success" path="/dataquality/jsp/grp/progcheckcodedef/edit.jsp"/>
+	</action>
+	<action path="/progcheckcodedef/edit" parameter="EDIT" type="com.asiabi.dataquality.grp.action.ProgCheckCodeDefAction"
+	    scope="request" name="progCheckCodeDefForm" validate="false">
+	</action>
+	<action path="/progcheckcodedef/save" parameter="SAVE" type="com.asiabi.dataquality.grp.action.ProgCheckCodeDefAction"
+	    scope="request" name="progCheckCodeDefForm" validate="false">
+	</action>
+	<action path="/progcheckcodedef/remove" parameter="REMOVE" type="com.asiabi.dataquality.grp.action.ProgCheckCodeDefAction"
+	    scope="request" name="progCheckCodeDefForm" validate="false">
+	    <forward name="success" path="/progcheckcodedef/list.do"/>
+	</action>
+	<!-- prog_check_def end-->
+	<!-- prog_check_def begin-->
+	<action path="/checkthresholddef/init" parameter="INIT"  type="com.asiabi.dataquality.grp.action.CheckThresholdDefAction"
+              scope="request" name="checkThresholdDefForm" validate="false">
+	 	 	<forward name="success" path="/dataquality/jsp/grp/checkthresholddef/init.jsp"/>
+	</action>
+	<action path="/checkthresholddef/list" parameter="LIST"  type="com.asiabi.dataquality.grp.action.CheckThresholdDefAction"
+              scope="request" name="checkThresholdDefForm" validate="false">
+	 	 	<forward name="success" path="/dataquality/jsp/grp/checkthresholddef/list.jsp"/>
+	</action>
+	<action path="/checkthresholddef/add" parameter="ADD" type="com.asiabi.dataquality.grp.action.CheckThresholdDefAction"
+	    scope="request" name="checkThresholdDefForm" validate="false">
+	    <forward name="success" path="/dataquality/jsp/grp/checkthresholddef/add.jsp"/>
+	</action>
+	<action path="/checkthresholddef/detail" parameter="DETAIL" type="com.asiabi.dataquality.grp.action.CheckThresholdDefAction"
+	    scope="request" name="checkThresholdDefForm" validate="false">
+	    <forward name="success" path="/dataquality/jsp/grp/checkthresholddef/edit.jsp"/>
+	</action>
+	<action path="/checkthresholddef/edit" parameter="EDIT" type="com.asiabi.dataquality.grp.action.CheckThresholdDefAction"
+	    scope="request" name="checkThresholdDefForm" validate="false">
+	</action>
+	<action path="/checkthresholddef/save" parameter="SAVE" type="com.asiabi.dataquality.grp.action.CheckThresholdDefAction"
+	    scope="request" name="checkThresholdDefForm" validate="false">
+	    <forward name="insertFail" path="/dataquality/jsp/grp/checkthresholddef/fail.jsp"/>
+	</action>
+	<action path="/checkthresholddef/remove" parameter="REMOVE" type="com.asiabi.dataquality.grp.action.CheckThresholdDefAction"
+	    scope="request" name="checkThresholdDefForm" validate="false">
+	    <forward name="success" path="/checkthresholddef/list.do"/>
+	</action>
+	<!-- prog_check_def end-->
+	<!-- add by fuzheng at 20081215 end -->
+	
+</action-mappings>	   
+</struts-config>

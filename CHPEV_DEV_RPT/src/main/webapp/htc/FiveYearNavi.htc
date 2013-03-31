@@ -1,0 +1,89 @@
+<PUBLIC:COMPONENT tagName="FiveYearNavi">
+<public:attach event="onmouseover" onevent="f_OnMouseover()" />
+<public:attach event="onmouseout" onevent="f_OnMouseout()" />
+<public:attach event="onmousedown" onevent="f_OnMousedown()" />
+<public:attach event="onmouseup" onevent="f_OnMouseup()" />
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="init()" />
+<SCRIPT language="JavaScript">
+var oConfig = null;
+var CY;
+
+function CConfig(){
+	this._year 	= element.DefaultYear;
+	this._click	= element.FiveYearClick;
+}
+
+
+function init(){
+	oConfig = new CConfig();
+	CY = oConfig._year/1;
+	draw(CY);
+}
+
+function fnNavi_Prev(){
+	CY -= 5;
+	draw(CY);
+}
+
+function fnNavi_Next(){
+	CY += 5;
+	draw(CY);
+}
+
+
+function draw(CY){
+	var s = '';
+	s += '<STYLE> .Navi{font-family:Webdings;cursor:hand}</STYLE>';
+	s += '<TABLE><TR><TD id="NaviPrevContainer"></TD>';
+	s += '<TD>';
+	var start = CY;
+	
+	//var monthStr = '<TABLE cellspacing="0" cellpadding="0" ><TR>';
+	
+	var yearStr = '<TABLE cellspacing = "0" cellpadding = "0" ><TR>';
+	for(var i = 0; i < 5;i++){
+		yValue = start/1 + i;
+		
+		yearStr += '<TD style="padding-left:2;padding-right:2">';
+		
+		if(yValue/1 == start/1)
+			yearStr += '<DIV style="border-left:1px solid buttonshadow;border-top:1px solid buttonshadow;border-right:1px solid buttonhighlight;border-bottom:1px solid buttonshadow;">';
+		else
+			yearStr += '<DIV style="cursor:hand" onclick="'+oConfig._click+'('+yValue+')">'	
+			
+		yearStr += (yValue) + "年</DIV></TD>";
+	}
+	yearStr += '</TR></TABLE>';
+	s += yearStr;
+	s += '</TD><TD id = "NaviNextContainer"></TD></TR></TABLE>';
+	element.innerHTML = "";
+	element.insertAdjacentHTML("beforeEnd",s);
+	
+	
+	//插入前导航
+	var ele = document.createElement("DIV");
+	ele.style.fontFamily = "Webdings";
+	ele.style.cursor = "hand";
+	ele.innerHTML = "3";
+	ele.onclick = fnNavi_Prev;
+	NaviPrevContainer.appendChild(ele);
+	
+	////插入后导航
+	var ele = document.createElement("DIV");
+	ele.style.fontFamily = "Webdings";
+	ele.style.cursor = "hand";
+	ele.innerHTML = "4";
+	ele.onclick = fnNavi_Next;
+	NaviNextContainer.appendChild(ele);
+}
+
+function f_OnMouseover(){
+}
+function f_OnMouseout(){
+}
+function f_OnMousedown(){
+}
+function f_OnMouseup(){
+}
+</SCRIPT>
+</PUBLIC:COMPONENT>

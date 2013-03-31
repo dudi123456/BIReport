@@ -1,0 +1,46 @@
+<!--
+//author:louiszheng
+//function:用于小时输入
+//date:2004-04-19
+-->
+<public:component tagname="HourInput">
+<public:property name="realvalue" />
+<public:attach event="onkeyup" onevent="f_Onkeyup()" />
+<public:attach event="onbeforepaste" onevent="f_Onbeforepaste()" />
+<public:attach event="onblur" onevent="f_Onblur()" />
+<public:attach event="onmouseover" onevent="f_Onmouseover()"/>
+<public:attach event="oncontentready" onevent="init()" />
+<script language="javascript">
+function init(){
+	if(realvalue=='' || realvalue==null)
+		element.value="00";
+	else
+		element.value=realvalue;
+		
+	element.size=2;
+	element.maxLength=2;
+	element.style.border="1px solid black";
+	element.style.imeMode = "disabled";
+}
+function f_Onkeyup(){
+	element.value=element.value.replace(/[^\d]/g,'') 
+}
+function f_Onbeforepaste(){
+	clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''));
+}
+function f_Onblur(){
+	if(element.value>24 || element.value==''){
+		alert("小时输入错误!");
+		element.value="00";
+		element.select();
+}
+	else if(element.value<10 && element.value!='00' && element.value.length<2){
+		element.value = '0'+element.value;
+		}
+	
+}
+function f_Onmouseover(){
+		element.select();
+	}
+</script>
+</public:component>

@@ -1,0 +1,44 @@
+.GH-DIV {
+	background: #E4EFFF;
+	border: #BED6E0 solid;
+	border-width: 1 1 0 1;
+}
+
+.GD-DIV {
+	background: #E4EFFF;
+	border: #BED6E0 solid;
+	border-width: 0 1 1 1;
+}
+
+.GH-TD {
+	height: 20 px;
+	color: #5371BA;
+	text-align: center;
+	font-size: 12px;
+	font-weight: 600;
+	border: #BED6E0 solid;
+	border-width: 0 1 1 0;
+	background: #E4EFFF;
+}
+
+.GD-TD-ONE {
+	height: 20 px;
+	color: #0E0376;
+	text-align: center;
+	font-size: 12px;
+	font-weight: 100;
+	border: #BED6E0 solid;
+	border-width: 0 1 1 0;
+	background: #F1FAFC;
+}
+
+.GD-TD-TWO {
+	height: 20 px;
+	color: #0E0376;
+	text-align: center;
+	font-size: 12px;
+	font-weight: 100;
+	border: #BED6E0 solid;
+	border-width: 0 1 1 0;
+	background: #FFFFFF;
+}

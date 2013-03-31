@@ -1,0 +1,377 @@
+html{ overflow:auto;_overflow-x:hidden;}
+body{ _overflow-x:hidden;}
+
+.icon{background:url("../images/unicom/icon_1.gif") no-repeat scroll 0 0 transparent;}
+.icon1{background:url("../images/unicom/icon_2.gif") no-repeat scroll 0 0 transparent;}
+.icon2{background:url("../images/unicom/icon_4.gif") no-repeat scroll 0 0 transparent;}
+.btn_search{
+	background:url("../images/unicom/btn_search1.gif") no-repeat scroll 0 0 transparent;
+	width:65px;
+	height:24px;
+	line-height:24px;
+	border:0 none;
+	color:#fff;
+	padding-left:5px;
+	cursor: pointer;
+}
+.btn_search_hover{background:url("../images/unicom/btn_search2.gif") no-repeat scroll 0 0 transparent;width:65px;height:24px;line-height:24px;border:0 none;color:#fff;cursor:pointer;padding-left:5px;}
+.btn{background:url("../images/unicom/btn_1.gif") no-repeat scroll 0 0 transparent;width:81px;height:24px;line-height:24px;border:0 none;color:#666666;}
+.btn3{background:url("../images/unicom/btn_4.gif") no-repeat scroll 0 0 transparent;width:65px;height:23px;line-height:23px;border:0 none;padding-left:5px;color:White;cursor: pointer;}
+.btn4{background:url("../images/unicom/btn_5.gif") no-repeat scroll 0 0 transparent;width:85px;height:23px;line-height:23px;border:0 none;color:White;}
+.btn_hover{background:url("../images/unicom/btn_16.gif") no-repeat scroll 0 0 transparent;width:81px;height:24px;line-height:24px;border:0 none;color:#d90000;}
+.btn3_hover{background:url("../images/unicom/btn_8.gif") no-repeat scroll 0 0 transparent;width:65px;height:23px;line-height:23px;border:0 none;padding-left:5px;color:White;cursor: pointer;}
+.btn4_hover{background:url("../images/unicom/btn_7.gif") no-repeat scroll 0 0 transparent;width:85px;height:23px;line-height:23px;border:0 none;color:White;}
+/* */
+.errortip{background-position:0 -22px;color:#999;display:block;font-size:12px;font-weight:normal;padding:0 22px;height:20px;line-height:20px;margin-left: 5px;}
+.righttip{background-position:0 3px;color:#999;display:block;font-size:12px;font-weight:normal;padding:0 22px;height:20px;line-height:20px;margin-left: 5px;}
+
+
+/*iframe*/
+.widget_header,.widget_header span.hl,.widget_header span.hr{ background:url("../images/unicom/bg_9.png") repeat-x;}
+
+.widget_bottom,.widget_bottom span.bl,.widget_bottom span.br{ background:url("../images/unicom/bg_11.png") repeat-x;}
+
+/*widget-platform*/
+.widget_platform_place { width:39%;*width:38.8%;min-height:150px;height:auto; float:left; padding:0; margin:0; margin-top:3px;}
+/*widget-platform-large*/
+.widget_platform_large { width:100%;*width:99.6%;min-height:200px;height:auto; float:left; padding:0; margin:0; margin-top:3px;}
+/*widget-platform-right*/
+.widget_platform_right_place { width:21%;*width:20.8%;min-height:200px;height:auto; float:left; padding:0; margin:0; margin-top:3px;}
+/*widget*/
+.widget_place { width:50%;*width:49.8%;min-height:200px;height:auto; float:left; padding:0; margin:0; margin-top:3px;}
+.widget_place .widget {overflow:hidden}
+.pl .widget{margin:8px 5px 0 5px}
+.pr .widget{margin:8px 15px 0 5px}
+.widget .widget_header {height:37px; line-height:37px; background-position:0 -38px;position:relative}
+.widget .widget_header span.hl{ width:4px; height:37px; float:left; text-indent:-9999px;}
+.widget .widget_header span.hr{ width:6px; height:37px; float:right;text-indent:-9999px; background-position:0 -75px;}
+.widget .widget_header span.wdarea{ float:right;margin-right:30px;font-size:12px;color:Gray;font-weight:normal}
+.widget .widget_header span.wdtime{ float:right;margin-right:10px;font-size:12px;color:Gray;font-weight:normal}
+.widget .widget_header span.hr{ width:6px; height:37px; float:right;text-indent:-9999px; background-position:0 -75px;}
+.widget .widget_header h2 {float: left;font-size: 14px;height: 32px;line-height: 32px;margin-left: 15px;*margin-left: 8px;margin-top:2px;padding-left: 22px;color:#545454}
+.widget .widget_header h2.wd1{background-position:0 -237px;}
+.widget .widget_header span.wdtab1,.widget_place .widget_header span.wdtab2{ display: block;text-align: center;width: 126px;font-size:14px;float:left;position:relative;left:-3px;height:37px;}
+.widget .widget_header span.wdtab1 a{background-position:0 -279px;color:#545454;font-weight:bold;padding:2px 0 0 20px;line-height:20px;*margin-top:8px;*padding:0 0 0 20px;}
+.widget .widget_header span.wdtab2 a{background-position:0 -354px;color:#545454;font-weight:bold;padding:2px 0 0 20px;line-height:20px;*margin-top:8px;*padding:0 0 0 20px;}
+.widget .widget_header span.sed{background:url("../images/unicom/bg_12.gif") no-repeat scroll 0 0 transparent;color:#d30016;}
+.widget .widget_header span.sed a{color:#d30016}
+.widget .widget_header h2.wd2{background-position:0 -308px;}
+.widget .widget_header span.setbtn{float:right;padding-right:10px;*margin-top:10px}
+.widget .widget_header span.setbtn a{padding:2px 0 0 20px;margin-left:20px;line-height:14px;}
+.widget .widget_header span.setbtn .set1{background-position:0 -391px}
+.widget .widget_header span.setbtn .set2{background-position:0 -426px}
+.widget .widget_header span.setbtn .set3{background-position:0 -467px}
+.widget .widget_header span.setbtn .set4{background-position:0 -507px}
+.widget .widget_header span.setbtn .set5{background-position:0 -546px}
+.widget .widget_header span.setbtn .set6{background-position:0 -584px}
+.widget .widget_header span.setbtn .set7{background-position:0 -624px}
+.widget .widget_header span.setbtn .set8{background-position:0 -663px}
+.widget .widget_header span.setbtn .set9{background-position:0 -698px}
+.widget .widget_header span.setbtn .set10{background-position:0 -732px}
+.widget_content{ background:url("../images/unicom/bg_10.png") repeat-y right; background-color:#fefefe; border-left:1px solid #dbdbdb;padding-right: 3px;padding-bottom:6px}
+.widget_bottom{ height:5px; _overflow:hidden; background-position:0 -6px;}
+.widget_bottom span.bl{ width:4px; height:5px; float:left; text-indent:-9999px; overflow:hidden;background-position:0 0;}
+.widget_bottom span.br{ width:6px; height:5px; float:right;text-indent:-9999px; overflow:hidden;background-position:0 -12px;}
+.widget_tb_head{background-color:#f9f9f9;height:24px;line-height:24px;color:#7b7b7b;padding:0 10px;border-bottom:1px solid #ddd}
+.widget_tb_head table{width:97%;*width:96%;}
+.widget_tb_head td{padding:0 3px}
+.widget_tb_content{padding:0 10px;margin-right:2px;height:240px;overflow-y:auto}
+.widget_tb_content table{width:100%;*width:97%;}
+.widget_tb_content tr.trhover td{background-color:#fffaa0}
+.widget_tb_content td{height:26px;line-height:26px;padding:0 3px;border-right:1px solid #f7f7f7;}
+.widget_tb_content td.last{border-right:0 none}
+.widget_tb_content .jg td{background-color:#f5f5f5;border-right:1px solid #eee}
+.widget_tb_content .tdopen{padding:2px 6px;background-position:-2px  3px;margin-right:5px;*background-position:-2px 5px;}
+.widget_tb_content .tdclose{background-position:-2px -31px;*background-position:-2px -29px;}
+.widget_tb_content .tdqushi{background-position:0 -250px;padding: 1px 5px;}
+.widget_tb_content .widget_tb_child .tdchild{background-position:-2px -95px;*background-position:-2px -93px;padding:2px 5px;margin:0 5px 0 10px;}
+.widget_tb_content_big table{width:100%;}
+.widget_tb_content_big th{height:26px;line-height:26px;padding:0 3px;border-bottom:1px solid #e5e5e5;border-right:1px solid #e5e5e5;background-color:#f9f9f9;color:Gray;font-weight:normal}
+.widget_tb_content_big td{height:26px;line-height:26px;padding:0 3px;border-bottom:1px solid #c6c6c6;border-right:1px solid #c6c6c6;}
+.widget_tb_content_big th.last,.widget_tb_content_big td.last{border-right:0 none;}
+.widget_tb_content_big th .tdup{background-position:-3px -205px;padding: 2px 4px;margin-right:5px}
+.widget_tb_content_big th .tddown{background-position:-3px -221px;padding: 2px 4px;margin-left:5px}
+.widget_tb_content_big th .tdup_1{background-position:-3px -277px;padding: 2px 4px;margin-right:5px}
+.widget_tb_content_big th .tddown_1{background-position:-4px -303px;padding: 2px 4px;margin-left:5px}
+.widget_tb_content_big .jg td{background-color:#f5f5f5}
+.widget_content .widget_bb{text-align:center}
+.widget_content .widget_bb img{border:0 none}
+.widget_content .allaccount{margin:10px;background:url("../images/unicom/bg_16.png") repeat-x 0 0;height:22px;line-height:22px;padding:0 10px}
+.widget .tipbox{margin-top:10px;}
+.widget .tipbox .title{font-weight:bold;font-size:14px}
+
+/*tree*/
+#treebox{background-color:White;float:left;width:183px;margin:0;padding:0;_width:155px;}
+#treebox .treenode{background:url("../images/unicom/bg_13.png") repeat-x scroll 0 0 transparent;height:30px;line-height:30px;color:White;border-right:1px solid #d2061b;text-align:center;cursor:pointer}
+#treetoggle{background:url("../images/unicom/bg_14.png") repeat-y scroll 0 0 transparent;height:300px;float:right;width:5px;margin:0;padding:0;line-height:0;position:relative;right:3px}
+#treetoggle a{height:48px;width:11px;position:absolute;left: -3px;}
+#treebox .childtreenode{background:url("../images/unicom/bg_18.png") repeat-x scroll 0 0 transparent;height:30px;line-height:30px;color:#000;border-right:1px solid #dedede;border-left:1px solid #dedede;text-align:center;cursor:pointer}
+#treebox .childnodebox{padding:0 10px;}
+#treebox .mcset {text-align:left;padding-left:10px}
+#treebox .mcset a{background-position:0 -1023px;padding-left:20px;display:block}
+#treebox .mcbox {height:26px;line-height:26px;margin:5px 10px;border-bottom:1px dotted #ddd}
+#treebox .mcbox a{background-position:0 -1060px;padding-left:20px;display:block}
+#treebox .childnodebox .node1{height:26px;line-height:26px;padding:1px 0;border-bottom:1px dotted #ddd}
+#treebox .childnodebox .node1 a{background-position:0 8px;padding-left:20px;display:block}
+#treebox .childnodebox .node1 a.open{background-position:0 -26px;}
+#treebox .childnodebox  a:hover{background-color:#f7f7f7;}
+#treebox .childnodebox .node2,#treebox .childnodebox .node3,#treebox .childnodebox .node4{height:26px;line-height:26px;padding:1px 0;border-bottom:1px dotted #ddd;overflow:hidden;}
+#treebox .childnodebox .node2 a{background-position:10px -60px;padding-left:30px;display:block}
+#treebox .childnodebox .node3 a{background-position:10px -90px;padding-left:30px;display:block}
+#treebox .childnodebox .node4 a{background-position:10px -1096px;padding-left:30px;display:block}
+#treebox .childnodebox .node5{height:20px;line-height:26px;padding:5px 0;border-bottom:1px dotted #ddd}
+#treebox .childnodebox .node5 a{background-position:0px -60px;padding-left:20px;display:block}
+
+#treebox .childbox{overflow:hidden}
+/*main*/
+.toptag{background:url("../images/unicom/bg_17.png") repeat-x scroll 0 0 transparent;height:29px;line-height:29px;padding:0 20px;position:relative;display:none;}
+.toptag span{position:absolute;right:20px;_margin-top:6px;_margin-right:10px}
+.toptag span a.cl{background-position:0 -804px;padding:2px 0 0 20px;line-height:14px;}
+.toptag span a.goforum{background-position:0 -99px;padding:2px 0 0 20px;line-height:14px;}
+.toptag span a.dhelp{background-position:0 -960px;padding:2px 0 0 20px;line-height:14px;color:Blue;*margin-top:6px;_margin-top:0;}
+.toptag span.hbt{right:220px;}
+.toptag span.hbt a.dhelp{*margin-top:0px;}
+.toptag span.hbt1{*top:-2px;_top:-5px}
+.topsearch_2{background:url("../images/unicom/search_bg.gif") repeat-x scroll 0 top #ffffff;margin:0px;position:relative;
+	border-top:1px solid #fff;
+	border-right:1px solid #ebebeb;
+	border-left:1px solid #ebebeb;
+	border-bottom:1px solid #ebebeb;
+	width:100%;
+	padding-top:13px;
+	padding-bottom:13px;
+	color:#7f7e7e;
+	margin-bottom:5px;
+}
+.topsearch{background:url("../images/unicom/search_bg.gif") repeat-x scroll 0 top #ffffff;margin:0px;position:relative;
+	border-top:2px solid #e80507;
+	border-right:1px solid #ebebeb;
+	border-left:1px solid #ebebeb;
+	border-bottom:1px solid #ebebeb;
+	width:100%;
+	padding-top:13px;
+	padding-bottom:13px;
+	color:#7f7e7e;
+	margin-bottom:5px;
+	margin-top:5px;
+}
+.topsearch_2 td,.topsearch td{color:#7f7e7e;}
+.topsearch a{display:inline-block;padding:8px;background-position: 0 -768px;font-size:0;position:relative;top:4px;left:4px}
+.topsearch .btnwrap{position:absolute;right:20px}
+.topsearch input.sw{width:50px;}
+.topsearch td{height:25px;line-height:25px;color:#7f7e7e;}
+.topsearch_btn{background:url("../images/unicom/bg_15.png") repeat-x scroll 0 0 transparent;height:39px;line-height:39px;padding:0 20px;position:relative;_padding-top:6px;text-align: right;}
+.listbox{padding:0 20px;}
+.listbox .listtitle{height:34px;line-height:34px;position:relative;overflow:hidden}
+.listbox .listtitle .title{background-position:0 -236px;padding-left:20px;float:left;overflow:hidden;font-size:14px;font-weight:bold;color:#545454}
+.listbox .listtitle .bigtitle{left:40%;float:left;overflow:hidden;font-size:16px;font-weight:bold;color:#000;font-family: "微软雅黑";position:absolute}
+.listbox .listtitle .date{float:right;overflow:hidden;color:Gray}
+.listbox .listtitle .time{float:left;overflow:hidden;color:Gray}
+.listbox .bbs_title{height:34px;}
+.listbox .bbs_title .normal{line-height:34px;}
+.listbox .bbs_title .title1{background-position:0 -1172px;display: inline-block;font-size: 14px;font-weight: bold; padding-left: 20px;float:left;margin-top:9px}
+.listbox .bbs_title .title2{background-position:0 -97px;display: inline-block;font-size: 14px;font-weight: bold; padding-left: 20px;float:left;margin-top:9px}
+.listbox .bbs_title .bbs_jg{background:url("../images/unicom/bg_19.png") no-repeat scroll 30px 10px transparent;height:30px;display:inline-block;width:400px;}
+.listbox .bbs_list table{border:1px solid #ddd;border-top:0 none}
+.listbox .bbs_list th{background:url("../images/unicom/bg_30.png") repeat-x scroll 0 -31px transparent;font-weight:normal;height:29px;line-height:29px;padding:0 5px;border-right:1px solid #e8e8e8}
+.listbox .bbs_list td{height:46px;line-height:1.5;padding:0 5px;border-right:1px solid #f7f7f7;border-bottom:1px solid #f7f7f7;position: relative;}
+.listbox .bbs_list .jing{background-position:0 -1210px;height:20px;width:20px;display:block}
+.listbox .bbs_list .huo{background-position:0 -1252px;height:20px;width:20px;display:block}
+.listbox .bbs_list .ftitle td{background:url("../images/unicom/bg_31.png") repeat-x scroll 0 0 transparent;height:30px;line-height:30px;padding:0 5px;border-right:0 none;}
+.listbox .bbs_list .ftitle button{background:url("../images/unicom/btn_9.png") repeat-x scroll 0 0 transparent;height:23px;width:78px;border:0 none;position: relative;
+    top: -3px;*top:0px;_top:2px;}
+.listbox .bbs_list .bt td{height:30px;line-height:30px}
+.listbox .bbs_list .bt span{margin-right:30px}
+.listbox .bbs_list .bt em{background-position:0 -1299px;height:16px;width:20px;display:inline-block}
+
+.logobox{width:451px;height:110px;margin:0 auto;position:relative}
+.errorbox{width:381px;height:212px;margin:0 auto;position:relative;top:80px;}
+.errorbox .errorback{position:absolute;top:150px;left:43%;}
+.errorbox .errorwarp{position:absolute;top:50px;width:340px;text-align:center;left:20px;}
+.errorbox .noticetipnew {background:url("../images/unicom/icon_6.gif") no-repeat scroll 0px 0px transparent;padding-left:50px;height:45px;display:inline-block}
+.errorbox .errortipnew {background:url("../images/unicom/icon_6.gif") no-repeat scroll 0px -127px transparent;padding-left:50px;height:45px;display:inline-block}
+.errorbox .righttipnew {background:url("../images/unicom/icon_6.gif") no-repeat scroll 0px -62px transparent;padding-left:50px;height:45px;display:inline-block}
+.errorbox span{position:relative;color:#7f7e7e;font-size:12px;top:5px}
+
+.formbox{padding:0 20px 5px;}
+.formbox .formdiv1,.formbox .formdiv2{border-bottom:1px dotted #ccc;padding-bottom:10px}
+.formbox .fd_title {background:url("../images/unicom/bg_19.png") no-repeat scroll 100px 10px transparent;height:34px;line-height:34px;}
+.formbox .formdiv1 .fd_title .title {background-position:0 -845px;padding-left:20px;font-size:14px;font-weight:bold;line-height:16px;_margin-top:11px;}
+.formbox .formdiv2 .fd_title .title {background-position:0 -886px;padding-left:20px;font-size:14px;font-weight:bold;line-height:16px;_margin-top:11px;}
+.formbox .formdiv3 .fd_title .title {background-position:0 -923px;padding-left:20px;font-size:14px;font-weight:bold;line-height:16px;_margin-top:11px;}
+.formbox .formdiv4 .fd_title .title {background-position:0 0;padding-left:20px;font-size:14px;font-weight:bold;line-height:16px;_margin-top:11px;color:#676767;cursor:pointer}
+.formbox .formdiv4 .fd_title .open {background-position:0 -40px;}
+.formbox .fd_content td {padding:1px 30px 1px 0;position:relative}
+.formbox .fd_content td input {padding:3px 30px 3px 0;position:relative;top:1px;margin-right:5px;}
+.formbox .fd_btn {text-align:center;margin-top:8px;}
+
+.fd_content .widget_zj table{border:1px solid #c7c7c7;border-top:0 none;width:100%}
+.fd_content .widget_zj th{background:url("../images/unicom/bg_20.png") repeat-x scroll 0 0 transparent;height:25px;line-height:25px;color:Gray;font-weight:normal;border-right:1px solid #e6e6e6}
+.fd_content .widget_zj td{height:36px;line-height:36px;padding:0 3px;border-bottom:1px solid #c6c6c6;border-right:1px solid #c6c6c6;}
+.fd_content .widget_zj th.last,.fd_content .widget_zj td.last{border-right:0 none;}
+.fd_content .widget_zj td a.del{padding:3px 8px;background-position:0 -59px}
+.fd_content .widget_zj td a.up{padding:3px 8px;background-position:0 -127px}
+.fd_content .widget_zj td a.down{padding:3px 8px;background-position:0 -172px}
+.form_btn{overflow:hidden;margin:10px 0;}
+.form_btn div{float:left;background:url("../images/unicom/bg_22.png") no-repeat scroll 0 0 transparent;height:57px}
+.form_btn .fl{width:10px;background-position:0 -1px}
+.form_btn .fm{background-position:0 -61px;background-repeat:repeat-x;line-height:57px;width:96%;}
+.form_btn .fr{width:10px;background-position:right -122px}
+.form_btn .fm span{color:#8c8c8c;margin-left:10px;_margin-top:14px}
+
+.list_content{margin:10px 5px;background-color:White;margin:0}
+.hasbg{border-top:1px solid #c6c6c6;}
+.list_content table{border:1px solid #c7c7c7;border-top:0 none;width:100%}
+.list_content th{background:url("../images/unicom/bg_20.png") repeat-x scroll 0 0 transparent;height:25px;line-height:25px;color:Gray;font-weight:normal;border-right:1px solid #e6e6e6}
+.hasbg th{background-image:none}
+.list_content td{height:30px;line-height:30px;padding:0 3px;border-bottom:1px solid #c6c6c6;border-right:1px solid #c6c6c6;}
+.list_content th.last,.list_content td.last{border-right:0 none;}
+.list_content .jg td{background-color:#f5f5f5;color:#545454}
+.list_content .bgwl td{background-color:#fff;color:#545454}
+.list_content .tl td{height:24px;line-height:24px;padding:0 3px;background-color:#f9f9f9}
+
+
+.flowbox3{background:url("../images/unicom/bg_29.png") no-repeat scroll 0 0;_background:url("../images/unicom/bg_29.gif") no-repeat scroll 0 0;width:711px;height:310px;_width:699px;_height:295px;position:relative}
+.flowbox3 .fv_box{position:relative;}
+.flowbox3 .fv_box .fvinput{position:relative;top:50px;left:68px;_left:62px;_top:46px;}
+.flowbox3 .fv_box .fvtree{width:406px;height:143px;left: 235px;position: relative;top: 30px;overflow-y:auto;_left:230px;*top: 26px;_top: 20px;}
+.flowbox3 .co_btn{ bottom: 30px;_bottom: 20px;position: absolute; text-align:center;width:100%}
+.flowbox3 .fv_box .fvtree .fvtreebox{margin:5px;}
+.flowbox3 .fv_box .fvtree p{padding-left:20px;color:#585858;background-position:0 -1030px}
+.flowbox3 .fvnode1{height:26px;line-height:26px;padding:1px 0;}
+.flowbox3 .fvnode1 a{background-position:0 -991px;padding-left:20px;display:block;margin-left:20px}
+.flowbox3 .fvnode1 a.open{background-position:0 -1135px;}
+.flowbox3 .fvnode1_box {padding-left:20px}
+.flowbox3 .fvnode2 a{background-position:0 -1099px;padding-left:20px;display:block;margin-left:20px}
+
+/*======================================================================================*/
+#tab{
+	width:100%;
+	float:right;
+	align:right;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #D71920;
+	margin-top:2px;
+}
+#tab ul{ margin:0px; padding:0px; list-style:none;}
+#tab li { float:left; margin:0px; padding:0 0 0 9px; background-image:url(../images/common/tab/tab_r1_c1.gif); background-position:top left; background-repeat:no-repeat; height:29px;margin-right:1px;}
+#tab a {display:block; background-image:url(../images/common/tab/tab_r1_c3.gif); background-position:right top; background-repeat:no-repeat; height:27px; padding:5px 12px 4px 6px; color:#555; font-weight:bold; float:left; text-decoration:none; }
+#tab a:hover{ color:#D71920;}
+#tab #current {background-image:url(../images/common/tab/tab_active_r1_c1.gif); color:#FFF;}
+#tab #current a{ background-image:url(../images/common/tab/tab_active_r1_c3.gif); color:#FFF;}
+#tab .line{ width:100%; color:#D71920; background:url(../images/common/tab/missionInfo_bg.gif) repeat-x left top;border-bottom:1px solid #DCDCDC;border-top:2px solid #D71920; height:10px;}
+
+body>div { margin-left:auto; margin-right:auto;}
+.clearfix:after{ content:"."; display:block; height:0; clear:both; visibility:hidden;}
+.clearfix { display:inline-block;}
+.clearfix { display:block;}
+/*======================================================================================*/
+
+/*jk_widget*/
+.topsearch .td-select{height:32px;line-height:32px;}
+.topsearch .td-select select{width: 200px;}
+
+/*newwidget*/
+.allsee{padding:10px 15px;width:965px;margin:0 auto}
+.allsee .one_cols{width:100%;}
+.allsee .title_search{width:100%;background:url("../images/unicom/bg_40.png") repeat-x scroll 0 -32px;height:32px;line-height:32px;position:relative;margin-bottom:5px}
+.allsee .title_search .tl{width:12px;background:url("../images/unicom/bg_40.png") no-repeat scroll 0 0;height:32px;position:absolute;left:0px;top:0px}
+.allsee .title_search .tr{width:12px;background:url("../images/unicom/bg_40.png") no-repeat scroll 1px -64px;height:32px;position:absolute;right:0px;top:0px}
+.allsee .title_search .tm{padding:0 20px}
+.allsee .title_search .tm b{font-size:14px}
+.allsee .title_search .tm .sel_time{margin-left:30px}
+.allsee .title_search .other_sel{width:340px;height:32px;position:absolute;right:20px;top:0px;_top:5px}
+.allsee .title_search .other_sel .sel_time_box{background-position:0 -765px;width:20px;height:20px;display:inline-block;position:relative;top:5px;*top:0px;left:5px}
+.allsee .one_cols .widget_header .ha{position:absolute;top:0px;right:20px;color:Blue}
+.allsee .one_cols .widget{margin-bottom:10px}
+.allsee .tree_cols{padding:10px; height: auto;}
+.allsee .tree_cols td{border:0 none;padding:0 20px}
+.allsee .tree_cols .rightborder{border-right:1px dotted #ddd}
+.allsee .one_cols .widget .widget_content{overflow:hidden}
+.allsee .one_cols .widget .widget_content_tree{padding:10px}
+.allsee .one_cols .widget .widget_content_tree .tree{padding:0 5px;}
+.allsee .widget_content .tree_cols_title{width:100%;background:url("../images/unicom/bg_41.png") repeat-x scroll 0 -25px;height:25px;line-height:25px;position:relative;}
+.allsee .widget_content .tree_cols_title .tl{width:10px;background:url("../images/unicom/bg_41.png") no-repeat scroll 0 0;height:25px;position:absolute;left:0px;top:0px}
+.allsee .widget_content .tree_cols_title .tr{width:10px;background:url("../images/unicom/bg_41.png") no-repeat scroll 0px -50px;height:25px;position:absolute;right:0px;top:0px;}
+.allsee .widget_content .tree_cols_title .tm{padding:0 20px;}
+.allsee .widget_content .tree_cols_title .tm .sel_time{position:absolute;right:20px;top:0px}
+.allsee .widget_content .tree_cols_title a{position:absolute;right:0px;top:0px;color:Blue}
+.allsee .widget_content .tree_cols_title .ha{position:absolute;top:0px;right:0px;color:Blue}
+.allsee .widget_content .tree_cols_bottom{width:100%;height:10px;position:relative;background:url("../images/unicom/bg_41.png") repeat-x scroll 0 -102px;}
+.allsee .widget_content .tree_cols_bottom .tree_cols_bottom_bl{width:10px;background:url("../images/unicom/bg_41.png") no-repeat scroll 0 -79px;height:10px;position:absolute;left:0px;top:0px}
+.allsee .widget_content .tree_cols_bottom .tree_cols_bottom_br{width:8px;background:url("../images/unicom/bg_41.png") no-repeat scroll right -92px;height:10px;position:absolute;right:0px;top:0px;}
+.allsee .widget_content .tree_cols_content{border-left:1px solid #ddd;border-right:1px solid #ddd;position:relative;padding-top:5px;padding-left:5px;padding-right:5px;}
+.allsee .widget_content .tree_cols_content p{padding-bottom:0px}
+.allsee .widget_content .tree_cols_content p.img{text-align:center}
+.allsee .widget_content .tree_cols_content td{line-height:24px;height:24px;border:0px}
+.allsee .widget_content .tree_cols_content tr.lid td{background-color:#f4f4f4}
+.allsee .one_child_cols{margin:10px 0px;height:auto}
+.allsee .widget_content .tree_cols_content .wid_c_wrap{overflow:hidden;margin-bottom:10px}
+.allsee .widget_content .tree_cols_content .wid_c_wrap .cl{float:left;width:49%;margin-right:15px}
+.allsee .widget_content .tree_cols_content .wid_c_wrap .cr{float:left;width:49%}
+.allsee .widget_content .tree_cols_content .wid_c_wrap .ca{float:left;width:100%}
+.allsee .widget_content .tree_cols_content .wid_c_wrap h4,.allsee .widget_content .tree_cols_content .wid_d_wrap h4{background:url("../images/unicom/bg_42.png") repeat-x scroll 0 0;height:20px;line-height:20px;font-weight:normal;padding-left:20px;position:relative}
+.allsee .widget_content .tree_cols_content .wid_d_wrap h4 span{position:absolute;right:10px;top:5px}
+.allsee .widget_content .tree_cols_content .wid_d_wrap{overflow:hidden;margin-bottom:10px}
+.allsee .widget_content .tree_cols_content .wid_d_wrap .dl{float:left;width:32%;margin-right:15px}
+.allsee .widget_content .tree_cols_content .wid_d_wrap .dm{float:left;width:32%;margin-right:15px}
+.allsee .widget_content .tree_cols_content .wid_d_wrap .dr{float:left;width:33%}
+.allsee .widget_content .tree_cols_content a{position:absolute;right:1px;top:0px;color:Blue}
+.allsee .widget_content .tree_cols_content .ha{position:absolute;top:0px;right:1px;color:Blue}
+.allsee .two_cols{overflow:hidden}
+.allsee .two_cols .pl .widget {margin: 0px 5px 0 0px;}
+.allsee .two_cols .pr .widget {margin: 0px 0px 0 5px;}
+.allsee .two_cols .widget_b_head{background-color:#f2f2f2;height:38px;line-height:38px;padding-left:20px;margin-bottom:10px;position:relative}
+.allsee .two_cols .widget_b_head a{position:absolute;right:10px;top:0px;color:Blue}
+.allsee .two_cols .widget_header .ha{position:absolute;top:0px;right:20px;color:Blue}
+
+.flowbox4{width:924px;height:552px;position:relative}
+
+/*add*/
+.tipbox_new{
+	height:30px;
+	line-height:30px;
+	color:#e43c33;
+	border-bottom:2px solid #f07700;
+	padding-left:20px;
+	position:relative;
+	
+}
+.iw{
+	width:250px;
+	position:absolute;
+	right:15px;
+	text-align:right;
+	padding-top:4px;
+}
+.btn_iw{
+background:url("../images/unicom/btn_iw.gif") top no-repeat scroll 0 0 transparent;width:120px;height:22px;line-height:22px;border:0 none;color:#666666;font-size:12px;
+padding-left:15px;
+cursor: pointer;
+}
+.btn_iw_hover{
+background:url("../images/unicom/btn_iw.gif") bottom no-repeat scroll 0 0 transparent;width:120px;height:22px;line-height:22px;border:0 none;color:#666666;font-size:12px;
+padding-left:15px;
+cursor: pointer;
+}
+.btn_excel{
+background:url("../images/unicom/btn_excel.gif") top no-repeat scroll 0 0 transparent;width:105px;height:22px;line-height:22px;border:0 none;color:#666666;font-size:12px;
+padding-left:15px;
+cursor: pointer;
+}
+.btn_excel_hover{
+background:url("../images/unicom/btn_excel.gif") bottom no-repeat scroll 0 0 transparent;width:105px;height:22px;line-height:22px;border:0 none;color:#666666;font-size:12px;
+padding-left:15px;
+cursor: pointer;
+}
+.btn_exceldown{
+background:url("../images/unicom/btn_excel2.gif") top no-repeat scroll 0 0 transparent;width:105px;height:22px;line-height:22px;border:0 none;color:#666666;font-size:12px;
+padding-left:15px;
+cursor: pointer;
+}
+.btn_exceldown_hover{
+background:url("../images/unicom/btn_excel2.gif") bottom no-repeat scroll 0 0 transparent;width:105px;height:22px;line-height:22px;border:0 none;color:#666666;font-size:12px;
+padding-left:15px;
+cursor: pointer;
+}
